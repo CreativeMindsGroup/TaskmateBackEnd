@@ -1,0 +1,692 @@
+[
+  {
+    "ContainingType": "TaskMate.Controllers.AppUserController",
+    "Method": "CreateUser",
+    "RelativePath": "api/AppUser/CreateUser",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "UserDto",
+        "Type": "TaskMate.DTOs.Users.CreateUserDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.AppUserController",
+    "Method": "DeleteUser",
+    "RelativePath": "api/AppUser/DeleteUser",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "UserId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.AppUserController",
+    "Method": "GetAllUsers",
+    "RelativePath": "api/AppUser/GetAllUsers",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.AppUserController",
+    "Method": "Update",
+    "RelativePath": "api/AppUser/Update",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "EditDto",
+        "Type": "TaskMate.DTOs.Users.EditUserDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.AuthController",
+    "Method": "Login",
+    "RelativePath": "api/Auth/Login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loginDTO",
+        "Type": "TaskMate.DTOs.Auth.LoginDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.AuthController",
+    "Method": "RefreshToken",
+    "RelativePath": "api/Auth/RefreshToken",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ReRefreshtoken",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.AuthController",
+    "Method": "Register",
+    "RelativePath": "api/Auth/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "registerDTO",
+        "Type": "TaskMate.DTOs.Auth.RegisterDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.BoardsController",
+    "Method": "GetAll",
+    "RelativePath": "api/Boards",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "WorkspaceId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.BoardsController",
+    "Method": "CreateSlider",
+    "RelativePath": "api/Boards",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "AppUserId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Title",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "WorkspaceId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.BoardsController",
+    "Method": "UpdateSlider",
+    "RelativePath": "api/Boards",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "BoardId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "AppUserId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Title",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.BoardsController",
+    "Method": "Remove",
+    "RelativePath": "api/Boards",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "AppUserId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "BoardId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.BoardsController",
+    "Method": "GetById",
+    "RelativePath": "api/Boards/{BoardId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "BoardId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.BoardsController",
+    "Method": "AddBoard",
+    "RelativePath": "api/Boards/AddBoard",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "AdminId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "WorkspaceId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "BoardId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "AppUserId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.BoardsController",
+    "Method": "ShareLinkBoardUser",
+    "RelativePath": "api/Boards/ShareLinkBoardUser",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "AdminId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "BoardId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "WorkspaceId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "UsernameOrEmail",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Password",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CardListsController",
+    "Method": "CreateSlider",
+    "RelativePath": "api/CardLists",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "AppUserId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Title",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "BoardsId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CardListsController",
+    "Method": "UpdateSlider",
+    "RelativePath": "api/CardLists",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "CardListId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "AppUserId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Title",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CardListsController",
+    "Method": "Remove",
+    "RelativePath": "api/CardLists",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "AdminId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "CardListId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CardsController",
+    "Method": "CreateSlider",
+    "RelativePath": "api/Cards",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Title",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Description",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "CardListId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CardsController",
+    "Method": "UpdateSlider",
+    "RelativePath": "api/Cards",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "CardId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "Title",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Description",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "CardListId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CardsController",
+    "Method": "Remove",
+    "RelativePath": "api/Cards",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "AppUserId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "CardListId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CommentsController",
+    "Method": "CreateSlider",
+    "RelativePath": "api/Comments",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Message",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "AppUserId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "CardId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CommentsController",
+    "Method": "UpdateSlider",
+    "RelativePath": "api/Comments",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "Message",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "AppUserId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "CardId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CommentsController",
+    "Method": "Remove",
+    "RelativePath": "api/Comments",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "AppUserId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "CommentId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CommentsController",
+    "Method": "GetById",
+    "RelativePath": "api/Comments/{CardId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "CardId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.WorkspacesController",
+    "Method": "GetAll",
+    "RelativePath": "api/Workspaces",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "AppUserId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.WorkspacesController",
+    "Method": "CreateSlider",
+    "RelativePath": "api/Workspaces",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Title",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Description",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "AppUserId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.WorkspacesController",
+    "Method": "UpdateSlider",
+    "RelativePath": "api/Workspaces",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "WorkspaceId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "Title",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Description",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "AppUserId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.WorkspacesController",
+    "Method": "Remove",
+    "RelativePath": "api/Workspaces",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "AppUserId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "WorkspaceId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.WorkspacesController",
+    "Method": "GetById",
+    "RelativePath": "api/Workspaces/{WorkspaceId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "WorkspaceId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.WorkspacesController",
+    "Method": "AddWorkspace",
+    "RelativePath": "api/Workspaces/AddWorkspace",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "AdminId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "WorkspaceId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "AppUserId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.WorkspacesController",
+    "Method": "ShareLinkWorkspaceUser",
+    "RelativePath": "api/Workspaces/ShareLinkWorkspaceUser",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "AdminId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "WorkspaceId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "UsernameOrEmail",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Password",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
