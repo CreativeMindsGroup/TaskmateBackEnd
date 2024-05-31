@@ -1,68 +1,115 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Net;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using TaskMate.DTOs.Card;
-using TaskMate.DTOs.CardList;
+using TaskMate.Exceptions;
 using TaskMate.Service.Abstraction;
-using TaskMate.Service.Implementations;
 
-namespace TaskMate.Controllers;
-
-[Route("api/[controller]")]
-[ApiController]
-public class CardsController : ControllerBase
+namespace TaskMate.Controllers
 {
-    private readonly ICardService _cardService;
-    public CardsController(ICardService cardService)
-        => _cardService = cardService;
+    [ApiController]
+    [Route("api/[controller]")]
+    public class CardsController : ControllerBase
+    {
+        private readonly ICardService _cardService;
 
+        public CardsController(ICardService cardService)
+        {
+            _cardService = cardService;
+        }
 
-    [HttpGet("{CarddId:Guid}")]
-    public async Task<IActionResult> GetById(Guid CarddId)
-    {
-        var byWorkspace = await _cardService.GetByIdAsync(CarddId);
-        return Ok(byWorkspace);
-    }
+        [HttpPost]
+        [Route("add")]
+        public async Task<IActionResult> CreateCard(CreateCardDto createCardDto)
+        {
+            await _cardService.CreateAsync(createCardDto);
+            return Ok();
+        }
+        [HttpGet]
+        [Route("GetAllCardsByBoardId")]
+        public async Task<IActionResult> GetAllCardsByBoardId(Guid boardId)
+        {
+            var cards = await _cardService.GetAllCardsByBoardIdAsync(boardId);
+            return Ok(cards);
+        }
+        [HttpGet("GetAllCardsByCardListId")]
+        public async Task<IActionResult> GetAllCardsByCardListId(Guid cardListId)
+        {
+            var cards = await _cardService.GetAllCardsByCardListIdAsync(cardListId);
+            return Ok(cards);
+        }
+        [HttpPost]
+        [Route("update")]
+        public async Task<IActionResult> UpdateCard(UpdateCardDto updateCardDto)
+        {
+            await _cardService.UpdateAsync(updateCardDto);
+            return Ok();
+        }
 
+        [HttpPost]
+        [Route("dragAndDrop")]
+        public async Task<IActionResult> DragAndDrop(DragAndDropCardDto dragAndDropCardDto)
+        {
+            await _cardService.DragAndDrop(dragAndDropCardDto);
+            return Ok();
+        }
 
-    [HttpPost]
-    public async Task<IActionResult> CreateCard([FromForm] CreateCardDto createCardDto)
-    {
-        await _cardService.CreateAsync(createCardDto);
-        return StatusCode((int)HttpStatusCode.Created);
-    }
+        [HttpPost]
+        [Route("addDates")]
+        public async Task<IActionResult> AddCardDates(CardAddDatesDto cardAddDatesDto)
+        {
+            await _cardService.AddCardDateAsync(cardAddDatesDto);
+            return Ok();
+        }
 
-    [HttpPut]
-    public async Task<IActionResult> UpdateCard([FromForm] UpdateCardDto updateCardDto)
-    {
-        await _cardService.UpdateAsync(updateCardDto);
-        return Ok();
-    }   
-    
-    [HttpPut("[action]")]
-    public async Task<IActionResult> UpdateCard([FromForm] CardAddDatesDto cardAddDatesDto)
-    {
-        await _cardService.AddCardDateAsync(cardAddDatesDto);
-        return Ok();
-    }  
-    
-    [HttpPut("[action]")]
-    public async Task<IActionResult> UpdateCardDragAndDrop([FromForm] DragAndDropCardDto dragAndDropCardDto)
-    {
-        await _cardService.DragAndDrop(dragAndDropCardDto);
-        return Ok();
-    }
-      
-    [HttpPut("[action]")]
-    public async Task<IActionResult> UpdateCardMoveCard([FromForm] MoveCard moveCard)
-    {
-        await _cardService.MoveCardAsync(moveCard);
-        return Ok();
-    }
+        [HttpGet]
+        [Route("{cardId}")]
+        public async Task<IActionResult> GetCardById(Guid cardId)
+        {
+            var card = await _cardService.GetByIdAsync(cardId);
+            return Ok(card);
+        }
 
-    [HttpDelete]
-    public async Task<IActionResult> Remove(string AppUserId, Guid CardId)
-    {
-        await _cardService.Remove(AppUserId, CardId);
-        return Ok();
+        [HttpDelete]
+        [Route("remove")]
+        public async Task<IActionResult> RemoveCard(string appUserId, Guid cardId)
+        {
+            await _cardService.Remove(appUserId, cardId);
+            return Ok();
+        }
+        [HttpPost("reorder")]
+        public async Task<IActionResult> ReorderCards([FromBody] ReorderCardsDto reorderCardsDto)
+        {
+            await _cardService.ReorderCardsAsync(reorderCardsDto);
+            return Ok();
+        }
+        [HttpPut("update-description")]
+        public async Task<IActionResult> UpdateDescription([FromBody] UpdateCardDescriptionDto updateCardDescriptionDto)
+        {
+            if (updateCardDescriptionDto == null)
+            {
+                return BadRequest("Invalid data.");
+            }
+
+            try
+            {
+                await _cardService.UpdateCardDescriptionAsync(updateCardDescriptionDto);
+                return Ok("Description updated successfully.");
+            }
+            catch (NotFoundException)
+            {
+                return NotFound("Card not found.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+        [HttpPut("updateCover")]
+        public async Task<IActionResult> ChangeCoverColorAsync(Guid cardId, string coverColor)
+        {
+            await _cardService.ChangeCoverColorAsync(cardId, coverColor);
+            return Ok("Description updated successfully.");
+        }
     }
 }

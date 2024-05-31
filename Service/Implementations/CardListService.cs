@@ -2,87 +2,126 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TaskMate.Context;
-using TaskMate.DTOs.Boards;
 using TaskMate.DTOs.CardList;
 using TaskMate.Entities;
 using TaskMate.Exceptions;
 using TaskMate.Helper.Enum.User;
 using TaskMate.Service.Abstraction;
 
-namespace TaskMate.Service.Implementations;
-
-public class CardListService : ICardListService
+namespace TaskMate.Service.Implementations
 {
-    private readonly AppDbContext _appDbContext;
-    private readonly UserManager<AppUser> _userManager;
-    private readonly IMapper _mapper;
-
-    public CardListService(AppDbContext appDbContext, UserManager<AppUser> userManager, IMapper mapper)
+    public class CardListService : ICardListService
     {
-        _appDbContext = appDbContext;
-        _userManager = userManager;
-        _mapper = mapper;
-    }
-    public async Task CreateAsync(CreateCardListDto createCardListDto)
-    {
-        var byAdmin = await _userManager.FindByIdAsync(createCardListDto.AppUserId);
+        private readonly AppDbContext _appDbContext;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly IMapper _mapper;
 
-        var adminRol = await _userManager.GetRolesAsync(byAdmin);
+        public CardListService(AppDbContext appDbContext, UserManager<AppUser> userManager, IMapper mapper)
+        {
+            _appDbContext = appDbContext;
+            _userManager = userManager;
+            _mapper = mapper;
+        }
 
-        if (adminRol.FirstOrDefault().ToString() != Role.GlobalAdmin.ToString() &&
-            adminRol.FirstOrDefault().ToString() != Role.Admin.ToString())
-            throw new PermisionException("No Access");
+        public async Task CreateAsync(CreateCardListDto createCardListDto)
+        {
+            var byAdmin = await _userManager.FindByIdAsync(createCardListDto.AppUserId);
 
-        if (_appDbContext.Boards.Where(x => x.Id == createCardListDto.BoardsId) is null)
-            throw new NotFoundException("Not Found Workspace");
+            var adminRol = await _userManager.GetRolesAsync(byAdmin);
 
-        var newcardList = _mapper.Map<CardList>(createCardListDto);
-        await _appDbContext.CardLists.AddAsync(newcardList);
-        await _appDbContext.SaveChangesAsync();
-    }
+            if (adminRol.FirstOrDefault().ToString() != Role.GlobalAdmin.ToString() &&
+                adminRol.FirstOrDefault().ToString() != Role.Admin.ToString())
+                throw new PermisionException("No Access");
 
-    public async Task<List<GetCardListDto>> GetAllCardListAsync(Guid BoardId)
-    {
-        var board = await _appDbContext.CardLists.Where(x=>x.BoardsId==BoardId).ToListAsync();
-        if (board is null) return null;
+            if (await _appDbContext.Boards.FindAsync(createCardListDto.BoardsId) == null)
+                throw new NotFoundException("Not Found Workspace");
 
-        return _mapper.Map<List<GetCardListDto>>(board);
-    }
+            // Get the latest order number
+            var maxOrder = await _appDbContext.CardLists
+                                              .Where(x => x.BoardsId == createCardListDto.BoardsId)
+                                              .MaxAsync(x => (int?)x.Order) ?? 0;
 
-    public async Task Remove(string AdminId, Guid CardlistId)
-    {
-        var byAdmin = await _userManager.FindByIdAsync(AdminId);
+            var newCardList = _mapper.Map<CardList>(createCardListDto);
+            newCardList.Order = maxOrder + 1;
 
-        var adminRol = await _userManager.GetRolesAsync(byAdmin);
+            await _appDbContext.CardLists.AddAsync(newCardList);
+            await _appDbContext.SaveChangesAsync();
+        }
 
-        if (adminRol.FirstOrDefault().ToString() != Role.GlobalAdmin.ToString() &&
-                 adminRol.FirstOrDefault().ToString() != Role.Admin.ToString())
-            throw new PermisionException("No Access");
+        public async Task UpdateCardListOrdersAsync(UpdateCardListOrdersDto updateCardListOrdersDto)
+        {
+            foreach (var update in updateCardListOrdersDto.CardListOrders)
+            {
+                var cardList = await _appDbContext.CardLists.FindAsync(update.CardListId);
+                if (cardList == null)
+                    throw new NotFoundException($"Card List with ID {update.CardListId} not found");
 
-        var cardlist = await _appDbContext.CardLists.Where(x => x.Id == CardlistId).FirstOrDefaultAsync();
-        if (cardlist is null)
-            throw new NotFoundException("Not Found");
+                cardList.Order = update.Order;
+                _appDbContext.CardLists.Update(cardList);
+            }
 
-        _appDbContext.CardLists.Remove(cardlist);
-        await _appDbContext.SaveChangesAsync();
-    }
+            await _appDbContext.SaveChangesAsync();
+        }
 
-    public async Task UpdateAsync(UpdateeCardListDto updateeCardListDto)
-    {
-        var byAdmin = await _userManager.FindByIdAsync(updateeCardListDto.AppUserId);
+        public async Task<List<GetCardListDto>> GetAllCardListAsync(Guid BoardId)
+        {
+            var cardLists = await _appDbContext.CardLists
+                                               .Where(x => x.BoardsId == BoardId)
+                                               .OrderBy(x => x.Order) 
+                                               .ToListAsync();
+            if (cardLists == null) return null;
 
-        var adminRol = await _userManager.GetRolesAsync(byAdmin);
+            return _mapper.Map<List<GetCardListDto>>(cardLists);
+        }
 
-        if (adminRol.FirstOrDefault().ToString() != Role.GlobalAdmin.ToString() &&
-                 adminRol.FirstOrDefault().ToString() != Role.Admin.ToString())
-            throw new PermisionException("No Access");
 
-        var cardList = await _appDbContext.CardLists.Where(x => x.Id == updateeCardListDto.CardListId).FirstOrDefaultAsync();
-        if (cardList is null)
-            throw new NotFoundException("Not Found");
+        public async Task<List<GetCardListDto>> GetAllCardListByBoardIdAsync(Guid BoardId)
+        {
+            var cardLists = await _appDbContext.CardLists
+                                               .Where(x => x.BoardsId == BoardId)
+                                               .OrderBy(x => x.Order) 
+                                               .ToListAsync();
+            if (cardLists == null) return null;
 
-        cardList.Title = updateeCardListDto.Title;
-        _appDbContext.CardLists.Update(cardList);
-        await _appDbContext.SaveChangesAsync();
+            return _mapper.Map<List<GetCardListDto>>(cardLists);
+        }
+
+        public async Task Remove(string AdminId, Guid CardlistId)
+        {
+            var byAdmin = await _userManager.FindByIdAsync(AdminId);
+
+            var adminRol = await _userManager.GetRolesAsync(byAdmin);
+
+            if (adminRol.FirstOrDefault().ToString() != Role.GlobalAdmin.ToString() &&
+                     adminRol.FirstOrDefault().ToString() != Role.Admin.ToString())
+                throw new PermisionException("No Access");
+
+            var cardList = await _appDbContext.CardLists.FindAsync(CardlistId);
+            if (cardList == null)
+                throw new NotFoundException("Not Found");
+
+            _appDbContext.CardLists.Remove(cardList);
+            await _appDbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(UpdateeCardListDto updateCardListDto)
+        {
+            var byAdmin = await _userManager.FindByIdAsync(updateCardListDto.AppUserId);
+
+            var adminRol = await _userManager.GetRolesAsync(byAdmin);
+
+            if (adminRol.FirstOrDefault().ToString() != Role.GlobalAdmin.ToString() &&
+                     adminRol.FirstOrDefault().ToString() != Role.Admin.ToString())
+                throw new PermisionException("No Access");
+
+            var cardList = await _appDbContext.CardLists.FindAsync(updateCardListDto.CardListId);
+            if (cardList == null)
+                throw new NotFoundException("Not Found");
+
+            _mapper.Map(updateCardListDto, cardList);
+            _appDbContext.CardLists.Update(cardList);
+            await _appDbContext.SaveChangesAsync();
+        }
+
     }
 }

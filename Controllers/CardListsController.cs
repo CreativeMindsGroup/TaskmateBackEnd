@@ -1,52 +1,69 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using TaskMate.DTOs.Boards;
 using TaskMate.DTOs.CardList;
+using TaskMate.Exceptions;
 using TaskMate.Service.Abstraction;
-using TaskMate.Service.Implementations;
 
-namespace TaskMate.Controllers;
-
-[Route("api/[controller]")]
-[ApiController]
-public class CardListsController : ControllerBase
+namespace TaskMate.Controllers
 {
-    private readonly ICardListService _cardListService;
-    public CardListsController(ICardListService cardListService)
-       => _cardListService = cardListService;
-
-    //[HttpGet]
-    //public async Task<IActionResult> GetAll(Guid WorkspaceId)
-    //{
-    //    var boards = await _boardsService.GetAllAsync(WorkspaceId);
-    //    return Ok(boards);
-    //}
-
-    [HttpGet("{BoardId:Guid}")]
-    public async Task<IActionResult> GetById(Guid BoardId)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class CardListsController : ControllerBase
     {
-        var byWorkspace = await _cardListService.GetAllCardListAsync(BoardId);
-        return Ok(byWorkspace);
-    }
+        private readonly ICardListService _cardListService;
 
-    [HttpPost]
-    public async Task<IActionResult> CreateCardList([FromForm] CreateCardListDto createCardListDto)
-    {
-        await _cardListService.CreateAsync(createCardListDto);
-        return StatusCode((int)HttpStatusCode.Created);
-    }
+        public CardListsController(ICardListService cardListService)
+        {
+            _cardListService = cardListService;
+        }
 
-    [HttpPut]
-    public async Task<IActionResult> UpdateCardList([FromForm] UpdateeCardListDto updateeCardListDto)
-    {
-        await _cardListService.UpdateAsync(updateeCardListDto);
-        return Ok();
-    }
+        [HttpPost]
+        [Route("add")]
+        public async Task<IActionResult> CreateCardList(CreateCardListDto createCardListDto)
+        {
+            await _cardListService.CreateAsync(createCardListDto);
+            return Ok("card list Created!");
+        }
 
-    [HttpDelete]
-    public async Task<IActionResult> Remove(string AdminId, Guid CardListId)
-    {
-        await _cardListService.Remove(AdminId, CardListId);
-        return Ok();
+        [HttpPost]
+        [Route("update")]
+        public async Task<IActionResult> UpdateCardList(UpdateeCardListDto updateeCardListDto)
+        {
+            await _cardListService.UpdateAsync(updateeCardListDto);
+            return Ok();
+        }
+        [HttpPost("updateOrders")]
+        public async Task<IActionResult> UpdateCardListOrders([FromBody] UpdateCardListOrdersDto updateCardListOrdersDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            try
+            {
+                await _cardListService.UpdateCardListOrdersAsync(updateCardListOrdersDto);
+                return Ok();
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetAllCardListbyBoardId")]
+        public async Task<IActionResult> GetAllCardLists(Guid boardId)
+        {
+            var cardLists = await _cardListService.GetAllCardListAsync(boardId);
+            return Ok(cardLists);
+        }
+        [HttpDelete]
+        [Route("remove")]
+        public async Task<IActionResult> RemoveCardList(string adminId, Guid cardListId)
+        {
+            await _cardListService.Remove(adminId, cardListId);
+            return Ok();
+        }
     }
 }

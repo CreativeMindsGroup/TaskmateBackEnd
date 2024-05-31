@@ -308,23 +308,50 @@
   {
     "ContainingType": "TaskMate.Controllers.CardListsController",
     "Method": "CreateCardList",
-    "RelativePath": "api/CardLists",
+    "RelativePath": "api/CardLists/add",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "AppUserId",
+        "Name": "createCardListDto",
+        "Type": "TaskMate.DTOs.CardList.CreateCardListDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CardListsController",
+    "Method": "GetAllCardLists",
+    "RelativePath": "api/CardLists/GetAllCardListbyBoardId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "boardId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CardListsController",
+    "Method": "RemoveCardList",
+    "RelativePath": "api/CardLists/remove",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "adminId",
         "Type": "System.String",
         "IsRequired": false
       },
       {
-        "Name": "Title",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "BoardsId",
+        "Name": "cardListId",
         "Type": "System.Guid",
         "IsRequired": false
       }
@@ -334,60 +361,45 @@
   {
     "ContainingType": "TaskMate.Controllers.CardListsController",
     "Method": "UpdateCardList",
-    "RelativePath": "api/CardLists",
-    "HttpMethod": "PUT",
+    "RelativePath": "api/CardLists/update",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "CardListId",
-        "Type": "System.Guid",
-        "IsRequired": false
-      },
-      {
-        "Name": "AppUserId",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Title",
-        "Type": "System.String",
-        "IsRequired": false
+        "Name": "updateeCardListDto",
+        "Type": "TaskMate.DTOs.CardList.UpdateeCardListDto",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
     "ContainingType": "TaskMate.Controllers.CardListsController",
-    "Method": "Remove",
-    "RelativePath": "api/CardLists",
-    "HttpMethod": "DELETE",
+    "Method": "UpdateCardListOrders",
+    "RelativePath": "api/CardLists/updateOrders",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "AdminId",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "CardListId",
-        "Type": "System.Guid",
-        "IsRequired": false
+        "Name": "updateCardListOrdersDto",
+        "Type": "TaskMate.DTOs.CardList.UpdateCardListOrdersDto",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "TaskMate.Controllers.CardListsController",
-    "Method": "GetById",
-    "RelativePath": "api/CardLists/{BoardId}",
+    "ContainingType": "TaskMate.Controllers.CardsController",
+    "Method": "GetCardById",
+    "RelativePath": "api/Cards/{cardId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "BoardId",
+        "Name": "cardId",
         "Type": "System.Guid",
         "IsRequired": true
       }
@@ -397,82 +409,115 @@
   {
     "ContainingType": "TaskMate.Controllers.CardsController",
     "Method": "CreateCard",
-    "RelativePath": "api/Cards",
+    "RelativePath": "api/Cards/add",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "Title",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "CardListId",
-        "Type": "System.Guid",
-        "IsRequired": false
+        "Name": "createCardDto",
+        "Type": "TaskMate.DTOs.Card.CreateCardDto",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
     "ContainingType": "TaskMate.Controllers.CardsController",
-    "Method": "UpdateCard",
-    "RelativePath": "api/Cards",
-    "HttpMethod": "PUT",
+    "Method": "AddCardDates",
+    "RelativePath": "api/Cards/addDates",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "CardId",
-        "Type": "System.Guid",
-        "IsRequired": false
-      },
-      {
-        "Name": "Title",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Description",
-        "Type": "System.String",
-        "IsRequired": false
+        "Name": "cardAddDatesDto",
+        "Type": "TaskMate.DTOs.Card.CardAddDatesDto",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
     "ContainingType": "TaskMate.Controllers.CardsController",
-    "Method": "Remove",
-    "RelativePath": "api/Cards",
-    "HttpMethod": "DELETE",
+    "Method": "DragAndDrop",
+    "RelativePath": "api/Cards/dragAndDrop",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "AppUserId",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "CardId",
-        "Type": "System.Guid",
-        "IsRequired": false
+        "Name": "dragAndDropCardDto",
+        "Type": "TaskMate.DTOs.Card.DragAndDropCardDto",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
     "ContainingType": "TaskMate.Controllers.CardsController",
-    "Method": "GetById",
-    "RelativePath": "api/Cards/{CarddId}",
+    "Method": "GetAllCardsByBoardId",
+    "RelativePath": "api/Cards/GetAllCardsByBoardId",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "CarddId",
+        "Name": "boardId",
         "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CardsController",
+    "Method": "GetAllCardsByCardListId",
+    "RelativePath": "api/Cards/GetAllCardsByCardListId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cardListId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CardsController",
+    "Method": "RemoveCard",
+    "RelativePath": "api/Cards/remove",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "appUserId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "cardId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CardsController",
+    "Method": "ReorderCards",
+    "RelativePath": "api/Cards/reorder",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "reorderCardsDto",
+        "Type": "TaskMate.DTOs.Card.ReorderCardsDto",
         "IsRequired": true
       }
     ],
@@ -481,76 +526,51 @@
   {
     "ContainingType": "TaskMate.Controllers.CardsController",
     "Method": "UpdateCard",
-    "RelativePath": "api/Cards/UpdateCard",
-    "HttpMethod": "PUT",
+    "RelativePath": "api/Cards/update",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "CardId",
-        "Type": "System.Guid",
-        "IsRequired": false
-      },
-      {
-        "Name": "StartDate",
-        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "EndDate",
-        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
+        "Name": "updateCardDto",
+        "Type": "TaskMate.DTOs.Card.UpdateCardDto",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
     "ContainingType": "TaskMate.Controllers.CardsController",
-    "Method": "UpdateCardDragAndDrop",
-    "RelativePath": "api/Cards/UpdateCardDragAndDrop",
+    "Method": "UpdateDescription",
+    "RelativePath": "api/Cards/update-description",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "CardId",
-        "Type": "System.Guid",
-        "IsRequired": false
-      },
-      {
-        "Name": "CardListId",
-        "Type": "System.Guid",
-        "IsRequired": false
+        "Name": "updateCardDescriptionDto",
+        "Type": "TaskMate.DTOs.Card.UpdateCardDescriptionDto",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
     "ContainingType": "TaskMate.Controllers.CardsController",
-    "Method": "UpdateCardMoveCard",
-    "RelativePath": "api/Cards/UpdateCardMoveCard",
+    "Method": "ChangeCoverColorAsync",
+    "RelativePath": "api/Cards/updateCover",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "AppUserId",
+        "Name": "cardId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "coverColor",
         "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "BoardId",
-        "Type": "System.Guid",
-        "IsRequired": false
-      },
-      {
-        "Name": "CardListId",
-        "Type": "System.Guid",
-        "IsRequired": false
-      },
-      {
-        "Name": "CardId",
-        "Type": "System.Guid",
         "IsRequired": false
       }
     ],
@@ -1033,59 +1053,6 @@
       },
       {
         "Name": "BoardsId",
-        "Type": "System.Guid",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "TaskMate.Controllers.LabelsController",
-    "Method": "GetAll",
-    "RelativePath": "api/Labels",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "CardId",
-        "Type": "System.Guid",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "TaskMate.Controllers.LabelsController",
-    "Method": "CheckBoxCreateLabel",
-    "RelativePath": "api/Labels/CheckBoxCreateLabel",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "CardId",
-        "Type": "System.Guid",
-        "IsRequired": false
-      },
-      {
-        "Name": "LabelId",
-        "Type": "System.Guid",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "TaskMate.Controllers.LabelsController",
-    "Method": "GetAllLabelinBoard",
-    "RelativePath": "api/Labels/GetAllLabelinBoard",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "BoardId",
         "Type": "System.Guid",
         "IsRequired": false
       }

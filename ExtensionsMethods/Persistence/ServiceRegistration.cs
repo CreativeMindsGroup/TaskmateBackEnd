@@ -8,17 +8,17 @@ using TaskMate.Entities;
 using TaskMate.MapperProfile;
 using TaskMate.Service.Abstraction;
 using TaskMate.Service.Implementations;
-
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 namespace TaskMate.ExtensionsMethods.Persistence;
 
 public static class ServiceRegistration
 {
     public static void AddPersistenceServices(this IServiceCollection services)
     {
-        services.AddDbContext<AppDbContext>(options =>
-        {
-            options.UseSqlServer(services.BuildServiceProvider().GetService<IConfiguration>().GetConnectionString("Default"));
-        });
+
+
         services.AddIdentity<AppUser, IdentityRole>(Options =>
         {
             Options.User.RequireUniqueEmail = true;

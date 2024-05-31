@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Nurlan\\Desktop\\TaskMateBackEnd\\TaskMate.csproj": {}
+    "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\TaskMate.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Nurlan\\Desktop\\TaskMateBackEnd\\TaskMate.csproj": {
+    "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\TaskMate.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Nurlan\\Desktop\\TaskMateBackEnd\\TaskMate.csproj",
+        "projectUniqueName": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\TaskMate.csproj",
         "projectName": "TaskMate",
-        "projectPath": "C:\\Users\\Nurlan\\Desktop\\TaskMateBackEnd\\TaskMate.csproj",
+        "projectPath": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\TaskMate.csproj",
         "packagesPath": "C:\\Users\\Nurlan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Nurlan\\Desktop\\TaskMateBackEnd\\obj\\",
+        "outputPath": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Nurlan\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -79,17 +79,27 @@
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[8.0.2, )"
+              "version": "[8.0.4, )"
             },
-            "Microsoft.EntityFrameworkCore.SqlServer": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.2, )"
+              "version": "[8.0.4, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
               "version": "[8.0.2, )"
+            },
+            "Npgsql": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[8.0.4, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

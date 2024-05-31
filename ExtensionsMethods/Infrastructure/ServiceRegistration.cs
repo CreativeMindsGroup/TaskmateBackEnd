@@ -1,4 +1,5 @@
-﻿using TaskMate.Service.Abstraction;
+﻿using Replyment.Infrastructure.Services.TokenResponseJwt;
+using TaskMate.Service.Abstraction;
 using TaskMate.Service.Implementations;
 
 namespace TaskMate.ExtensionsMethods.Infrastructure;
@@ -8,7 +9,7 @@ public static class ServiceRegistration
     public static void AddInfrastructureServices(this IServiceCollection services)
     {
         //user
-        services.AddScoped<ITokenHandler, TokkenHandler>();
+        services.AddScoped<ITokenHandler, TokenHandler>();
         services.AddScoped<IUserSerivce, AppUserService>();
 
         //Email

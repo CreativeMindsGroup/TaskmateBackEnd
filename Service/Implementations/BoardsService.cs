@@ -151,7 +151,6 @@ public class BoardsService : IBoardsService
             AdminId = linkShareToBoardDto.AdminId,
             WorkspaceId = linkShareToBoardDto.WorkspaceId,
             BoardId = linkShareToBoardDto.BoardId,
-            AppUserId = tokenResponse.appuserid,
         };
         await AddUserBoard(newAddUserBoard);
     }

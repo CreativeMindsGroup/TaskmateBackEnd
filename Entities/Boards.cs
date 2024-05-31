@@ -5,6 +5,7 @@ namespace TaskMate.Entities;
 public class Boards : BaseEntity
 {
     public string Title { get; set; }
+    public string Theme { get; set; }
     
     //Rellations
     public List<CardList>? CardLists { get; set; }

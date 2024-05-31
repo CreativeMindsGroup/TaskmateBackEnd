@@ -25,7 +25,7 @@ public class WorkspaceService : IWorkspaceService
         _mapper = mapper;
         _authService = authService;
     }
-
+        
     public async Task AddUserWorkspace(AddUserWorkspace addUserWorkspace)
     {
         var byAdmin = await _userManager.FindByIdAsync(addUserWorkspace.AdminId);
@@ -148,7 +148,6 @@ public class WorkspaceService : IWorkspaceService
         {
             AdminId = linkShareToWorkspaceDto.AdminId,
             WorkspaceId = linkShareToWorkspaceDto.WorkspaceId,
-            AppUserId = tokenResponse.appuserid
         };
 
         await AddUserWorkspace(newAddUserWorkspace);
@@ -168,11 +167,11 @@ public class WorkspaceService : IWorkspaceService
             throw new NotFoundException("Workspace not found");
 
         //_mapper.Map(updateWorkspaceDto, worksPace);
-        if (!worksPace.Title.IsNullOrEmpty())
+        if (!updateWorkspaceDto.Title.IsNullOrEmpty())
         {
             worksPace.Title = updateWorkspaceDto.Title;
         }
-        if (!worksPace.Description.IsNullOrEmpty())
+        if (!updateWorkspaceDto.Description.IsNullOrEmpty())
         {
             worksPace.Description = updateWorkspaceDto.Description;
         }

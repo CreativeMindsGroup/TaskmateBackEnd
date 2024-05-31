@@ -19,17 +19,6 @@ public class LabelService : ILabelService
         _appDbContext = appDbContext;
     }
 
-    public async Task CheckBoxCreateAsync(CheckCreateLabelDto createLabelDto)
-    {
-        LabelCard labelCard = new()
-        {
-            LabelId = createLabelDto.LabelId,
-            CardId = createLabelDto.CardId
-        };
-
-        await _appDbContext.LabelCards.AddAsync(labelCard);
-        await _appDbContext.SaveChangesAsync();
-    }
 
     public async Task CreateAsync(CreateLabelDto createLabelDtos)
     {
@@ -45,19 +34,5 @@ public class LabelService : ILabelService
 
         await _appDbContext.LabelCards.AddAsync(labelCard); 
         await _appDbContext.SaveChangesAsync();
-    }
-
-    public async Task<List<GetLabelDto>> GetAllLabelInBoard(Guid BoardId)
-    {
-        var labels = await _appDbContext.Labels.Where(x => x.BoardsId == BoardId).ToListAsync();
-
-        return _mapper.Map<List<GetLabelDto>>(labels);  
-    }
-
-    public async Task<List<GetLabelDto>> GetLabelByCardId(Guid CardId)
-    {
-        var labels = await _appDbContext.LabelCards.Where(x => x.CardId == CardId).Select(x => x.Label).ToListAsync();
-        
-        return _mapper.Map<List<GetLabelDto>>(labels);  
     }
 }
