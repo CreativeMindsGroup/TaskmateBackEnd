@@ -52,10 +52,6 @@ public class AuthService : IAuthService
         {
             throw new LogInFailerException("Invalid Login!");
         }
-        //if (!appUser.isActive)
-        //{
-        //    throw new UserBlockedException("User Blocked");
-        //}
         var tokenRespons = await _tokenHandler.CreateAccessToken(2, 3, appUser);
         appUser.RefreshToken = tokenRespons.refreshToken;
         appUser.RefreshTokenExpration = tokenRespons.refreshTokenExpration;
@@ -71,10 +67,9 @@ public class AuthService : IAuthService
     {
         AppUser appUser = new AppUser()
         {
-            Fullname = registerDTO.Fullname,
-            UserName = registerDTO.Username,
             Email = registerDTO.Email,
             isActive = false,
+            UserName = registerDTO.Email,
         };
         IdentityResult identityResult = await _userManager.CreateAsync(appUser, registerDTO.password);
         if (!identityResult.Succeeded)

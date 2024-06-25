@@ -2,6 +2,7 @@
 
 public class GetCheckItemCountDto
 {
-    public int True { get; set; }
-    public int False { get; set; }
+    public int Done { get; set; }  // Renaming 'True' to 'Done' for clarity
+    public int Total { get; set; } // Total number of tasks
 }
+

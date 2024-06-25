@@ -1,4 +1,6 @@
-﻿namespace TaskMate.DTOs.Card
+﻿using TaskMate.DTOs.CustomField;
+
+namespace TaskMate.DTOs.Card
 {
     public class CreateCardDto
     {
@@ -14,13 +16,45 @@
         public string? Description { get; set; }
     }
 
+
+    public class CreateCardDueDateDto
+    {
+        public Guid CardId { get; set; }
+        public Guid WorkspaceId { get; set; }
+        public Guid UserId { get; set; }
+        public DateTime DueDate { get; set; }
+    }
+    public class UpdateCardDueDateDto
+    {
+        public Guid CardId { get; set; }
+        public Guid WorkspaceId { get; set; }
+        public Guid UserId { get; set; }
+        public DateTime? DueDate { get; set; }
+        public bool? isDueDateDone { get; set; }
+    }
     public class GetCardDto
     {
+
+        public int Order { get; set; }
         public Guid Id { get; set; }
+        public string? CoverColor { get; set; }
         public string Title { get; set; }
         public string? Description { get; set; }
+        public Guid CardListId { get; set; }
+        public DateTime? DueDate { get; set; }
+        public bool isDueDateDone { get; set; }
+        public bool isArchived { get; set; }
+        public List<CardAttachmentDto> Attachments { get; set; }
+        public GetCustomFieldDto GetCustomFieldDto { get; set; }
     }
 
+    public class CardAttachmentDto
+    {
+        public Guid Id { get; set; }
+        public string FileName { get; set; }
+        public string FilePath { get; set; }
+    }
+    
     public class CardAddDatesDto
     {
         public Guid CardId { get; set; }
@@ -43,5 +77,10 @@
     {
         public Guid CardId { get; set; }
         public int Order { get; set; }
+    }
+    public class FileUploadDto
+    {
+        public Guid CardId { get; set; }
+        public string? FileName { get; set; }
     }
 }

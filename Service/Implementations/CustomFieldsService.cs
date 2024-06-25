@@ -2,10 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using TaskMate.Context;
 using TaskMate.DTOs.CustomField;
+using TaskMate.DTOs.CustomFieldCheckbox;
+using TaskMate.DTOs.CustomFieldNumber;
+using TaskMate.DTOs.CustomFileds;
 using TaskMate.Entities;
 using TaskMate.Exceptions;
-using TaskMate.Helper.Enum.CustomFields;
-using TaskMate.MapperProfile.CustomField;
+using TaskMate.Helper.Enum.User;
 using TaskMate.Service.Abstraction;
 
 namespace TaskMate.Service.Implementations;
@@ -14,92 +16,168 @@ public class CustomFieldsService : ICustomFieldsService
 {
     private readonly AppDbContext _appDbContext;
     private readonly IMapper _mapper;
-    private readonly ICustomFieldCheckboxService _checkboxService;
-    private readonly ICustomFieldDateService _customFieldDateService;
-    private readonly ICustomFieldNumberService _customFieldNumberService;
-    private readonly ICustomFieldTextService _customFieldTextService;
-    private readonly ICustomFieldDropdownOptionService _customFieldDropdownOptionService;
 
-    public CustomFieldsService(AppDbContext appDbContext,
-                               IMapper mapper,
-                               ICustomFieldCheckboxService checkboxService,
-                               ICustomFieldDateService customFieldDateService,
-                               ICustomFieldNumberService customFieldNumberService,
-                               ICustomFieldTextService customFieldTextService,
-                               ICustomFieldDropdownOptionService customFieldDropdownOptionService)
+    public CustomFieldsService(AppDbContext appDbContext, IMapper mapper)
     {
         _appDbContext = appDbContext;
         _mapper = mapper;
-        _checkboxService = checkboxService;
-        _customFieldDateService = customFieldDateService;
-        _customFieldNumberService = customFieldNumberService;
-        _customFieldTextService = customFieldTextService;
-        _customFieldDropdownOptionService = customFieldDropdownOptionService;
     }
-
-    public async Task CreateAsync(CreateCustomFieldDto createCustomFieldDto)
+    public async Task<bool> CheckUserAdminRoleInWorkspace(string userId, Guid workspaceId)
     {
-        var card = await _appDbContext.Cards.FirstOrDefaultAsync(x => x.Id == createCustomFieldDto.CardId);
-        if (card is null) throw new NotFoundException("Not Found");
+        var user = await _appDbContext.WorkspaceUsers
+                    .FirstOrDefaultAsync(wu => wu.WorkspaceId == workspaceId && wu.AppUserId == userId);
 
-        var newCustomField = _mapper.Map<CustomFields>(createCustomFieldDto);
-
-        await _appDbContext.CustomFields.AddAsync(newCustomField);
-        await _appDbContext.SaveChangesAsync();
-
-        if (newCustomField.Type == CustomFieldsType.Checkbox)
-            await _checkboxService.CreateAsync(newCustomField.Id);
-        else if (newCustomField.Type == CustomFieldsType.Date)
-            await _customFieldDateService.CreateAsync(newCustomField.Id);
-        else if (newCustomField.Type == CustomFieldsType.Number)
-            await _customFieldNumberService.CreateAsync(newCustomField.Id);
-        else if (newCustomField.Type == CustomFieldsType.Text)
-            await _customFieldTextService.CreateAsync(newCustomField.Id);
-        else
+        if (user == null)
         {
-            if (createCustomFieldDto.CreateCustomFieldDropdownOptions != null)
+            throw new NotFoundException("User not found in workspace!");
+        }
+
+        if (Enum.TryParse<Role>(user.Role, true, out var roleEnum))
+        {
+            if (roleEnum == Role.GlobalAdmin || roleEnum == Role.Admin)
             {
-                await _customFieldDropdownOptionService.CreateAsync(createCustomFieldDto.CreateCustomFieldDropdownOptions, newCustomField.Id);
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
+        else
+        {
+            throw new ArgumentException("The role value in the database is undefined in the Role enum.");
+        }
     }
-
-
-    public async Task<List<GetCustomFieldDto>> GetCardInCustomFieldAsync(Guid CardId)
+    public async Task CreateChecklistAsync(CreateCheckboxCustomFieldDto Dto)
     {
-        var card = await _appDbContext.Cards.FirstOrDefaultAsync(x => x.Id == CardId);
-        if (card is null) throw new NotFoundException("Not Found Card");
+        var Result = CheckUserAdminRoleInWorkspace(Dto.UserId, Dto.WorkspaceId);
+        if (await Result == false)
+            throw new NotFoundException("No Access");
+        var card = await _appDbContext.Cards
+                                .Include(x => x.CustomFields)
+                                .FirstOrDefaultAsync(x => x.Id == Dto.CardId);
 
-        var allCustomField = await _appDbContext.CustomFields
-                                                .Include(x=>x.CustomFieldDropdownOptions)
-                                                .Include(x=>x.CustomFieldsTexts)
-                                                .Include(x=>x.CustomFieldsNumbers)
-                                                .Include(x=>x.CustomFieldsDates)
-                                                .Include(x=>x.CustomFieldsCheckboxes)
-                                                .Where(x => x.CardId == card.Id).ToListAsync();
+        if (card == null)
+            throw new NotFoundException("Card not found");
 
-        var toMapper = _mapper.Map<List<GetCustomFieldDto>>(allCustomField);
-        foreach (var customField in toMapper)
-            if (customField.Type != CustomFieldsType.Dropdown) customField.GetCustomFieldDropdownOptions = null;
-        return toMapper;
-    }
-
-    public async Task RemoveAsync(Guid CustomFieldId)
-    {
-        var customField = await _appDbContext.CustomFields.FirstOrDefaultAsync(x=>x.Id==CustomFieldId);
-        if (customField is null) throw new NotFoundException("Not Found Custom Field");
-
-        _appDbContext.CustomFields.Remove(customField);
+        if (card.CustomFields is null)
+        {
+            CustomFields customField = new()
+            {
+                CardId = Dto.CardId,
+            };
+            _appDbContext.CustomFields.Add(customField);
+            await _appDbContext.SaveChangesAsync();
+        }
+        CustomFieldsCheckbox Checkboxe = new()
+        {
+            Check = Dto.Check,
+            CustomFieldsId = card.CustomFields.Id,
+            Title = Dto.Title,
+        };
+        _appDbContext.CustomFieldsCheckboxes.Add(Checkboxe);
         await _appDbContext.SaveChangesAsync();
     }
 
-    public async Task Update(UpdateCustomFieldDto updateCustomFieldDto)
+    public async Task CreateNumberAsync(CustomFieldNumberDto Dto)
     {
-        var customField = await _appDbContext.CustomFields.FirstOrDefaultAsync(x => x.Id == updateCustomFieldDto.Id);
-        if (customField is null) throw new NotFoundException("Not Found Custom Field");
+        var result = CheckUserAdminRoleInWorkspace(Dto.UserId, Dto.WorkspaceId);
+        if (await result == false)
+            throw new NotFoundException("No Access");
 
-        customField.Title = updateCustomFieldDto.Title;
-        _appDbContext.CustomFields.Update(customField);
+        var card = await _appDbContext.Cards
+                                      .Include(x => x.CustomFields)
+                                      .FirstOrDefaultAsync(x => x.Id == Dto.CardId);
+
+        if (card == null)
+            throw new NotFoundException("Card not found");
+
+        if (card.CustomFields is null)
+        {
+            CustomFields customField = new()
+            {
+                CardId = Dto.CardId,
+            };
+            _appDbContext.CustomFields.Add(customField);
+            await _appDbContext.SaveChangesAsync();
+        }
+        CustomFieldsNumber number = new()
+        {
+            Number = Dto.Number,
+            CustomFieldsId = card.CustomFields.Id,
+            Title = Dto.Title,
+        };
+        _appDbContext.CustomFieldsNumbers.Add(number);
         await _appDbContext.SaveChangesAsync();
+    }
+    public async Task<GetCustomFieldDto> GetCustomFieldsAsync(Guid cardId)
+    {
+        var customFields = await _appDbContext.CustomFields
+            .Include(cf => cf.Checkbox)
+            .Include(cf => cf.Number)
+            .FirstOrDefaultAsync(cf => cf.CardId == cardId);
+
+        if (customFields == null)
+        {
+            throw new NotFoundException("Custom fields not found for the specified card.");
+        }
+
+        var customFieldDto = _mapper.Map<GetCustomFieldDto>(customFields);
+
+        if (customFields.Checkbox != null)
+        {
+            customFieldDto.CheckboxDto = _mapper.Map<List<GetCustomFieldCheckboxDto>>(customFields.Checkbox);
+        }
+
+        if (customFields.Number != null)
+        {
+            customFieldDto.NumberDto = _mapper.Map<List<GetCustomFiledNumber>>(customFields.Number);
+        }
+
+        return customFieldDto;
+    }
+    public async Task RemoveCustomField(RemoveCustomFieldDTO dto)
+    {
+        if (!await CheckUserAdminRoleInWorkspace(dto.UserId, dto.WorkspaceId))
+        {
+            throw new NotFoundException("No Access");
+        }
+
+        var customCheckboxField = await _appDbContext.CustomFieldsCheckboxes
+            .FirstOrDefaultAsync(cf => cf.Id == dto.FieldId);
+
+        if (customCheckboxField != null)
+        {
+            _appDbContext.CustomFieldsCheckboxes.Remove(customCheckboxField);
+        }
+        else
+        {
+            var customNumberField = await _appDbContext.CustomFieldsNumbers
+                .FirstOrDefaultAsync(cf => cf.Id == dto.FieldId);
+
+            if (customNumberField == null)
+            {
+                throw new NotFoundException("Custom field not found.");
+            }
+
+            _appDbContext.CustomFieldsNumbers.Remove(customNumberField);
+        }
+
+        await _appDbContext.SaveChangesAsync();
+    }
+
+    public async Task UpdateChecklist(bool value, Guid id)
+    {
+        var checkbox = await _appDbContext.CustomFieldsCheckboxes.FirstOrDefaultAsync(cf => cf.Id == id);
+        if (checkbox == null)
+        {
+            throw new NotFoundException("Checkbox not found!");
+        }
+        checkbox.Check = value;
+        await _appDbContext.SaveChangesAsync();
+    }
+    public Task RemoveAsync(Guid CustomFieldId)
+    {
+        throw new NotImplementedException();
     }
 }

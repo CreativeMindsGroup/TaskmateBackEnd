@@ -6,4 +6,7 @@ public class AddUserBoardDto
     public Guid WorkspaceId { get; set; }
     public Guid BoardId { get; set; }
     public string AppUserId { get; set; }
+    public string Role { get; set; }
+    public string WorkspaceRole { get; set; }
+
 }

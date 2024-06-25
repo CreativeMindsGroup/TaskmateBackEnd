@@ -7,5 +7,6 @@ public class WorkspaceUser:BaseEntity
     public AppUser AppUser { get; set; }
     public string AppUserId { get; set; }
     public Workspace Workspace { get; set; }
+    public string Role {  get; set; }
     public Guid WorkspaceId { get; set; }
 }

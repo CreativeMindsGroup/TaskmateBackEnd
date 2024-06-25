@@ -1,11 +1,18 @@
-﻿using TaskMate.DTOs.CustomField;
+﻿using TaskMate.Context;
+using TaskMate.DTOs.CustomField;
+using TaskMate.DTOs.CustomFieldCheckbox;
+using TaskMate.DTOs.CustomFieldNumber;
+using TaskMate.DTOs.CustomFileds;
+using TaskMate.Exceptions;
 
 namespace TaskMate.Service.Abstraction;
 
 public interface ICustomFieldsService
 {
-    Task CreateAsync(CreateCustomFieldDto createCustomFieldDto);
-    Task<List<GetCustomFieldDto>> GetCardInCustomFieldAsync(Guid CardId);
+    Task CreateChecklistAsync(CreateCheckboxCustomFieldDto Dto);
+    Task CreateNumberAsync(CustomFieldNumberDto Dto);
     Task RemoveAsync(Guid CustomFieldId);
-    Task Update(UpdateCustomFieldDto updateCustomFieldDto);
+    Task<GetCustomFieldDto> GetCustomFieldsAsync(Guid cardId);
+    Task RemoveCustomField(RemoveCustomFieldDTO dto);
+    Task UpdateChecklist(bool value, Guid id);
 }

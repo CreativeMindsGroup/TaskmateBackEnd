@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TaskMate.DTOs.Card;
 using TaskMate.DTOs.CardList;
 using TaskMate.Exceptions;
 using TaskMate.Service.Abstraction;
@@ -24,9 +25,9 @@ namespace TaskMate.Controllers
             return Ok("card list Created!");
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("update")]
-        public async Task<IActionResult> UpdateCardList(UpdateeCardListDto updateeCardListDto)
+        public async Task<IActionResult> UpdateCardList(UpdateTitleDto updateeCardListDto)
         {
             await _cardListService.UpdateAsync(updateeCardListDto);
             return Ok();
@@ -60,9 +61,9 @@ namespace TaskMate.Controllers
         }
         [HttpDelete]
         [Route("remove")]
-        public async Task<IActionResult> RemoveCardList(string adminId, Guid cardListId)
+        public async Task<IActionResult> RemoveCardList(Guid CardlistId, Guid WorkspaceId, string UserId)
         {
-            await _cardListService.Remove(adminId, cardListId);
+            await _cardListService.Remove(CardlistId, WorkspaceId, UserId);
             return Ok();
         }
     }

@@ -34,13 +34,13 @@ public class ChecklistsController : ControllerBase
     public async Task<IActionResult> UpdateCheckItem([FromForm] UpdateChecklistDto updateChecklistDto)
     {
         await _checklistService.UpdateAsync(updateChecklistDto);
-        return Ok();
+        return Ok("Updated!");
     }
 
     [HttpDelete]
-    public async Task<IActionResult> Remove(Guid CheckListId)
+    public async Task<IActionResult> Remove(Guid CheckListId,Guid WorkspaceId , string UserId)
     {
-        await _checklistService.RemoveAsync(CheckListId);
-        return Ok();
+        await _checklistService.RemoveAsync(CheckListId, WorkspaceId, UserId );
+        return Ok("Removed");
     }
 }

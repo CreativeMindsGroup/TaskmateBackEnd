@@ -4,6 +4,8 @@ using TaskMate.DTOs.Auth;
 using TaskMate.Helper.Auth;
 using TaskMate.Helper;
 using TaskMate.Service.Abstraction;
+using TaskMate.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace TaskMate.Controllers;
 
@@ -13,11 +15,12 @@ public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
     private readonly IEmailService _emailService;
-
-    public AuthController(IAuthService authService, IEmailService emailService)
+    private readonly AppDbContext _context;
+    public AuthController(IAuthService authService, IEmailService emailService, AppDbContext context)
     {
         _authService = authService;
         _emailService = emailService;
+        _context = context;
     }
 
     [HttpPost("Login")]
@@ -50,5 +53,32 @@ public class AuthController : ControllerBase
     {
         var response = await _authService.ValidRefleshToken(ReRefreshtoken);
         return Ok(response);
+    }
+    [HttpPost("GetUsersByItsMail")]
+    public async Task<IActionResult> GetUsersByItsMail([FromQuery] string mail)
+    {
+        if (string.IsNullOrWhiteSpace(mail))
+        {
+            return BadRequest("Email parameter is required.");
+        }
+
+        try
+        {
+            var users = await _context.AppUsers
+                .Where(u => EF.Functions.Like(u.Email, $"%{mail}%"))
+                .Take(8)
+                .ToListAsync();
+
+            if (users == null || users.Count == 0)
+            {
+                return NotFound("No users found with the specified email.");
+            }
+
+            return Ok(users);
+        }
+        catch (System.Exception ex)
+        {
+            return StatusCode(500, "An error occurred while retrieving users. Details: " + ex.Message);
+        }
     }
 }

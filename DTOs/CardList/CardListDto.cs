@@ -1,9 +1,12 @@
-﻿namespace TaskMate.DTOs.CardList
+﻿using TaskMate.DTOs.Card;
+
+namespace TaskMate.DTOs.CardList
 {
     public class CreateCardListDto
     {
         public string Title { get; set; }
         public Guid BoardsId { get; set; }
+        public Guid WorkspaceId { get; set; }
         public string AppUserId { get; set; }
     }
 
@@ -18,6 +21,7 @@
         public Guid Id { get; set; }
         public string Title { get; set; }
         public int Order { get; set; }
+        public List<GetCardDto> tasks { get; set; } = new List<GetCardDto>();
     }
     public class UpdateCardListOrderDto
     {
@@ -28,5 +32,7 @@
     {
         public List<UpdateCardListOrderDto> CardListOrders { get; set; }
     }
+
+
 
 }

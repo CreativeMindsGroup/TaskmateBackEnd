@@ -173,8 +173,8 @@ namespace TaskMate.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("Fullname")
-                        .HasColumnType("text");
+                    b.Property<DateTime?>("LastActive")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
@@ -273,7 +273,6 @@ namespace TaskMate.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("CoverColor")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedDate")
@@ -281,6 +280,9 @@ namespace TaskMate.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
+
+                    b.Property<DateTime?>("DueDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("timestamp with time zone");
@@ -298,7 +300,13 @@ namespace TaskMate.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("isArchived")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("isDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool?>("isDueDateDone")
                         .HasColumnType("boolean");
 
                     b.HasKey("Id");
@@ -306,6 +314,30 @@ namespace TaskMate.Migrations
                     b.HasIndex("CardListId");
 
                     b.ToTable("Cards");
+                });
+
+            modelBuilder.Entity("TaskMate.Entities.CardAttachment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CardId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CardId");
+
+                    b.ToTable("CardAttachments");
                 });
 
             modelBuilder.Entity("TaskMate.Entities.CardList", b =>
@@ -360,6 +392,9 @@ namespace TaskMate.Migrations
 
                     b.Property<DateTime>("ModiffiedDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Text")
                         .IsRequired()
@@ -493,19 +528,13 @@ namespace TaskMate.Migrations
                     b.Property<DateTime>("ModiffiedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
-
                     b.Property<bool>("isDeleted")
                         .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CardId");
+                    b.HasIndex("CardId")
+                        .IsUnique();
 
                     b.ToTable("CustomFields");
                 });
@@ -528,13 +557,16 @@ namespace TaskMate.Migrations
                     b.Property<DateTime>("ModiffiedDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<bool>("isDeleted")
                         .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomFieldsId")
-                        .IsUnique();
+                    b.HasIndex("CustomFieldsId");
 
                     b.ToTable("CustomFieldsCheckboxes");
                 });
@@ -562,8 +594,7 @@ namespace TaskMate.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomFieldsId")
-                        .IsUnique();
+                    b.HasIndex("CustomFieldsId");
 
                     b.ToTable("CustomFieldsDates");
                 });
@@ -583,16 +614,19 @@ namespace TaskMate.Migrations
                     b.Property<DateTime>("ModiffiedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<decimal?>("Number")
-                        .HasColumnType("numeric");
+                    b.Property<string>("Number")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<bool>("isDeleted")
                         .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomFieldsId")
-                        .IsUnique();
+                    b.HasIndex("CustomFieldsId");
 
                     b.ToTable("CustomFieldsNumbers");
                 });
@@ -620,8 +654,7 @@ namespace TaskMate.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomFieldsId")
-                        .IsUnique();
+                    b.HasIndex("CustomFieldsId");
 
                     b.ToTable("CustomFieldsTexts");
                 });
@@ -790,6 +823,10 @@ namespace TaskMate.Migrations
                     b.Property<DateTime>("ModiffiedDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<Guid>("WorkspaceId")
                         .HasColumnType("uuid");
 
@@ -878,6 +915,17 @@ namespace TaskMate.Migrations
                     b.Navigation("CardList");
                 });
 
+            modelBuilder.Entity("TaskMate.Entities.CardAttachment", b =>
+                {
+                    b.HasOne("TaskMate.Entities.Card", "Card")
+                        .WithMany("Attachments")
+                        .HasForeignKey("CardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Card");
+                });
+
             modelBuilder.Entity("TaskMate.Entities.CardList", b =>
                 {
                     b.HasOne("TaskMate.Entities.Boards", "Boards")
@@ -933,7 +981,7 @@ namespace TaskMate.Migrations
             modelBuilder.Entity("TaskMate.Entities.CustomFieldDropdownOptions", b =>
                 {
                     b.HasOne("TaskMate.Entities.CustomFields", "CustomFields")
-                        .WithMany("CustomFieldDropdownOptions")
+                        .WithMany()
                         .HasForeignKey("CustomFieldsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -944,8 +992,8 @@ namespace TaskMate.Migrations
             modelBuilder.Entity("TaskMate.Entities.CustomFields", b =>
                 {
                     b.HasOne("TaskMate.Entities.Card", "Card")
-                        .WithMany("CustomFields")
-                        .HasForeignKey("CardId")
+                        .WithOne("CustomFields")
+                        .HasForeignKey("TaskMate.Entities.CustomFields", "CardId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -955,8 +1003,8 @@ namespace TaskMate.Migrations
             modelBuilder.Entity("TaskMate.Entities.CustomFieldsCheckbox", b =>
                 {
                     b.HasOne("TaskMate.Entities.CustomFields", "CustomFields")
-                        .WithOne("CustomFieldsCheckboxes")
-                        .HasForeignKey("TaskMate.Entities.CustomFieldsCheckbox", "CustomFieldsId")
+                        .WithMany("Checkbox")
+                        .HasForeignKey("CustomFieldsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -966,8 +1014,8 @@ namespace TaskMate.Migrations
             modelBuilder.Entity("TaskMate.Entities.CustomFieldsDate", b =>
                 {
                     b.HasOne("TaskMate.Entities.CustomFields", "CustomFields")
-                        .WithOne("CustomFieldsDates")
-                        .HasForeignKey("TaskMate.Entities.CustomFieldsDate", "CustomFieldsId")
+                        .WithMany()
+                        .HasForeignKey("CustomFieldsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -977,8 +1025,8 @@ namespace TaskMate.Migrations
             modelBuilder.Entity("TaskMate.Entities.CustomFieldsNumber", b =>
                 {
                     b.HasOne("TaskMate.Entities.CustomFields", "CustomFields")
-                        .WithOne("CustomFieldsNumbers")
-                        .HasForeignKey("TaskMate.Entities.CustomFieldsNumber", "CustomFieldsId")
+                        .WithMany("Number")
+                        .HasForeignKey("CustomFieldsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -988,8 +1036,8 @@ namespace TaskMate.Migrations
             modelBuilder.Entity("TaskMate.Entities.CustomFieldsText", b =>
                 {
                     b.HasOne("TaskMate.Entities.CustomFields", "CustomFields")
-                        .WithOne("CustomFieldsTexts")
-                        .HasForeignKey("TaskMate.Entities.CustomFieldsText", "CustomFieldsId")
+                        .WithMany()
+                        .HasForeignKey("CustomFieldsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1084,11 +1132,14 @@ namespace TaskMate.Migrations
 
             modelBuilder.Entity("TaskMate.Entities.Card", b =>
                 {
+                    b.Navigation("Attachments");
+
                     b.Navigation("Checklists");
 
                     b.Navigation("Comments");
 
-                    b.Navigation("CustomFields");
+                    b.Navigation("CustomFields")
+                        .IsRequired();
 
                     b.Navigation("LabelsCards");
                 });
@@ -1105,19 +1156,9 @@ namespace TaskMate.Migrations
 
             modelBuilder.Entity("TaskMate.Entities.CustomFields", b =>
                 {
-                    b.Navigation("CustomFieldDropdownOptions");
+                    b.Navigation("Checkbox");
 
-                    b.Navigation("CustomFieldsCheckboxes")
-                        .IsRequired();
-
-                    b.Navigation("CustomFieldsDates")
-                        .IsRequired();
-
-                    b.Navigation("CustomFieldsNumbers")
-                        .IsRequired();
-
-                    b.Navigation("CustomFieldsTexts")
-                        .IsRequired();
+                    b.Navigation("Number");
                 });
 
             modelBuilder.Entity("TaskMate.Entities.Labels", b =>

@@ -5,6 +5,7 @@ using TaskMate.DTOs.Checkitem;
 using TaskMate.Entities;
 using TaskMate.Exceptions;
 using TaskMate.Service.Abstraction;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace TaskMate.Service.Implementations;
 
@@ -27,13 +28,31 @@ public class CheckitemService : ICheckitemService
         await _appDbContext.Checkitems.AddAsync(newCheckItem);
         await _appDbContext.SaveChangesAsync();
     }
-
-    public async Task<GetCheckItemCountDto> GetChecklistInItemCount(Guid ChecklistId)
+    public async Task<GetCheckItemCountDto> GetChecklistInItemCount(Guid CardId)
     {
-        return new GetCheckItemCountDto()
+        var checklists = await _appDbContext.Checklists
+            .Include(x => x.Checkitems)
+            .Where(x => x.CardId == CardId)
+            .ToListAsync();
+
+        if (!checklists.Any())
+            throw new NotFoundException("No checklists found");
+
+        int totalDoneCount = 0;
+        int totalItemCount = 0;
+
+        // Aggregate counts across all checklists
+        foreach (var checklist in checklists)
         {
-            True = _appDbContext.Checkitems.Where(x => x.ChecklistId == ChecklistId && x.Check == true).Count(),
-            False = _appDbContext.Checkitems.Where(x => x.ChecklistId == ChecklistId && x.Check == false).Count()
+            totalDoneCount += checklist.Checkitems.Count(c => c.Check);
+            totalItemCount += checklist.Checkitems.Count;
+        }
+
+        // Return the aggregated counts in a single DTO
+        return new GetCheckItemCountDto
+        {
+            Done = totalDoneCount,
+            Total = totalItemCount
         };
     }
 
@@ -63,4 +82,14 @@ public class CheckitemService : ICheckitemService
         _appDbContext.Update(checkitem);
         await _appDbContext.SaveChangesAsync();
     }
+    public async Task UpdateStateOfChecklist(Guid Id, bool State)
+    {
+        var checkitem = await _appDbContext.Checkitems.FirstOrDefaultAsync(x => x.Id == Id);
+        if (checkitem is null)
+            throw new NotFoundException("Not Found");
+        checkitem.Check = State;
+        _appDbContext.Update(checkitem);
+        await _appDbContext.SaveChangesAsync();
+    }
 }
+ 

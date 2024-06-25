@@ -1,8 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Asn1.Esf;
 using TaskMate.Context;
+using TaskMate.DTOs.Boards;
+using TaskMate.DTOs.Card;
 using TaskMate.DTOs.CardList;
+using TaskMate.DTOs.Checkitem;
 using TaskMate.Entities;
 using TaskMate.Exceptions;
 using TaskMate.Helper.Enum.User;
@@ -22,16 +26,37 @@ namespace TaskMate.Service.Implementations
             _userManager = userManager;
             _mapper = mapper;
         }
+        public async Task<bool> CheckUserAdminRoleInWorkspace(string userId, Guid workspaceId)
+        {
+            var user = await _appDbContext.WorkspaceUsers
+                        .FirstOrDefaultAsync(wu => wu.WorkspaceId == workspaceId && wu.AppUserId == userId);
 
+            if (user == null)
+            {
+                throw new NotFoundException("User not found in workspace!");
+            }
+
+            if (Enum.TryParse<Role>(user.Role, true, out var roleEnum))
+            {
+                if (roleEnum == Role.GlobalAdmin || roleEnum == Role.Admin)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("The role value in the database is undefined in the Role enum.");
+            }
+        }
         public async Task CreateAsync(CreateCardListDto createCardListDto)
         {
-            var byAdmin = await _userManager.FindByIdAsync(createCardListDto.AppUserId);
-
-            var adminRol = await _userManager.GetRolesAsync(byAdmin);
-
-            if (adminRol.FirstOrDefault().ToString() != Role.GlobalAdmin.ToString() &&
-                adminRol.FirstOrDefault().ToString() != Role.Admin.ToString())
-                throw new PermisionException("No Access");
+            var Result = CheckUserAdminRoleInWorkspace(createCardListDto.AppUserId, createCardListDto.WorkspaceId);
+            if (await Result == false)
+                throw new NotFoundException("No Access");
 
             if (await _appDbContext.Boards.FindAsync(createCardListDto.BoardsId) == null)
                 throw new NotFoundException("Not Found Workspace");
@@ -86,16 +111,11 @@ namespace TaskMate.Service.Implementations
             return _mapper.Map<List<GetCardListDto>>(cardLists);
         }
 
-        public async Task Remove(string AdminId, Guid CardlistId)
+        public async Task Remove(Guid CardlistId, Guid WorkspaceId, string UserId)
         {
-            var byAdmin = await _userManager.FindByIdAsync(AdminId);
-
-            var adminRol = await _userManager.GetRolesAsync(byAdmin);
-
-            if (adminRol.FirstOrDefault().ToString() != Role.GlobalAdmin.ToString() &&
-                     adminRol.FirstOrDefault().ToString() != Role.Admin.ToString())
-                throw new PermisionException("No Access");
-
+            var Result = CheckUserAdminRoleInWorkspace(UserId, WorkspaceId);
+            if (await Result == false)
+                throw new NotFoundException("No Access");
             var cardList = await _appDbContext.CardLists.FindAsync(CardlistId);
             if (cardList == null)
                 throw new NotFoundException("Not Found");
@@ -104,24 +124,17 @@ namespace TaskMate.Service.Implementations
             await _appDbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(UpdateeCardListDto updateCardListDto)
+        public async Task UpdateAsync(UpdateTitleDto dto)
         {
-            var byAdmin = await _userManager.FindByIdAsync(updateCardListDto.AppUserId);
-
-            var adminRol = await _userManager.GetRolesAsync(byAdmin);
-
-            if (adminRol.FirstOrDefault().ToString() != Role.GlobalAdmin.ToString() &&
-                     adminRol.FirstOrDefault().ToString() != Role.Admin.ToString())
-                throw new PermisionException("No Access");
-
-            var cardList = await _appDbContext.CardLists.FindAsync(updateCardListDto.CardListId);
+            var Result = CheckUserAdminRoleInWorkspace(dto.AdminId.ToString(), dto.WorkspaceId);
+            if (await Result == false)
+                throw new NotFoundException("No Access");
+            var cardList = await _appDbContext.CardLists.FindAsync(dto.Id);
             if (cardList == null)
                 throw new NotFoundException("Not Found");
-
-            _mapper.Map(updateCardListDto, cardList);
+            cardList.Title = dto.Title; 
             _appDbContext.CardLists.Update(cardList);
             await _appDbContext.SaveChangesAsync();
         }
-
     }
 }

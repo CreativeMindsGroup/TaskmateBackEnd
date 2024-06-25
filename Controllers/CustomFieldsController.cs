@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using TaskMate.DTOs.Boards;
+using TaskMate.Context;
 using TaskMate.DTOs.CustomField;
-using TaskMate.Helper.Enum.CustomFields;
+using TaskMate.DTOs.CustomFieldCheckbox;
+using TaskMate.DTOs.CustomFieldNumber;
+using TaskMate.DTOs.CustomFileds;
+using TaskMate.Entities;
+using TaskMate.Exceptions;
 using TaskMate.Service.Abstraction;
-using TaskMate.Service.Implementations;
 
 namespace TaskMate.Controllers;
 
@@ -17,34 +19,34 @@ public class CustomFieldsController : ControllerBase
     public CustomFieldsController(ICustomFieldsService customFieldsService)
         => _customFieldsService = customFieldsService;
 
-
     [HttpGet]
-    public async Task<IActionResult> GetAll(Guid CardId)
+    public async Task<GetCustomFieldDto>GetCustomFieldsAsync(Guid cardId)
     {
-        var customFields = await _customFieldsService.GetCardInCustomFieldAsync(CardId);
-        return Ok(customFields);
+        var customFields = await _customFieldsService.GetCustomFieldsAsync(cardId);
+        return customFields;
     }
-
-    [HttpPost]
-    public async Task<IActionResult> CreateCustomField([FromBody] CreateCustomFieldDto createCustomFieldDto)
+    [HttpPost("addChecklist")]
+    public async Task<IActionResult> CreateChecklistAsync(CreateCheckboxCustomFieldDto Dto)
     {
-        await _customFieldsService.CreateAsync(createCustomFieldDto);
+        await _customFieldsService.CreateChecklistAsync(Dto);
         return StatusCode((int)HttpStatusCode.Created);
     }
-
-
-    [HttpPut]
-    public async Task<IActionResult> UpdateCustomField([FromForm] UpdateCustomFieldDto updateCustomFieldDto)
+    [HttpPost("CreateNumber")]
+    public async Task<IActionResult> CreateNumberAsync(CustomFieldNumberDto Dto)
     {
-        await _customFieldsService.Update(updateCustomFieldDto);
-        return Ok();
+        await _customFieldsService.CreateNumberAsync(Dto);
+        return StatusCode((int)HttpStatusCode.Created);
     }
-
-
-    [HttpDelete]
-    public async Task<IActionResult> Remove(Guid CustomFieldId)
+    [HttpDelete("RemoveCustomField")]
+    public async Task<IActionResult> RemoveCustomField(RemoveCustomFieldDTO dto)
     {
-        await _customFieldsService.RemoveAsync(CustomFieldId);
-        return Ok();
+        await _customFieldsService.RemoveCustomField(dto);
+        return StatusCode((int)HttpStatusCode.OK);
+    }
+    [HttpPut("UpdateChecklist")]
+    public async Task<IActionResult> UpdateChecklist(bool value, Guid id)
+    {
+        await _customFieldsService.UpdateChecklist(value, id);
+        return StatusCode((int)HttpStatusCode.OK);  
     }
 }

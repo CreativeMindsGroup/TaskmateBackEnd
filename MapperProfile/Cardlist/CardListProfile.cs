@@ -10,7 +10,7 @@ public class CardListProfile:Profile
     {
         CreateMap<CardList, CreateCardListDto>().ReverseMap();
         CreateMap<CardList, UpdateeCardListDto>().ReverseMap();
-        CreateMap<CardList, GetCardListDto>().ReverseMap();
-
+        CreateMap<CardList, GetCardListDto>()
+         .ForMember(dest => dest.tasks, opt => opt.MapFrom(src => src.Cards));
     }
 }

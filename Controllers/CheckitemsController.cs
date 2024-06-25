@@ -2,6 +2,7 @@
 using System.Net;
 using TaskMate.DTOs.Boards;
 using TaskMate.DTOs.Checkitem;
+using TaskMate.Exceptions;
 using TaskMate.Service.Abstraction;
 using TaskMate.Service.Implementations;
 
@@ -21,6 +22,12 @@ public class CheckitemsController : ControllerBase
         await _checkitemService.CreateAsync(createCheckitemDto);
         return StatusCode((int)HttpStatusCode.Created);
     }
+    [HttpGet("GetChecklistItemCount")]
+    public async Task<GetCheckItemCountDto> GetChecklistInItemCount(Guid CardId)
+    {
+        var result = await _checkitemService.GetChecklistInItemCount(CardId);
+        return result;
+    }
     [HttpPut]
     public async Task<IActionResult> UpdateCheckItem([FromForm] UpdateCheckitemDto updateCheckitemDto)
     {
@@ -34,4 +41,24 @@ public class CheckitemsController : ControllerBase
         await _checkitemService.RemoveAsync(CheckItemId);
         return Ok();
     }
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateChecklistState(Guid id, [FromBody] bool state)
+    {
+        try
+        {
+            await _checkitemService.UpdateStateOfChecklist(id, state);
+            return NoContent();
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            // Log the exception details here
+            return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while updating the checklist item.");
+        }
+    }
+
+
 }

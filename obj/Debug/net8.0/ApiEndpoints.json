@@ -107,6 +107,22 @@
   },
   {
     "ContainingType": "TaskMate.Controllers.AuthController",
+    "Method": "GetUsersByItsMail",
+    "RelativePath": "api/Auth/GetUsersByItsMail",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "mail",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "api/Auth/Login",
     "HttpMethod": "POST",
@@ -224,37 +240,6 @@
   },
   {
     "ContainingType": "TaskMate.Controllers.BoardsController",
-    "Method": "AddBoard",
-    "RelativePath": "api/Boards/AddBoard",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "AdminId",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "WorkspaceId",
-        "Type": "System.Guid",
-        "IsRequired": false
-      },
-      {
-        "Name": "BoardId",
-        "Type": "System.Guid",
-        "IsRequired": false
-      },
-      {
-        "Name": "AppUserId",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "TaskMate.Controllers.BoardsController",
     "Method": "CreateBoard",
     "RelativePath": "api/Boards/CreateBoard",
     "HttpMethod": "POST",
@@ -271,36 +256,63 @@
   },
   {
     "ContainingType": "TaskMate.Controllers.BoardsController",
-    "Method": "ShareLinkBoardUser",
-    "RelativePath": "api/Boards/ShareLinkBoardUser",
+    "Method": "GetArchivedTasks",
+    "RelativePath": "api/Boards/GetArchivedTasks",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "boardId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "GetBoardsDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.BoardsController",
+    "Method": "MoveCard",
+    "RelativePath": "api/Boards/moveCard",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "AdminId",
-        "Type": "System.String",
-        "IsRequired": false
-      },
+        "Name": "moveDto",
+        "Type": "CardMoveDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.BoardsController",
+    "Method": "UpdateCardListPositionAsync",
+    "RelativePath": "api/Boards/moveCardList",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
       {
-        "Name": "BoardId",
+        "Name": "boardId",
         "Type": "System.Guid",
         "IsRequired": false
       },
       {
-        "Name": "WorkspaceId",
-        "Type": "System.Guid",
-        "IsRequired": false
-      },
-      {
-        "Name": "UsernameOrEmail",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Password",
-        "Type": "System.String",
-        "IsRequired": false
+        "Name": "newOrder",
+        "Type": "System.Collections.Generic.List\u00601[[System.Guid, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -346,13 +358,18 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "adminId",
-        "Type": "System.String",
+        "Name": "CardlistId",
+        "Type": "System.Guid",
         "IsRequired": false
       },
       {
-        "Name": "cardListId",
+        "Name": "WorkspaceId",
         "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "UserId",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],
@@ -362,13 +379,13 @@
     "ContainingType": "TaskMate.Controllers.CardListsController",
     "Method": "UpdateCardList",
     "RelativePath": "api/CardLists/update",
-    "HttpMethod": "POST",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "updateeCardListDto",
-        "Type": "TaskMate.DTOs.CardList.UpdateeCardListDto",
+        "Type": "TaskMate.DTOs.Card.UpdateTitleDto",
         "IsRequired": true
       }
     ],
@@ -408,6 +425,32 @@
   },
   {
     "ContainingType": "TaskMate.Controllers.CardsController",
+    "Method": "GetAttachments",
+    "RelativePath": "api/Cards/{cardId}/attachments",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cardId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.IO.MemoryStream",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CardsController",
     "Method": "CreateCard",
     "RelativePath": "api/Cards/add",
     "HttpMethod": "POST",
@@ -417,6 +460,22 @@
       {
         "Name": "createCardDto",
         "Type": "TaskMate.DTOs.Card.CreateCardDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CardsController",
+    "Method": "UpdateDueDate",
+    "RelativePath": "api/Cards/AddCardDueDate",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "updateCheckitemDto",
+        "Type": "TaskMate.DTOs.Card.CreateCardDueDateDto",
         "IsRequired": true
       }
     ],
@@ -440,6 +499,27 @@
   },
   {
     "ContainingType": "TaskMate.Controllers.CardsController",
+    "Method": "DownloadFile",
+    "RelativePath": "api/Cards/download/{cardId}/{fileName}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cardId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "fileName",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CardsController",
     "Method": "DragAndDrop",
     "RelativePath": "api/Cards/dragAndDrop",
     "HttpMethod": "POST",
@@ -453,6 +533,48 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CardsController",
+    "Method": "DueDateDone",
+    "RelativePath": "api/Cards/DueDateUpdated",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "updateCheckitemDto",
+        "Type": "TaskMate.DTOs.Card.UpdateCardDueDateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CardsController",
+    "Method": "getAllArchivedCards",
+    "RelativePath": "api/Cards/GetAllArchived",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "boardId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[TaskMate.DTOs.Card.GetCardDto, TaskMate, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "TaskMate.Controllers.CardsController",
@@ -488,6 +610,48 @@
   },
   {
     "ContainingType": "TaskMate.Controllers.CardsController",
+    "Method": "GetUploads",
+    "RelativePath": "api/Cards/GetUploads",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "CardId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[TaskMate.DTOs.Card.CardAttachmentDto, TaskMate, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CardsController",
+    "Method": "MakeArchive",
+    "RelativePath": "api/Cards/IsArchived",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "TaskMate.DTOs.Card.MakeArchiveDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CardsController",
     "Method": "RemoveCard",
     "RelativePath": "api/Cards/remove",
     "HttpMethod": "DELETE",
@@ -501,6 +665,37 @@
       },
       {
         "Name": "cardId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "WorkspaceId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CardsController",
+    "Method": "DeleteAttachment",
+    "RelativePath": "api/Cards/RemoveFile",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "attachmentId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "workspaceId",
         "Type": "System.Guid",
         "IsRequired": false
       }
@@ -559,18 +754,55 @@
     "ContainingType": "TaskMate.Controllers.CardsController",
     "Method": "ChangeCoverColorAsync",
     "RelativePath": "api/Cards/updateCover",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Dto",
+        "Type": "TaskMate.DTOs.Card.CardCoverCreateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CardsController",
+    "Method": "UpdateTitle",
+    "RelativePath": "api/Cards/UpdateTitle",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "cardId",
+        "Name": "dto",
+        "Type": "TaskMate.DTOs.Card.UpdateTitleDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CardsController",
+    "Method": "UploadFile",
+    "RelativePath": "api/Cards/UploadAttacment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "CardId",
         "Type": "System.Guid",
         "IsRequired": false
       },
       {
-        "Name": "coverColor",
+        "Name": "FileName",
         "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
         "IsRequired": false
       }
     ],
@@ -650,6 +882,53 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "TaskMate.Controllers.CheckitemsController",
+    "Method": "UpdateChecklistState",
+    "RelativePath": "api/Checkitems/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "state",
+        "Type": "System.Boolean",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CheckitemsController",
+    "Method": "GetChecklistInItemCount",
+    "RelativePath": "api/Checkitems/GetChecklistItemCount",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "CardId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "TaskMate.DTOs.Checkitem.GetCheckItemCountDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "TaskMate.Controllers.ChecklistsController",
     "Method": "GetAll",
     "RelativePath": "api/Checklists",
@@ -681,6 +960,16 @@
       {
         "Name": "CardId",
         "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "WorkspaceId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "AppUserId",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],
@@ -718,6 +1007,16 @@
       {
         "Name": "CheckListId",
         "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "WorkspaceId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "UserId",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],
@@ -919,31 +1218,41 @@
   },
   {
     "ContainingType": "TaskMate.Controllers.CustomFieldsController",
-    "Method": "GetAll",
+    "Method": "GetCustomFieldsAsync",
     "RelativePath": "api/CustomFields",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "CardId",
+        "Name": "cardId",
         "Type": "System.Guid",
         "IsRequired": false
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "TaskMate.DTOs.CustomField.GetCustomFieldDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "TaskMate.Controllers.CustomFieldsController",
-    "Method": "CreateCustomField",
-    "RelativePath": "api/CustomFields",
+    "Method": "CreateChecklistAsync",
+    "RelativePath": "api/CustomFields/addChecklist",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "createCustomFieldDto",
-        "Type": "TaskMate.DTOs.CustomField.CreateCustomFieldDto",
+        "Name": "Dto",
+        "Type": "TaskMate.DTOs.CustomFieldCheckbox.CreateCheckboxCustomFieldDto",
         "IsRequired": true
       }
     ],
@@ -951,35 +1260,51 @@
   },
   {
     "ContainingType": "TaskMate.Controllers.CustomFieldsController",
-    "Method": "UpdateCustomField",
-    "RelativePath": "api/CustomFields",
-    "HttpMethod": "PUT",
+    "Method": "CreateNumberAsync",
+    "RelativePath": "api/CustomFields/CreateNumber",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "Id",
-        "Type": "System.Guid",
-        "IsRequired": false
-      },
-      {
-        "Name": "Title",
-        "Type": "System.String",
-        "IsRequired": false
+        "Name": "Dto",
+        "Type": "TaskMate.DTOs.CustomFieldNumber.CustomFieldNumberDto",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
     "ContainingType": "TaskMate.Controllers.CustomFieldsController",
-    "Method": "Remove",
-    "RelativePath": "api/CustomFields",
+    "Method": "RemoveCustomField",
+    "RelativePath": "api/CustomFields/RemoveCustomField",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "CustomFieldId",
+        "Name": "dto",
+        "Type": "TaskMate.DTOs.CustomFileds.RemoveCustomFieldDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CustomFieldsController",
+    "Method": "UpdateChecklist",
+    "RelativePath": "api/CustomFields/UpdateChecklist",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "value",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "id",
         "Type": "System.Guid",
         "IsRequired": false
       }
@@ -1061,22 +1386,6 @@
   },
   {
     "ContainingType": "TaskMate.Controllers.WorkspacesController",
-    "Method": "CreateWorkspace",
-    "RelativePath": "api/Workspaces",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "createWorkspaceDto",
-        "Type": "TaskMate.DTOs.Workspace.CreateWorkspaceDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "TaskMate.Controllers.WorkspacesController",
     "Method": "UpdateSlider",
     "RelativePath": "api/Workspaces",
     "HttpMethod": "PUT",
@@ -1130,26 +1439,85 @@
   },
   {
     "ContainingType": "TaskMate.Controllers.WorkspacesController",
-    "Method": "AddWorkspace",
-    "RelativePath": "api/Workspaces/AddWorkspace",
+    "Method": "AcceptWorkspaceInvite",
+    "RelativePath": "api/Workspaces/accept-invite",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "AdminId",
+        "Name": "token",
         "Type": "System.String",
         "IsRequired": false
       },
       {
-        "Name": "WorkspaceId",
-        "Type": "System.Guid",
-        "IsRequired": false
-      },
-      {
-        "Name": "AppUserId",
+        "Name": "UserEmail",
         "Type": "System.String",
         "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.WorkspacesController",
+    "Method": "AddUserToWorkspace",
+    "RelativePath": "api/Workspaces/AddUserToWorkspace",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "linkShareToWorkspaceDto",
+        "Type": "TaskMate.DTOs.Workspace.LinkShareToWorkspaceDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.WorkspacesController",
+    "Method": "ChangeUserRole",
+    "RelativePath": "api/Workspaces/changeUserRole",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "TaskMate.DTOs.Workspace.UpdateUserRoleDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.WorkspacesController",
+    "Method": "CreateWorkspace",
+    "RelativePath": "api/Workspaces/CreateWorkspace",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createWorkspaceDto",
+        "Type": "TaskMate.DTOs.Workspace.CreateWorkspaceDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.WorkspacesController",
+    "Method": "GenerateWorkspaceInvite",
+    "RelativePath": "api/Workspaces/generate-invite",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "linkShareToWorkspaceDto",
+        "Type": "TaskMate.DTOs.Workspace.LinkShareToWorkspaceDto",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -1188,31 +1556,78 @@
   },
   {
     "ContainingType": "TaskMate.Controllers.WorkspacesController",
-    "Method": "ShareLinkWorkspaceUser",
-    "RelativePath": "api/Workspaces/ShareLinkWorkspaceUser",
-    "HttpMethod": "POST",
+    "Method": "GetAllUsersInWorkspace",
+    "RelativePath": "api/Workspaces/GetAllUsersInWorkspace",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
-      {
-        "Name": "AdminId",
-        "Type": "System.String",
-        "IsRequired": false
-      },
       {
         "Name": "WorkspaceId",
         "Type": "System.Guid",
         "IsRequired": false
       },
       {
-        "Name": "UsernameOrEmail",
-        "Type": "System.String",
+        "Name": "page",
+        "Type": "System.Int32",
         "IsRequired": false
       },
       {
-        "Name": "Password",
-        "Type": "System.String",
+        "Name": "pageSize",
+        "Type": "System.Int32",
         "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[TaskMate.DTOs.Users.GetUserDto, TaskMate, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.WorkspacesController",
+    "Method": "GetAllUsersInWorkspaceCount",
+    "RelativePath": "api/Workspaces/GetAllUsersInWorkspaceCount",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "workspaceId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "TaskMate.DTOs.Auth.RoleCountsDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.WorkspacesController",
+    "Method": "RemoveUserFromWorkspace",
+    "RelativePath": "api/Workspaces/RemoveUserFromWorkspace",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "TaskMate.DTOs.Workspace.RemoveUserFromWorksapceDto",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []

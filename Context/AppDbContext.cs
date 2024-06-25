@@ -28,8 +28,9 @@ public class AppDbContext : IdentityDbContext<AppUser>
     public DbSet<Checklist> Checklists { get; set; }
     public DbSet<CustomFields> CustomFields { get; set; }
     public DbSet<CustomFieldsText> CustomFieldsTexts { get; set; }
-    public DbSet<CustomFieldsNumber> CustomFieldsNumbers { get; set; }
     public DbSet<CustomFieldsDate> CustomFieldsDates { get; set; }
     public DbSet<CustomFieldDropdownOptions> CustomFieldDropdownOptions { get; set; }
+    public DbSet<CustomFieldsNumber> CustomFieldsNumbers { get; set; }
     public DbSet<CustomFieldsCheckbox> CustomFieldsCheckboxes { get; set; }
+    public DbSet<CardAttachment> CardAttachments { get; set; }
 }

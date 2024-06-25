@@ -3,8 +3,5 @@
 public enum CustomFieldsType
 {
     Checkbox,
-    Date,
-    Dropdown,
     Number,
-    Text
 }

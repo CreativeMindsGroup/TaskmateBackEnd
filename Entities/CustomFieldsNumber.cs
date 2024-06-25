@@ -4,7 +4,8 @@ namespace TaskMate.Entities;
 
 public class CustomFieldsNumber:BaseEntity
 {
-    public decimal? Number { get; set; }
+    public string Title { get; set; }
+    public string Number { get; set; }
 
     //Rellations
     public CustomFields CustomFields { get; set; }

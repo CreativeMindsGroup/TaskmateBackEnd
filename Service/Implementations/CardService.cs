@@ -1,19 +1,22 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.IO.Compression;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using TaskMate.Context;
 using TaskMate.DTOs.Card;
 using TaskMate.Entities;
 using TaskMate.Exceptions;
 using TaskMate.Helper.Enum.User;
 using TaskMate.Service.Abstraction;
+using CardAttachment = TaskMate.Entities.CardAttachment;
 
 namespace TaskMate.Service.Implementations
 {
     public class CardService : ICardService
     {
+        private const string Path1 = @"C:\Users\Nurlan\Desktop\TaskmateUploads";
         private readonly AppDbContext _appDbContext;
         private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
@@ -23,6 +26,32 @@ namespace TaskMate.Service.Implementations
             _appDbContext = appDbContext;
             _userManager = userManager;
             _mapper = mapper;
+        }
+        public async Task<bool> CheckUserAdminRoleInWorkspace(string userId, Guid workspaceId)
+        {
+            var user = await _appDbContext.WorkspaceUsers
+                        .FirstOrDefaultAsync(wu => wu.WorkspaceId == workspaceId && wu.AppUserId == userId);
+
+            if (user == null)
+            {
+                throw new NotFoundException("User not found in workspace!");
+            }
+
+            if (Enum.TryParse<Role>(user.Role, true, out var roleEnum))
+            {
+                if (roleEnum == Role.GlobalAdmin || roleEnum == Role.Admin)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("The role value in the database is undefined in the Role enum.");
+            }
         }
 
         public async Task AddCardDateAsync(CardAddDatesDto cardAddDatesDto)
@@ -93,11 +122,11 @@ namespace TaskMate.Service.Implementations
         }
 
 
-        public async Task Remove(string appUserId, Guid cardId)
+        public async Task Remove(string appUserId, Guid cardId, Guid WorkspaceId)
         {
-            if (!await CheckAdminAsync(appUserId))
-                throw new PermisionException("No Access");
-
+            var Result = CheckUserAdminRoleInWorkspace(appUserId, WorkspaceId);
+            if (await Result == false)
+                throw new NotFoundException("No Access");
             var card = await _appDbContext.Cards.FindAsync(cardId);
             if (card == null)
                 throw new NotFoundException("Card not found");
@@ -126,7 +155,7 @@ namespace TaskMate.Service.Implementations
             var cards = await _appDbContext.Cards
                 .Include(c => c.CardList)
                 .Where(c => c.CardList.BoardsId == boardId)
-                .OrderBy(c => c.Order)  // Ensure the cards are ordered by the Order property
+                .OrderBy(c => c.Order)  
                 .ToListAsync();
 
             return _mapper.Map<List<GetCardDto>>(cards);
@@ -187,18 +216,203 @@ namespace TaskMate.Service.Implementations
             _appDbContext.Cards.Update(card);
             await _appDbContext.SaveChangesAsync();
         }
-        public async Task ChangeCoverColorAsync(Guid cardId, string coverColor)
+        public async Task ChangeCoverColorAsync(CardCoverCreateDto Dto)
         {
-            var card = await _appDbContext.Cards.FindAsync(cardId);
+            var Result = CheckUserAdminRoleInWorkspace(Dto.AdminId.ToString(), Dto.WorkspaceId);
+            if (await Result == false)
+                throw new NotFoundException("No Access");
+            var card = await _appDbContext.Cards.FindAsync(Dto.CardId);
             if (card == null)
                 throw new NotFoundException("Card not found");
 
-            card.CoverColor = coverColor;
+            card.CoverColor = Dto.Color;
 
             _appDbContext.Cards.Update(card);
             await _appDbContext.SaveChangesAsync();
         }
+        public async Task AddOrUpdateCardCover(CardCoverCreateDto Dto)
+        {
+            var card = await _appDbContext.Cards.FirstOrDefaultAsync(x => x.Id == Dto.CardId);
+            if (card is null) throw new NotFoundException("Not Found");
+            card.CoverColor = Dto.Color;
+            await _appDbContext.SaveChangesAsync();
+        }
 
+        public async Task UpdateDueDate(CreateCardDueDateDto updateCheckitemDto)
+        {
+            var Result = CheckUserAdminRoleInWorkspace(updateCheckitemDto.UserId.ToString(), updateCheckitemDto.WorkspaceId);
+            if (await Result == false)
+                throw new NotFoundException("No Access");
 
+            var Card = await _appDbContext.Cards.FirstOrDefaultAsync(x => x.Id == updateCheckitemDto.CardId);
+            if (Card is null)
+                throw new NotFoundException("Not Found");
+            Card.DueDate = updateCheckitemDto.DueDate;
+            await _appDbContext.SaveChangesAsync();
+        }
+        public async Task DueDateDone([FromBody] UpdateCardDueDateDto Dto)
+        {
+            var Card = await _appDbContext.Cards.FirstOrDefaultAsync(x => x.Id == Dto.CardId);
+            if (Card is null)
+                throw new NotFoundException("Not Found");
+
+            if (Dto.isDueDateDone != null)
+            {
+                Card.isDueDateDone = Dto.isDueDateDone;
+            }
+            if (Dto.DueDate != null)
+            {
+                Card.DueDate = Dto.DueDate;
+            }
+            await _appDbContext.SaveChangesAsync();
+        }
+        public async Task UploadAttachmentAsync(FileUploadDto uploadDto, IFormFile UploadFile)
+        {
+            var card = await _appDbContext.Cards
+                              .Include(c => c.Attachments)
+                              .FirstOrDefaultAsync(c => c.Id == uploadDto.CardId);
+            if (card == null)
+                throw new NotFoundException("Card not found");
+
+            var file = UploadFile;
+            if (file != null)
+            {
+                string originalExtension = Path.GetExtension(file.FileName);
+
+                string fileNameToUse = string.IsNullOrEmpty(uploadDto.FileName)
+                                       ? file.FileName
+                                       : uploadDto.FileName + (string.IsNullOrEmpty(Path.GetExtension(uploadDto.FileName)) ? originalExtension : "");
+
+                var filePath = Path.Combine(Path1, fileNameToUse); 
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                card.Attachments.Add(new CardAttachment
+                {
+                    FileName = fileNameToUse, 
+                    FilePath = filePath,
+                    CardId = card.Id
+                });
+
+                await _appDbContext.SaveChangesAsync();
+            }
+        }
+
+        public async Task<List<CardAttachmentDto>> GetUploads(Guid CardId)
+        {
+            var attachments = await _appDbContext.CardAttachments
+                .Where(a => a.CardId == CardId)
+                .ToListAsync();
+            var attachmentDtos = _mapper.Map<List<CardAttachmentDto>>(attachments);
+            return attachmentDtos;
+        }
+        public async Task DeleteAttachment(Guid attachmentId, string userId, Guid workspaceId)
+        {
+            var result = await CheckUserAdminRoleInWorkspace(userId, workspaceId);
+            if (!result)
+                throw new NotFoundException("No Access");
+
+            var attachment = await _appDbContext.CardAttachments
+                .FirstOrDefaultAsync(a => a.Id == attachmentId);
+
+            if (attachment == null)
+                throw new NotFoundException("Attachment not found!");
+
+            // Delete the file from the file system
+            if (File.Exists(attachment.FilePath))
+            {
+                File.Delete(attachment.FilePath);
+            }
+
+            _appDbContext.CardAttachments.Remove(attachment);
+            await _appDbContext.SaveChangesAsync();
+        }
+        public async Task<IActionResult> DownloadFileAsync(Guid cardId, string fileName)
+        {
+            var attachment = await _appDbContext.CardAttachments
+                .Where(a => a.CardId == cardId && a.FileName == fileName)
+                .FirstOrDefaultAsync();
+
+            if (attachment == null)
+                return new NotFoundResult();
+
+            var filePath = attachment.FilePath;
+            if (!System.IO.File.Exists(filePath))
+                return new NotFoundResult();
+
+            var fileBytes = await System.IO.File.ReadAllBytesAsync(filePath);
+            return new FileContentResult(fileBytes, "application/octet-stream")
+            {
+                FileDownloadName = fileName
+            };
+        }
+
+        public async Task<MemoryStream> GetFiles(Guid cardId)
+        {
+            var attachments = await _appDbContext.CardAttachments
+                .Where(a => a.CardId == cardId)
+                .ToListAsync();
+
+            if (attachments == null || attachments.Count == 0)
+                return null; // Or handle it differently based on your requirements
+
+            var zipMemoryStream = new MemoryStream();
+            using (var archive = new ZipArchive(zipMemoryStream, ZipArchiveMode.Create, true))
+            {
+                foreach (var attachment in attachments)
+                {
+                    var filePath = attachment.FilePath;
+                    if (!System.IO.File.Exists(filePath))
+                        continue;
+
+                    var fileName = Path.GetFileName(filePath);
+                    var entry = archive.CreateEntry(fileName);
+                    using (var entryStream = entry.Open())
+                    using (var fileStream = System.IO.File.OpenRead(filePath))
+                    {
+                        await fileStream.CopyToAsync(entryStream);
+                    }
+                }
+            }
+
+            zipMemoryStream.Seek(0, SeekOrigin.Begin);
+            return zipMemoryStream;
+        }
+
+        public async Task MakeArchive(MakeArchiveDto dto)
+        {
+            var Result = CheckUserAdminRoleInWorkspace(dto.AdminId.ToString(), dto.WorkspaceId);
+            if (await Result == false)
+                throw new NotFoundException("No Access");
+            var card = await _appDbContext.Cards.FindAsync(dto.CardId);
+            if (card == null)
+                throw new NotFoundException("Card not found");
+            card.isArchived = dto.isArchived;
+            _appDbContext.SaveChanges();
+        }
+        public async Task UpdateTitle(UpdateTitleDto dto)
+        {
+            var Result = CheckUserAdminRoleInWorkspace(dto.AdminId.ToString(), dto.WorkspaceId);
+            if (await Result == false)
+                throw new NotFoundException("No Access");
+            var card = await _appDbContext.Cards.FindAsync(dto.Id);
+            if (card == null)
+                throw new NotFoundException("Card not found");
+            card.Title = dto.Title;
+            await _appDbContext.SaveChangesAsync();
+        }
+        public async Task<List<GetCardDto>> getAllArchivedCards(Guid boardId)
+        {
+            var cards = await _appDbContext.Cards
+                .Include(c => c.CardList)
+                .Where(c => c.CardList.BoardsId == boardId)
+                .OrderBy(c => c.Order)
+                .Where (c => c.isArchived == true)
+                .ToListAsync();
+            return _mapper.Map<List<GetCardDto>>(cards);
+        }
     }
 }

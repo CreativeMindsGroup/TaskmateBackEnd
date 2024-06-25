@@ -3,7 +3,6 @@
 public class GetCustomFieldCheckboxDto
 {
     public Guid Id { get; set; }
+    public string Title { get; set; }
     public bool Check { get; set; }
-    public Guid CustomFieldsId { get; set; }
-
 }

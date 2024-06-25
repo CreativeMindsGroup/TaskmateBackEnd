@@ -5,10 +5,11 @@ namespace TaskMate.Service.Abstraction;
 public interface IBoardsService
 {
     Task CreateAsync(CreateBoardsDto createBoardsDto);
-    Task AddUserBoard(AddUserBoardDto addUserBoard);
-    Task ShareLinkBoardToUser(LinkShareToBoardDto linkShareToBoardDto);
-    Task Remove(string AdminId, Guid BoardId);
+    Task Remove(string AdminId, Guid BoardId, Guid WorkspaceId);
     Task UpdateAsync(UpdateBoardsDto updateBoardsDto);
     Task<List<GetBoardsDto>> GetAllAsync(string AppUserId, Guid WorkspaceId);
-    Task<List<GetBoardsDto>> GetByIdAsync(Guid BoardId);
+    Task<GetBoardsDto> GetByIdAsync(Guid BoardId);
+    Task UpdateCardPositionAsync(Guid cardId, Guid sourceColumnId, Guid destinationColumnId, int newPosition);
+    Task UpdateCardListPositionAsync(Guid boardId, List<Guid> newOrder);
+    Task<GetBoardsDto> GetArchivedTasks(Guid boardId);
 }

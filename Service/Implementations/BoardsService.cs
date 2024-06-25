@@ -1,6 +1,12 @@
-﻿using AutoMapper;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using TaskMate.Context;
 using TaskMate.DTOs.Boards;
 using TaskMate.DTOs.Workspace;
@@ -18,64 +24,52 @@ public class BoardsService : IBoardsService
     private readonly IWorkspaceService _workspaceService;
     private readonly IAuthService _authService;
     private readonly IMapper _mapper;
+    private readonly IConfiguration _configuration;
 
-    public BoardsService(AppDbContext appDbContext, UserManager<AppUser> userManager, IMapper mapper, IWorkspaceService workspaceService, IAuthService authService)
+    public BoardsService(AppDbContext appDbContext, UserManager<AppUser> userManager, IMapper mapper, IWorkspaceService workspaceService, IAuthService authService, IConfiguration configuration)
     {
         _appDbContext = appDbContext;
         _userManager = userManager;
         _mapper = mapper;
         _workspaceService = workspaceService;
         _authService = authService;
+        _configuration = configuration;
     }
-
-    public async Task AddUserBoard(AddUserBoardDto addUserBoard)
+    public async Task<bool> CheckUserAdminRoleInWorkspace(string userId, Guid workspaceId)
     {
-        var byGlobalAdmin = await _userManager.FindByIdAsync(addUserBoard.AdminId);
+        var user = await _appDbContext.WorkspaceUsers
+                    .FirstOrDefaultAsync(wu => wu.WorkspaceId == workspaceId && wu.AppUserId == userId);
 
-        var adminRol = await _userManager.GetRolesAsync(byGlobalAdmin);
-
-        if (adminRol.FirstOrDefault().ToString() != Role.GlobalAdmin.ToString() &&
-            adminRol.FirstOrDefault().ToString() != Role.Admin.ToString())
-            throw new PermisionException("No Access");
-
-        var FindUser = await _appDbContext.AppUsers.FirstOrDefaultAsync(x => x.Id == addUserBoard.AppUserId);
-        if (FindUser is null)
-            throw new NotFoundException("Not Found User");
-
-        if (await _appDbContext.WorkspaceUsers
-        .FirstOrDefaultAsync(x => x.AppUserId == addUserBoard.AppUserId && x.WorkspaceId == addUserBoard.WorkspaceId) is null)
+        if (user == null)
         {
-            var addUserWokspace = new AddUserWorkspace()
-            {
-                AdminId = addUserBoard.AdminId,
-                WorkspaceId = addUserBoard.WorkspaceId,
-                AppUserId = addUserBoard.AppUserId,
-            };
-            await _workspaceService.AddUserWorkspace(addUserWokspace);
+            throw new NotFoundException("User not found in workspace!");
         }
-        var newUserBoard = new UserBoards()
+
+        if (Enum.TryParse<Role>(user.Role, true, out var roleEnum))
         {
-            AppUserId = addUserBoard.AppUserId,
-            BoardsId = addUserBoard.BoardId,
-        };
-
-        await _appDbContext.UserBoards.AddAsync(newUserBoard);
-        await _appDbContext.SaveChangesAsync();
+            if (roleEnum == Role.GlobalAdmin || roleEnum == Role.Admin)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            throw new ArgumentException("The role value in the database is undefined in the Role enum.");
+        }
     }
-
     public async Task CreateAsync(CreateBoardsDto createBoardsDto)
     {
-        var byAdmin = await _userManager.FindByIdAsync(createBoardsDto.AppUserId);
-
-        var adminRol = await _userManager.GetRolesAsync(byAdmin);
-
-        if (adminRol.FirstOrDefault().ToString() != Role.GlobalAdmin.ToString() &&
-            adminRol.FirstOrDefault().ToString() != Role.Admin.ToString())
-            throw new PermisionException("No Access");
-
-        if (_appDbContext.Workspaces.Where(x => x.Id == createBoardsDto.WorkspaceId) is null)
-            throw new NotFoundException("Not Found Workspace");
-
+        var Result = CheckUserAdminRoleInWorkspace(createBoardsDto.AppUserId, createBoardsDto.WorkspaceId);
+        if (await Result == false)
+            throw new NotFoundException("No Access");
+        var workspace = await _appDbContext.Workspaces
+                               .FirstOrDefaultAsync(w => w.Id == createBoardsDto.WorkspaceId);
+        if (workspace == null)
+            throw new NotFoundException("Workspace not found!");
         var newBoard = _mapper.Map<Boards>(createBoardsDto);
         await _appDbContext.Boards.AddAsync(newBoard);
         await _appDbContext.SaveChangesAsync();
@@ -92,7 +86,7 @@ public class BoardsService : IBoardsService
 
         bool isTrue = false;
         foreach (var item in workspaces)
-           if (item.Id == WorkspaceId)  isTrue = true;
+            if (item.Id == WorkspaceId) isTrue = true;
 
 
         if (isTrue)
@@ -102,76 +96,123 @@ public class BoardsService : IBoardsService
         }
         else return null;
     }
-
-    public async Task<List<GetBoardsDto>> GetByIdAsync(Guid BoardId)
+    public async Task<GetBoardsDto> GetByIdAsync(Guid boardId)
     {
-        var board = await _appDbContext.Boards.Include(x => x.CardLists)
-                               .ThenInclude(x => x.Cards).Where(x => x.Id == BoardId).ToListAsync();
-        if (board is null)
-            throw new NotFoundException("Not Found");
+        var board = await _appDbContext.Boards
+            .Where(b => b.Id == boardId)
+            .Include(b => b.CardLists.OrderBy(cl => cl.Order))
+            .ThenInclude(cl => cl.Cards.OrderBy(c => c.Order).Where(x => x.isArchived == false))
+             .ThenInclude(cl => cl.CustomFields)
 
-        return _mapper.Map<List<GetBoardsDto>>(board);
+            .FirstOrDefaultAsync();
 
+        if (board == null)
+            throw new NotFoundException("Board not found.");
+
+        return _mapper.Map<GetBoardsDto>(board);
+    }
+    public async Task<GetBoardsDto> GetArchivedTasks(Guid boardId)
+    {
+        var board = await _appDbContext.Cards
+            .Where(b => b.Id == boardId).Where(x => x.isArchived == true)
+            .FirstOrDefaultAsync();
+        if (board == null)
+            throw new NotFoundException("Board not found.");
+        return _mapper.Map<GetBoardsDto>(board);
     }
 
-    public async Task Remove(string AdminId, Guid BoardId)
+
+    public async Task Remove(string AdminId, Guid BoardId, Guid WorkspaceId)
     {
-        var byAdmin = await _userManager.FindByIdAsync(AdminId);
-
-        var adminRol = await _userManager.GetRolesAsync(byAdmin);
-
-        if (adminRol.FirstOrDefault().ToString() != Role.GlobalAdmin.ToString() &&
-            adminRol.FirstOrDefault().ToString() != Role.Admin.ToString())
-            throw new PermisionException("No Access");
-
-        var board = await _appDbContext.Boards.Where(x => x.Id == BoardId).FirstOrDefaultAsync();
-        if (board is null)
-            throw new NotFoundException("Not Found");
-
+        var Result = CheckUserAdminRoleInWorkspace(AdminId, WorkspaceId);
+        if (await Result == false)
+            throw new NotFoundException("No Access");
+        var board = await _appDbContext.Boards
+                               .FirstOrDefaultAsync(w => w.Id == BoardId);
+        if (board == null)
+            throw new NotFoundException("Board not found!");
         _appDbContext.Boards.Remove(board);
         await _appDbContext.SaveChangesAsync();
     }
-
-    public async Task ShareLinkBoardToUser(LinkShareToBoardDto linkShareToBoardDto)
-    {
-        var byAdmin = await _userManager.FindByIdAsync(linkShareToBoardDto.AdminId);
-
-        var adminRol = await _userManager.GetRolesAsync(byAdmin);
-
-        if (adminRol.FirstOrDefault().ToString() != Role.GlobalAdmin.ToString() &&
-            adminRol.FirstOrDefault().ToString() != Role.Admin.ToString())
-            throw new PermisionException("No Access");
-
-        var tokenResponse = await _authService.ShareLinkToUser(linkShareToBoardDto.UsernameOrEmail, linkShareToBoardDto.Password);
-        if (tokenResponse.token is null)
-            throw new NotFoundException("Username and password are incorrect");
-
-        var newAddUserBoard = new AddUserBoardDto()
-        {
-            AdminId = linkShareToBoardDto.AdminId,
-            WorkspaceId = linkShareToBoardDto.WorkspaceId,
-            BoardId = linkShareToBoardDto.BoardId,
-        };
-        await AddUserBoard(newAddUserBoard);
-    }
-
     public async Task UpdateAsync(UpdateBoardsDto updateBoardsDto)
     {
-        var byAdmin = await _userManager.FindByIdAsync(updateBoardsDto.AppUserId);
-
-        var adminRol = await _userManager.GetRolesAsync(byAdmin);
-
-        if (adminRol.FirstOrDefault().ToString() != Role.GlobalAdmin.ToString() &&
-           adminRol.FirstOrDefault().ToString() != Role.Admin.ToString())
-            throw new PermisionException("No Access");
-
-        var board = await _appDbContext.Boards.Where(x => x.Id == updateBoardsDto.BoardId).FirstOrDefaultAsync();
-        if (board is null)
-            throw new NotFoundException("Not Found");
+        var Result = CheckUserAdminRoleInWorkspace(updateBoardsDto.AppUserId, updateBoardsDto.WorkspaceId);
+        if (await Result == false)
+            throw new NotFoundException("No Access");
+        // Check if workspace exists
+        var board = await _appDbContext.Boards
+                               .FirstOrDefaultAsync(w => w.Id == updateBoardsDto.BoardId);
+        if (board == null)
+            throw new NotFoundException("Board not found!");
 
         board.Title = updateBoardsDto.Title;
+        board.Theme = updateBoardsDto.Theme;
 
         _appDbContext.Boards.Update(board);
+        await _appDbContext.SaveChangesAsync();
+    }
+    public async Task UpdateCardPositionAsync(Guid cardId, Guid sourceColumnId, Guid destinationColumnId, int newPosition)
+    {
+        var card = await _appDbContext.Cards
+                                      .Include(c => c.CardList)
+                                      .SingleOrDefaultAsync(c => c.Id == cardId);
+
+        if (card == null)
+        {
+            throw new NotFoundException("Card not found");
+        }
+
+        if (sourceColumnId != destinationColumnId)
+        {
+            var newColumn = await _appDbContext.CardLists.FindAsync(destinationColumnId);
+            if (newColumn == null)
+            {
+                throw new NotFoundException("Destination column not found");
+            }
+
+            card.CardListId = destinationColumnId;
+        }
+        var cards = await _appDbContext.Cards
+                                       .Where(c => c.CardListId == destinationColumnId)
+                                       .OrderBy(c => c.Order)
+                                       .ToListAsync();
+
+        if (sourceColumnId == destinationColumnId)
+        {
+            cards.Remove(card);
+        }
+
+        cards.Insert(newPosition, card);
+
+        for (int i = 0; i < cards.Count; i++)
+        {
+            cards[i].Order = i;
+        }
+
+        await _appDbContext.SaveChangesAsync();
+    }
+    public async Task UpdateCardListPositionAsync(Guid boardId, List<Guid> newOrder)
+    {
+        var board = await _appDbContext.Boards
+                                       .Include(b => b.CardLists)
+                                       .SingleOrDefaultAsync(b => b.Id == boardId);
+        if (board == null)
+        {
+            throw new NotFoundException("Board not found.");
+        }
+        var cardLists = board.CardLists.ToList();
+        if (newOrder.Except(cardLists.Select(cl => cl.Id)).Any())
+        {
+            throw new InvalidOperationException("One or more card lists in the new order do not exist on this board.");
+        }
+        var orderMap = newOrder.Select((id, index) => new { id, index }).ToDictionary(x => x.id, x => x.index);
+        foreach (var list in cardLists)
+        {
+            if (orderMap.TryGetValue(list.Id, out var newIndex))
+            {
+                list.Order = newIndex;
+            }
+        }
         await _appDbContext.SaveChangesAsync();
     }
 }

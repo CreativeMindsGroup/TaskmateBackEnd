@@ -44,15 +44,12 @@ namespace TaskMate.Service.Implementations
             {
                 throw new UnauthorizedAccessException("Only GlobalAdmin and Admin can create users.");
             }
-
             if (!Enum.TryParse(registerDTO.UserRole, out Role role) || !Enum.IsDefined(typeof(Role), role))
             {
                 throw new ArgumentException("Invalid user role specified.");
             }
             AppUser appUser = new AppUser()
             {
-                Fullname = registerDTO.Fullname,
-                UserName = registerDTO.Username,
                 Email = registerDTO.Email,
                 isActive = false, 
             };
@@ -122,12 +119,6 @@ namespace TaskMate.Service.Implementations
             {
                 throw new NotFoundException($"User with ID {EditDto.UserId} not found.");
             }
-
-            if (!EditDto.Fullname.IsNullOrEmpty())
-            {
-                user.Fullname = EditDto.Fullname;
-            }
-
             if (!EditDto.Email.IsNullOrEmpty())
             {
                 user.Email = EditDto.Email;

@@ -11,6 +11,6 @@ public class BoardsProfile:Profile
         CreateMap<Boards, CreateBoardsDto>().ReverseMap();
         CreateMap<Boards, UpdateBoardsDto>().ReverseMap();
         CreateMap<Boards, GetBoardsDto>()
-            .ForMember(dest => dest.getCardListDtos, opt => opt.MapFrom(src=>src.CardLists)).ReverseMap();
+            .ForMember(dest => dest.cardLists, opt => opt.MapFrom(src => src.CardLists));
     }
 }

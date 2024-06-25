@@ -1,4 +1,6 @@
-﻿namespace TaskMate.DTOs.Workspace;
+﻿using TaskMate.Helper.Enum.User;
+
+namespace TaskMate.DTOs.Workspace;
 
 public class CreateWorkspaceDto
 {

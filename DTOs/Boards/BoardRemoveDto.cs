@@ -4,5 +4,6 @@
     {
         public string AppUserId { get; set; }
         public Guid BoardId { get; set; }
+        public Guid WorkspaceId { get; set; }
     }
 }
