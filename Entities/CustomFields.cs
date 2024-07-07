@@ -1,14 +1,17 @@
 ﻿using TaskMate.Entities.Common;
-using TaskMate.Helper.Enum.CustomFields;
+using System;
+using System.Collections.Generic;
 
-namespace TaskMate.Entities;
-
-public class CustomFields:BaseEntity
+namespace TaskMate.Entities
 {
-    //Rellations
-    public Card Card { get; set; }
-    public Guid CardId { get; set; }
-    public List<CustomFieldsCheckbox>? Checkbox { get; set; }
-    public List<CustomFieldsNumber>? Number { get; set; }
+    public class CustomFields : BaseEntity
+    {
+        // Relationships
+        public Card Card { get; set; }
+        public Guid CardId { get; set; }
 
+        public List<CustomFieldsCheckbox>? Checkbox { get; set; }
+        public List<CustomFieldsNumber>? Number { get; set; }
+        public List<DropDown>? DropDown { get; set; }
+    }
 }

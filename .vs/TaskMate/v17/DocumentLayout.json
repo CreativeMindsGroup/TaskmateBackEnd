@@ -3,36 +3,48 @@
   "WorkspaceRootPath": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\controllers\\cardscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:controllers\\cardscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\service\\implementations\\customfieldsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:service\\implementations\\customfieldsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\service\\implementations\\cardservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:service\\implementations\\cardservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\mapperprofile\\customfield\\customfieldp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:mapperprofile\\customfield\\customfieldp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\service\\implementations\\boardsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:service\\implementations\\boardsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\entities\\card.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:entities\\card.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\service\\abstraction\\icardservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:service\\abstraction\\icardservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\entities\\customfields.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:entities\\customfields.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\dtos\\card\\updatetitledto.cs||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:dtos\\card\\updatetitledto.cs||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\controllers\\customfieldscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:controllers\\customfieldscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\service\\implementations\\cardlistservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:service\\implementations\\cardlistservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\service\\abstraction\\icustomfieldsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:service\\abstraction\\icustomfieldsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\controllers\\cardlistscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:controllers\\cardlistscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\dtos\\dropdownoptionsdto\\createdropdowndto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:dtos\\dropdownoptionsdto\\createdropdowndto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\service\\abstraction\\icardlistservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:service\\abstraction\\icardlistservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\dtos\\customfileds\\getcustomfielddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:dtos\\customfileds\\getcustomfielddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\entities\\boards.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:entities\\boards.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\dtos\\customfieldnumber\\customfieldnumberdto.cs||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:dtos\\customfieldnumber\\customfieldnumberdto.cs||{8B382828-6202-11D1-8870-0000F87579D2}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,72 +54,73 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "CardsController.cs",
-              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Controllers\\CardsController.cs",
-              "RelativeDocumentMoniker": "Controllers\\CardsController.cs",
-              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Controllers\\CardsController.cs",
-              "RelativeToolTip": "Controllers\\CardsController.cs",
-              "ViewState": "AQIAABEAAAAAAAAAAAAwwCkAAAAZAAAA",
+              "DocumentIndex": 3,
+              "Title": "CustomFields.cs",
+              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Entities\\CustomFields.cs",
+              "RelativeDocumentMoniker": "Entities\\CustomFields.cs",
+              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Entities\\CustomFields.cs",
+              "RelativeToolTip": "Entities\\CustomFields.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAcAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-22T19:03:01.22Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-02T14:43:10.234Z",
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ICardService.cs",
-              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Service\\Abstraction\\ICardService.cs",
-              "RelativeDocumentMoniker": "Service\\Abstraction\\ICardService.cs",
-              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Service\\Abstraction\\ICardService.cs",
-              "RelativeToolTip": "Service\\Abstraction\\ICardService.cs",
-              "ViewState": "AQIAABAAAAAAAAAAAADwvx0AAAAEAAAA",
+              "DocumentIndex": 1,
+              "Title": "CustomFieldP.cs",
+              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\MapperProfile\\CustomField\\CustomFieldP.cs",
+              "RelativeDocumentMoniker": "MapperProfile\\CustomField\\CustomFieldP.cs",
+              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\MapperProfile\\CustomField\\CustomFieldP.cs",
+              "RelativeToolTip": "MapperProfile\\CustomField\\CustomFieldP.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAABZAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-22T19:02:16.298Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-04T18:34:12.571Z",
+              "IsPinned": true
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "BoardsService.cs",
-              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Service\\Implementations\\BoardsService.cs",
-              "RelativeDocumentMoniker": "Service\\Implementations\\BoardsService.cs",
-              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Service\\Implementations\\BoardsService.cs",
-              "RelativeToolTip": "Service\\Implementations\\BoardsService.cs",
-              "ViewState": "AQIAAKQAAAAAAAAAAAAqwL8AAAAvAAAA",
+              "Title": "Card.cs",
+              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Entities\\Card.cs",
+              "RelativeDocumentMoniker": "Entities\\Card.cs",
+              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Entities\\Card.cs",
+              "RelativeToolTip": "Entities\\Card.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAjAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-22T18:39:12.884Z",
+              "WhenOpened": "2024-07-07T07:16:25.037Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CustomFieldsService.cs",
+              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Service\\Implementations\\CustomFieldsService.cs",
+              "RelativeDocumentMoniker": "Service\\Implementations\\CustomFieldsService.cs",
+              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Service\\Implementations\\CustomFieldsService.cs",
+              "RelativeToolTip": "Service\\Implementations\\CustomFieldsService.cs",
+              "ViewState": "AQIAAF0AAAAAAAAAAAAuwHEAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-03T14:43:31.115Z",
+              "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "CardListsController.cs",
-              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Controllers\\CardListsController.cs",
-              "RelativeDocumentMoniker": "Controllers\\CardListsController.cs",
-              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Controllers\\CardListsController.cs",
-              "RelativeToolTip": "Controllers\\CardListsController.cs",
-              "ViewState": "AQIAACEAAAAAAAAAAADgv0MAAAAJAAAA",
+              "DocumentIndex": 5,
+              "Title": "ICustomFieldsService.cs",
+              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Service\\Abstraction\\ICustomFieldsService.cs",
+              "RelativeDocumentMoniker": "Service\\Abstraction\\ICustomFieldsService.cs",
+              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Service\\Abstraction\\ICustomFieldsService.cs",
+              "RelativeToolTip": "Service\\Abstraction\\ICustomFieldsService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAlAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-22T17:51:13.482Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "ICardListService.cs",
-              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Service\\Abstraction\\ICardListService.cs",
-              "RelativeDocumentMoniker": "Service\\Abstraction\\ICardListService.cs",
-              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Service\\Abstraction\\ICardListService.cs",
-              "RelativeToolTip": "Service\\Abstraction\\ICardListService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-22T17:50:32.644Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-07T08:08:56.383Z",
+              "IsPinned": true
             },
             {
               "$type": "Bookmark",
@@ -115,42 +128,75 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "CardListService.cs",
-              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Service\\Implementations\\CardListService.cs",
-              "RelativeDocumentMoniker": "Service\\Implementations\\CardListService.cs",
-              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Service\\Implementations\\CardListService.cs",
-              "RelativeToolTip": "Service\\Implementations\\CardListService.cs",
-              "ViewState": "AQIAAGkAAAAAAAAAAAAcwHEAAAAHAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-22T17:48:21.313Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "UpdateTitleDto.cs",
-              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\DTOs\\Card\\UpdateTitleDto.cs",
-              "RelativeDocumentMoniker": "DTOs\\Card\\UpdateTitleDto.cs",
-              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\DTOs\\Card\\UpdateTitleDto.cs",
-              "RelativeToolTip": "DTOs\\Card\\UpdateTitleDto.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAPAAAA",
+              "Title": "CustomFieldsController.cs",
+              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Controllers\\CustomFieldsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\CustomFieldsController.cs",
+              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Controllers\\CustomFieldsController.cs",
+              "RelativeToolTip": "Controllers\\CustomFieldsController.cs",
+              "ViewState": "AQIAAC8AAAAAAAAAAAAEwEUAAAA1AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-22T17:44:40.51Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-07T08:09:27.162Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "CardService.cs",
-              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Service\\Implementations\\CardService.cs",
-              "RelativeDocumentMoniker": "Service\\Implementations\\CardService.cs",
-              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Service\\Implementations\\CardService.cs",
-              "RelativeToolTip": "Service\\Implementations\\CardService.cs",
-              "ViewState": "AQIAAIMBAAAAAAAAAAAIwJoBAAA7AAAA",
+              "DocumentIndex": 6,
+              "Title": "CreateDropdownDTO.cs",
+              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\DTOs\\DropDownOptionsDTO\\CreateDropdownDTO.cs",
+              "RelativeDocumentMoniker": "DTOs\\DropDownOptionsDTO\\CreateDropdownDTO.cs",
+              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\DTOs\\DropDownOptionsDTO\\CreateDropdownDTO.cs",
+              "RelativeToolTip": "DTOs\\DropDownOptionsDTO\\CreateDropdownDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAoAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-22T17:42:10.393Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-07T08:01:23.213Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "CustomFieldNumberDto.cs",
+              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\DTOs\\CustomFieldNumber\\CustomFieldNumberDto.cs",
+              "RelativeDocumentMoniker": "DTOs\\CustomFieldNumber\\CustomFieldNumberDto.cs",
+              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\DTOs\\CustomFieldNumber\\CustomFieldNumberDto.cs",
+              "RelativeToolTip": "DTOs\\CustomFieldNumber\\CustomFieldNumberDto.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-07T07:58:18.939Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Boards.cs",
+              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Entities\\Boards.cs",
+              "RelativeDocumentMoniker": "Entities\\Boards.cs",
+              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Entities\\Boards.cs",
+              "RelativeToolTip": "Entities\\Boards.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAYAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-05T08:22:37.06Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAABhAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-07-04T19:03:33Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "GetCustomFieldDto.cs",
+              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\DTOs\\CustomFileds\\GetCustomFieldDto.cs",
+              "RelativeDocumentMoniker": "DTOs\\CustomFileds\\GetCustomFieldDto.cs",
+              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\DTOs\\CustomFileds\\GetCustomFieldDto.cs",
+              "RelativeToolTip": "DTOs\\CustomFileds\\GetCustomFieldDto.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-04T18:46:05.821Z"
             }
           ]
         }

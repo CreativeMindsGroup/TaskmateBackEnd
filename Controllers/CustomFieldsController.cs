@@ -5,6 +5,7 @@ using TaskMate.DTOs.CustomField;
 using TaskMate.DTOs.CustomFieldCheckbox;
 using TaskMate.DTOs.CustomFieldNumber;
 using TaskMate.DTOs.CustomFileds;
+using TaskMate.DTOs.DropDownOptionsDTO;
 using TaskMate.Entities;
 using TaskMate.Exceptions;
 using TaskMate.Service.Abstraction;
@@ -20,7 +21,7 @@ public class CustomFieldsController : ControllerBase
         => _customFieldsService = customFieldsService;
 
     [HttpGet]
-    public async Task<GetCustomFieldDto>GetCustomFieldsAsync(Guid cardId)
+    public async Task<GetCustomFieldDto> GetCustomFieldsAsync(Guid cardId)
     {
         var customFields = await _customFieldsService.GetCustomFieldsAsync(cardId);
         return customFields;
@@ -47,6 +48,32 @@ public class CustomFieldsController : ControllerBase
     public async Task<IActionResult> UpdateChecklist(bool value, Guid id)
     {
         await _customFieldsService.UpdateChecklist(value, id);
-        return StatusCode((int)HttpStatusCode.OK);  
+        return StatusCode((int)HttpStatusCode.OK);
+    }
+    [HttpPut("UpdateNumberField")]
+    public async Task<IActionResult> UpdateCustomField(string value, Guid Id)
+    {
+        await _customFieldsService.UpdateCustomField(value, Id);
+        return StatusCode((int)HttpStatusCode.Accepted);
+    }
+
+    [HttpDelete("RemoveDropDown/{dropdownId}")]
+    public async Task<IActionResult> RemoveDropDown(Guid dropdownId)
+    {
+        await _customFieldsService.RemoveDropDown(dropdownId);
+        return StatusCode((int)HttpStatusCode.OK);
+    }
+
+    [HttpPost("CreateDropdown")]
+    public async Task<IActionResult> CreateDropdown(CreateDropdownDTO dto)
+    {
+        await _customFieldsService.CreateDropdown(dto);
+        return StatusCode((int)HttpStatusCode.Created);
+    }
+    [HttpPost("SetOptionToDropdown")]
+    public async Task<IActionResult> SetOptionToDropdown(Guid dropDownId, Guid dropdownOptionId)
+    {
+        await _customFieldsService.SetOptionToDropdown(dropDownId, dropdownOptionId);
+        return StatusCode((int)HttpStatusCode.OK);
     }
 }

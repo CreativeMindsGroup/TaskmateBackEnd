@@ -7,4 +7,5 @@ public class CustomFieldNumberDto
     public Guid CardId { get; set; }
     public string UserId { get; set; }
     public Guid WorkspaceId { get; set; }
+    public Guid BoardId { get; set; }
 }

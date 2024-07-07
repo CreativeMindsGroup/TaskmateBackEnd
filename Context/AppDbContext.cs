@@ -33,4 +33,6 @@ public class AppDbContext : IdentityDbContext<AppUser>
     public DbSet<CustomFieldsNumber> CustomFieldsNumbers { get; set; }
     public DbSet<CustomFieldsCheckbox> CustomFieldsCheckboxes { get; set; }
     public DbSet<CardAttachment> CardAttachments { get; set; }
+    public DbSet<DropDownOptions> DropDownOptions { get; set; } 
+    public DbSet<DropDown> DropDowns { get; set; } 
 }

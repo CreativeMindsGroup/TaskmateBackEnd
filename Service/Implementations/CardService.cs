@@ -154,12 +154,14 @@ namespace TaskMate.Service.Implementations
         {
             var cards = await _appDbContext.Cards
                 .Include(c => c.CardList)
+                .Include(c => c.CustomFields)  
                 .Where(c => c.CardList.BoardsId == boardId)
                 .OrderBy(c => c.Order)  
                 .ToListAsync();
 
             return _mapper.Map<List<GetCardDto>>(cards);
         }
+
         public async Task<List<GetCardDto>> GetAllCardsByCardListIdAsync(Guid cardListId)
         {
             var cards = await _appDbContext.Cards

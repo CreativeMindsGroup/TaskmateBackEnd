@@ -615,6 +615,7 @@ namespace TaskMate.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Number")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Title")
@@ -657,6 +658,79 @@ namespace TaskMate.Migrations
                     b.HasIndex("CustomFieldsId");
 
                     b.ToTable("CustomFieldsTexts");
+                });
+
+            modelBuilder.Entity("TaskMate.Entities.DropDown", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Color")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CustomFieldsId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("ModiffiedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("OptionName")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("SelectedId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomFieldsId");
+
+                    b.ToTable("DropDowns");
+                });
+
+            modelBuilder.Entity("TaskMate.Entities.DropDownOptions", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Color")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("DropDownId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("ModiffiedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("OptionName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DropDownId");
+
+                    b.ToTable("DropDownOptions");
                 });
 
             modelBuilder.Entity("TaskMate.Entities.LabelCard", b =>
@@ -1044,6 +1118,26 @@ namespace TaskMate.Migrations
                     b.Navigation("CustomFields");
                 });
 
+            modelBuilder.Entity("TaskMate.Entities.DropDown", b =>
+                {
+                    b.HasOne("TaskMate.Entities.CustomFields", "CustomFields")
+                        .WithMany("DropDown")
+                        .HasForeignKey("CustomFieldsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CustomFields");
+                });
+
+            modelBuilder.Entity("TaskMate.Entities.DropDownOptions", b =>
+                {
+                    b.HasOne("TaskMate.Entities.DropDown", "DropDown")
+                        .WithMany("DropDownOptions")
+                        .HasForeignKey("DropDownId");
+
+                    b.Navigation("DropDown");
+                });
+
             modelBuilder.Entity("TaskMate.Entities.LabelCard", b =>
                 {
                     b.HasOne("TaskMate.Entities.Card", "Card")
@@ -1158,7 +1252,14 @@ namespace TaskMate.Migrations
                 {
                     b.Navigation("Checkbox");
 
+                    b.Navigation("DropDown");
+
                     b.Navigation("Number");
+                });
+
+            modelBuilder.Entity("TaskMate.Entities.DropDown", b =>
+                {
+                    b.Navigation("DropDownOptions");
                 });
 
             modelBuilder.Entity("TaskMate.Entities.Labels", b =>

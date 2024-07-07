@@ -1260,6 +1260,22 @@
   },
   {
     "ContainingType": "TaskMate.Controllers.CustomFieldsController",
+    "Method": "CreateDropdown",
+    "RelativePath": "api/CustomFields/CreateDropdown",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "TaskMate.DTOs.DropDownOptionsDTO.CreateDropdownDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CustomFieldsController",
     "Method": "CreateNumberAsync",
     "RelativePath": "api/CustomFields/CreateNumber",
     "HttpMethod": "POST",
@@ -1292,6 +1308,43 @@
   },
   {
     "ContainingType": "TaskMate.Controllers.CustomFieldsController",
+    "Method": "RemoveDropDown",
+    "RelativePath": "api/CustomFields/RemoveDropDown/{dropdownId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dropdownId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CustomFieldsController",
+    "Method": "SetOptionToDropdown",
+    "RelativePath": "api/CustomFields/SetOptionToDropdown",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dropDownId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "dropdownOptionId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CustomFieldsController",
     "Method": "UpdateChecklist",
     "RelativePath": "api/CustomFields/UpdateChecklist",
     "HttpMethod": "PUT",
@@ -1305,6 +1358,27 @@
       },
       {
         "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CustomFieldsController",
+    "Method": "UpdateCustomField",
+    "RelativePath": "api/CustomFields/UpdateNumberField",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "value",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Id",
         "Type": "System.Guid",
         "IsRequired": false
       }
