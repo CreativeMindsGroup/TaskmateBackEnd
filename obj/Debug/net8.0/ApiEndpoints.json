@@ -1117,27 +1117,6 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "TaskMate.Controllers.CustomFieldCheckboxsController",
-    "Method": "UpdateCustomFieldCheckbox",
-    "RelativePath": "api/CustomFieldCheckboxs",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "Id",
-        "Type": "System.Guid",
-        "IsRequired": false
-      },
-      {
-        "Name": "Check",
-        "Type": "System.Nullable\u00601[[System.Boolean, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "TaskMate.Controllers.CustomFieldDatesController",
     "Method": "UpdateCustomFieldCheckbox",
     "RelativePath": "api/CustomFieldDates",
@@ -1168,48 +1147,6 @@
     "Parameters": [
       {
         "Name": "CustomFieldId",
-        "Type": "System.Guid",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "TaskMate.Controllers.CustomFieldDropdownOptionsController",
-    "Method": "UpdateCustomFieldDropdownOption",
-    "RelativePath": "api/CustomFieldDropdownOptions",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "Id",
-        "Type": "System.Guid",
-        "IsRequired": false
-      },
-      {
-        "Name": "Option",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Color",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "TaskMate.Controllers.CustomFieldDropdownOptionsController",
-    "Method": "Remove",
-    "RelativePath": "api/CustomFieldDropdownOptions",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "CustomFieldDropdownOptionId",
         "Type": "System.Guid",
         "IsRequired": false
       }
@@ -1379,79 +1316,6 @@
       },
       {
         "Name": "Id",
-        "Type": "System.Guid",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "TaskMate.Controllers.CustomFieldsNumbersController",
-    "Method": "UpdateCustomFieldNumber",
-    "RelativePath": "api/CustomFieldsNumbers",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "Id",
-        "Type": "System.Guid",
-        "IsRequired": false
-      },
-      {
-        "Name": "Number",
-        "Type": "System.Nullable\u00601[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "TaskMate.Controllers.CustomFieldTextsController",
-    "Method": "UpdateCustomFieldText",
-    "RelativePath": "api/CustomFieldTexts",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "Id",
-        "Type": "System.Guid",
-        "IsRequired": false
-      },
-      {
-        "Name": "Text",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "TaskMate.Controllers.LabelsController",
-    "Method": "CreateLabel",
-    "RelativePath": "api/Labels",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "Name",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Color",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "CardId",
-        "Type": "System.Guid",
-        "IsRequired": false
-      },
-      {
-        "Name": "BoardsId",
         "Type": "System.Guid",
         "IsRequired": false
       }

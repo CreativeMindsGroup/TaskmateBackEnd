@@ -9,7 +9,6 @@ namespace TaskMate.Entities
         // Relationships
         public Card Card { get; set; }
         public Guid CardId { get; set; }
-
         public List<CustomFieldsCheckbox>? Checkbox { get; set; }
         public List<CustomFieldsNumber>? Number { get; set; }
         public List<DropDown>? DropDown { get; set; }
