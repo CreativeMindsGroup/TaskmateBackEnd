@@ -20,4 +20,5 @@ public interface IWorkspaceService
     Task AddNewUserToWorkspace(LinkShareToWorkspaceDto linkShareToWorkspaceDto);
     Task ChangeUserRole(UpdateUserRoleDto dto);
     Task RemoveUserFromWorkspace(RemoveUserFromWorksapceDto dto);
+    Task<string> GetUserRole(string userId, Guid workspaceId);
 }

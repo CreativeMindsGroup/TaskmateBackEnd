@@ -3,48 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\service\\implementations\\customfieldsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:service\\implementations\\customfieldsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\service\\implementations\\workspaceservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:service\\implementations\\workspaceservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\mapperprofile\\customfield\\customfieldp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:mapperprofile\\customfield\\customfieldp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\controllers\\workspacescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:controllers\\workspacescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\entities\\card.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:entities\\card.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\service\\abstraction\\iworkspaceservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:service\\abstraction\\iworkspaceservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\entities\\customfields.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:entities\\customfields.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\service\\implementations\\boardsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:service\\implementations\\boardsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\controllers\\customfieldscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:controllers\\customfieldscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\extensionsmethods\\persistence\\serviceregistration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:extensionsmethods\\persistence\\serviceregistration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\service\\abstraction\\icustomfieldsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:service\\abstraction\\icustomfieldsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\service\\implementations\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:service\\implementations\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\dtos\\dropdownoptionsdto\\createdropdowndto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:dtos\\dropdownoptionsdto\\createdropdowndto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\dtos\\customfileds\\getcustomfielddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:dtos\\customfileds\\getcustomfielddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\entities\\boards.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:entities\\boards.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\dtos\\customfieldnumber\\customfieldnumberdto.cs||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:dtos\\customfieldnumber\\customfieldnumberdto.cs||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|c:\\users\\nurlan\\desktop\\taskmatebackend\\extensionsmethods\\infrastructure\\serviceregistration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{85061A2C-B1F6-444B-89FA-7759ECB902B0}|TaskMate.csproj|solutionrelative:extensionsmethods\\infrastructure\\serviceregistration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -58,69 +46,16 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "CustomFields.cs",
-              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Entities\\CustomFields.cs",
-              "RelativeDocumentMoniker": "Entities\\CustomFields.cs",
-              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Entities\\CustomFields.cs",
-              "RelativeToolTip": "Entities\\CustomFields.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAcAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-02T14:43:10.234Z",
-              "IsPinned": true
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "CustomFieldP.cs",
-              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\MapperProfile\\CustomField\\CustomFieldP.cs",
-              "RelativeDocumentMoniker": "MapperProfile\\CustomField\\CustomFieldP.cs",
-              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\MapperProfile\\CustomField\\CustomFieldP.cs",
-              "RelativeToolTip": "MapperProfile\\CustomField\\CustomFieldP.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAABZAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-04T18:34:12.571Z",
-              "IsPinned": true
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Card.cs",
-              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Entities\\Card.cs",
-              "RelativeDocumentMoniker": "Entities\\Card.cs",
-              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Entities\\Card.cs",
-              "RelativeToolTip": "Entities\\Card.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAjAAAA",
+              "Title": "IWorkspaceService.cs",
+              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Service\\Abstraction\\IWorkspaceService.cs",
+              "RelativeDocumentMoniker": "Service\\Abstraction\\IWorkspaceService.cs",
+              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Service\\Abstraction\\IWorkspaceService.cs",
+              "RelativeToolTip": "Service\\Abstraction\\IWorkspaceService.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAABQAAAARAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-07T07:16:25.037Z",
-              "IsPinned": true
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "CustomFieldsService.cs",
-              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Service\\Implementations\\CustomFieldsService.cs",
-              "RelativeDocumentMoniker": "Service\\Implementations\\CustomFieldsService.cs",
-              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Service\\Implementations\\CustomFieldsService.cs",
-              "RelativeToolTip": "Service\\Implementations\\CustomFieldsService.cs",
-              "ViewState": "AQIAAF0AAAAAAAAAAAAuwHEAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-03T14:43:31.115Z",
-              "IsPinned": true,
+              "WhenOpened": "2024-07-15T06:18:22.405Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ICustomFieldsService.cs",
-              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Service\\Abstraction\\ICustomFieldsService.cs",
-              "RelativeDocumentMoniker": "Service\\Abstraction\\ICustomFieldsService.cs",
-              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Service\\Abstraction\\ICustomFieldsService.cs",
-              "RelativeToolTip": "Service\\Abstraction\\ICustomFieldsService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAlAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-07T08:08:56.383Z",
-              "IsPinned": true
             },
             {
               "$type": "Bookmark",
@@ -128,75 +63,94 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "WorkspacesController.cs",
+              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Controllers\\WorkspacesController.cs",
+              "RelativeDocumentMoniker": "Controllers\\WorkspacesController.cs",
+              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Controllers\\WorkspacesController.cs",
+              "RelativeToolTip": "Controllers\\WorkspacesController.cs",
+              "ViewState": "AQIAAB0AAAAAAAAAAAAswC8AAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-15T06:16:38.192Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "WorkspaceService.cs",
+              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Service\\Implementations\\WorkspaceService.cs",
+              "RelativeDocumentMoniker": "Service\\Implementations\\WorkspaceService.cs",
+              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Service\\Implementations\\WorkspaceService.cs",
+              "RelativeToolTip": "Service\\Implementations\\WorkspaceService.cs",
+              "ViewState": "AQIAAFMBAAAAAAAAAAA0wF0BAAA+AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-15T04:54:45.189Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "BoardsService.cs",
+              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Service\\Implementations\\BoardsService.cs",
+              "RelativeDocumentMoniker": "Service\\Implementations\\BoardsService.cs",
+              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Service\\Implementations\\BoardsService.cs",
+              "RelativeToolTip": "Service\\Implementations\\BoardsService.cs",
+              "ViewState": "AQIAABIAAAAAAAAAAAAAACMAAAAnAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-15T04:56:51.677Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "CustomFieldsController.cs",
-              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Controllers\\CustomFieldsController.cs",
-              "RelativeDocumentMoniker": "Controllers\\CustomFieldsController.cs",
-              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Controllers\\CustomFieldsController.cs",
-              "RelativeToolTip": "Controllers\\CustomFieldsController.cs",
-              "ViewState": "AQIAAC8AAAAAAAAAAAAEwEUAAAA1AAAA",
+              "Title": "ServiceRegistration.cs",
+              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\ExtensionsMethods\\Persistence\\ServiceRegistration.cs",
+              "RelativeDocumentMoniker": "ExtensionsMethods\\Persistence\\ServiceRegistration.cs",
+              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\ExtensionsMethods\\Persistence\\ServiceRegistration.cs",
+              "RelativeToolTip": "ExtensionsMethods\\Persistence\\ServiceRegistration.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAA2AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-07T08:09:27.162Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "CreateDropdownDTO.cs",
-              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\DTOs\\DropDownOptionsDTO\\CreateDropdownDTO.cs",
-              "RelativeDocumentMoniker": "DTOs\\DropDownOptionsDTO\\CreateDropdownDTO.cs",
-              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\DTOs\\DropDownOptionsDTO\\CreateDropdownDTO.cs",
-              "RelativeToolTip": "DTOs\\DropDownOptionsDTO\\CreateDropdownDTO.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAoAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-07T08:01:23.213Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "CustomFieldNumberDto.cs",
-              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\DTOs\\CustomFieldNumber\\CustomFieldNumberDto.cs",
-              "RelativeDocumentMoniker": "DTOs\\CustomFieldNumber\\CustomFieldNumberDto.cs",
-              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\DTOs\\CustomFieldNumber\\CustomFieldNumberDto.cs",
-              "RelativeToolTip": "DTOs\\CustomFieldNumber\\CustomFieldNumberDto.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-07T07:58:18.939Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Boards.cs",
-              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Entities\\Boards.cs",
-              "RelativeDocumentMoniker": "Entities\\Boards.cs",
-              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Entities\\Boards.cs",
-              "RelativeToolTip": "Entities\\Boards.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAYAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-05T08:22:37.06Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\appsettings.json",
-              "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\appsettings.json",
-              "RelativeToolTip": "appsettings.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAABhAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-07-04T19:03:33Z"
+              "WhenOpened": "2024-07-15T04:33:21.802Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "GetCustomFieldDto.cs",
-              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\DTOs\\CustomFileds\\GetCustomFieldDto.cs",
-              "RelativeDocumentMoniker": "DTOs\\CustomFileds\\GetCustomFieldDto.cs",
-              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\DTOs\\CustomFileds\\GetCustomFieldDto.cs",
-              "RelativeToolTip": "DTOs\\CustomFileds\\GetCustomFieldDto.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAABAAAA",
+              "Title": "ServiceRegistration.cs",
+              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\ExtensionsMethods\\Infrastructure\\ServiceRegistration.cs",
+              "RelativeDocumentMoniker": "ExtensionsMethods\\Infrastructure\\ServiceRegistration.cs",
+              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\ExtensionsMethods\\Infrastructure\\ServiceRegistration.cs",
+              "RelativeToolTip": "ExtensionsMethods\\Infrastructure\\ServiceRegistration.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-04T18:46:05.821Z"
+              "WhenOpened": "2024-07-15T04:33:18.985Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AQIAAD8AAAAAAAAAAAAAACcAAAAeAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-15T04:32:30.221Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Service\\Implementations\\AuthService.cs",
+              "RelativeDocumentMoniker": "Service\\Implementations\\AuthService.cs",
+              "ToolTip": "C:\\Users\\Nurlan\\Desktop\\TaskmateBackEnd\\Service\\Implementations\\AuthService.cs",
+              "RelativeToolTip": "Service\\Implementations\\AuthService.cs",
+              "ViewState": "AQIAADEAAAAAAAAAAAAIwFwAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-15T04:32:18.809Z",
+              "EditorCaption": ""
             }
           ]
         }
