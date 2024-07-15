@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using TaskMate.Context;
 using TaskMate.DTOs.Auth;
 using TaskMate.DTOs.Slider;
 using TaskMate.DTOs.Users;
 using TaskMate.DTOs.Workspace;
 using TaskMate.Entities;
 using TaskMate.Exceptions;
+using TaskMate.Helper.Enum.User;
 using TaskMate.Service.Abstraction;
 
 namespace TaskMate.Controllers;
@@ -37,6 +39,12 @@ public class WorkspacesController : ControllerBase
     public async Task<List<GetUserDto>> GetAllUsersInWorkspace(Guid WorkspaceId, int page, int pageSize)
     {
         var workspaces = await _workspaceService.GetAllUsersInWorkspace(WorkspaceId, page, pageSize);
+        return workspaces;
+    }   
+    [HttpGet("[action]")]
+    public async Task<string> getuserRoleInWorkspace(string userId, Guid workspaceId)
+    {
+        var workspaces = await _workspaceService.GetUserRole(userId, workspaceId);
         return workspaces;
     }
 
@@ -121,7 +129,7 @@ public class WorkspacesController : ControllerBase
         }
         await _workspaceService.ChangeUserRole(dto);
         return Ok();
-    }   
+    }
     [HttpDelete("RemoveUserFromWorkspace")]
     public async Task<IActionResult> RemoveUserFromWorkspace([FromBody] RemoveUserFromWorksapceDto dto)
     {

@@ -1556,6 +1556,37 @@
   },
   {
     "ContainingType": "TaskMate.Controllers.WorkspacesController",
+    "Method": "getuserRoleInWorkspace",
+    "RelativePath": "api/Workspaces/getuserRoleInWorkspace",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "workspaceId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.WorkspacesController",
     "Method": "RemoveUserFromWorkspace",
     "RelativePath": "api/Workspaces/RemoveUserFromWorkspace",
     "HttpMethod": "DELETE",

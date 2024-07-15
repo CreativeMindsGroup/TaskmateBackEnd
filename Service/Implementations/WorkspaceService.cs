@@ -46,20 +46,9 @@ public class WorkspaceService : IWorkspaceService
         {
             try
             {
-                var byGlobalAdmin = await _userManager.FindByIdAsync(createWorkspaceDto.AppUserId);
-                var roles = await _userManager.GetRolesAsync(byGlobalAdmin);
-
-                if (!roles.Any(r => r == Role.GlobalAdmin.ToString()))
-                {
-                    throw new PermisionException("No Access");
-                }
-
                 var newWorkspace = _mapper.Map<Workspace>(createWorkspaceDto);
                 await _appDbContext.Workspaces.AddAsync(newWorkspace);
                 await _appDbContext.SaveChangesAsync();
-
-                // Optionally add the creating user as a member/admin of the workspace
-
                 var workspaceUser = new WorkspaceUser
                 {
                     AppUserId = createWorkspaceDto.AppUserId,
@@ -78,44 +67,31 @@ public class WorkspaceService : IWorkspaceService
             }
         }
     }
-    public async Task<List<GetWorkspaceDto>> GetAllAsync(string AppUserId)
+        public async Task<List<GetWorkspaceDto>> GetAllAsync(string AppUserId)
     {
-        var byAdmin = await _userManager.FindByIdAsync(AppUserId);
-
-        var adminRol = await _userManager.GetRolesAsync(byAdmin);
-
-        if (adminRol.FirstOrDefault().ToString() == Role.GlobalAdmin.ToString() ||
-            adminRol.FirstOrDefault().ToString() == Role.Admin.ToString())
-        {
-            var AllWokrspace = await _appDbContext.Workspaces.ToListAsync();
-            var AllWokrspaceToMapper = _mapper.Map<List<GetWorkspaceDto>>(AllWokrspace);
-
-            return AllWokrspaceToMapper;
-        }
 
         var UserConnectWorkspace = await _appDbContext.Workspaces
                                             .Include(w => w.WorkspaceUsers)
                                             .ThenInclude(wu => wu.AppUser)
                                             .Where(w => w.WorkspaceUsers.Any(wu => wu.AppUserId == AppUserId))
                                             .ToListAsync();
-
         var UserConnrctWorkspaceToMapper = _mapper.Map<List<GetWorkspaceDto>>(UserConnectWorkspace);
 
         return UserConnrctWorkspaceToMapper;
     }
+
     public async Task<string> GetUserRole(string userId, Guid workspaceId)
     {
         var user = await _appDbContext.WorkspaceUsers
                    .FirstOrDefaultAsync(wu => wu.WorkspaceId == workspaceId && wu.AppUserId == userId);
-
         if (user == null)
         {
             throw new NotFoundException($"User with ID {userId} not found.");
         }
 
-        if (Enum.TryParse<Role>(user.Role, true, out var roleEnum)) 
+        if (Enum.TryParse<Role>(user.Role, true, out var roleEnum))
         {
-            return roleEnum.ToString(); 
+            return roleEnum.ToString();
         }
         else
         {
@@ -129,7 +105,6 @@ public class WorkspaceService : IWorkspaceService
             throw new ArgumentNullException(nameof(workspaceId), "Workspace ID is null or empty.");
         }
 
-        // Calculate the number of records to skip
         int skip = (page - 1) * pageSize;
         var users = await _appDbContext.WorkspaceUsers
                                        .Where(wu => wu.WorkspaceId == workspaceId)
@@ -143,7 +118,7 @@ public class WorkspaceService : IWorkspaceService
 
         foreach (var user in users)
         {
-            var roles = await GetUserRole(user.Id,workspaceId);
+            var roles = await GetUserRole(user.Id, workspaceId);
             var result = _mapper.Map<GetUserDto>(user);
             result.Role = roles ?? "";
             userList.Add(result);
@@ -167,7 +142,7 @@ public class WorkspaceService : IWorkspaceService
 
         foreach (var user in users)
         {
-            var roles = await GetUserRole(user.Id,workspaceId);
+            var roles = await GetUserRole(user.Id, workspaceId);
             if (roles.Contains("Admin"))
             {
                 roleCounts.AdminCount++;
@@ -196,11 +171,6 @@ public class WorkspaceService : IWorkspaceService
     }
     public async Task<List<GetWorkspaceInBoardDto>> GetWorkspaceInBoards(string AppUserId)
     {
-        var byAdmin = await _userManager.FindByIdAsync(AppUserId);
-        var adminRol = await _userManager.GetRolesAsync(byAdmin);
-        if (adminRol.FirstOrDefault().ToString() != Role.GlobalAdmin.ToString() &&
-            adminRol.FirstOrDefault().ToString() != Role.Admin.ToString())
-            throw new PermisionException("No Access");
         var workspacInboards = await _appDbContext.Workspaces.Include(x => x.Boards).ToListAsync();
 
         return _mapper.Map<List<GetWorkspaceInBoardDto>>(workspacInboards);
@@ -245,7 +215,7 @@ public class WorkspaceService : IWorkspaceService
         var token = tokenHandler.CreateToken(tokenDescriptor);
         return $"{siteName}/workspace/invite?token={tokenHandler.WriteToken(token)}";
     }
-    public async Task<IActionResult> InviteUserToWorkspace(string token,string UserEmail)
+    public async Task<IActionResult> InviteUserToWorkspace(string token, string UserEmail)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_configuration["JwtSettings:Key"]); // Retrieve from configuration
@@ -309,7 +279,7 @@ public class WorkspaceService : IWorkspaceService
             return;
 
         // Check if admin has sufficient permissions
-        var roles = await GetUserRole(linkShareToWorkspaceDto.AdminId.ToString(),linkShareToWorkspaceDto.WorkspaceId);
+        var roles = await GetUserRole(linkShareToWorkspaceDto.AdminId.ToString(), linkShareToWorkspaceDto.WorkspaceId);
         if (!roles.Contains(Role.GlobalAdmin.ToString()) && !roles.Contains(Role.Admin.ToString()))
             throw new NotFoundException("No Access");
 
@@ -333,7 +303,7 @@ public class WorkspaceService : IWorkspaceService
     }
     public async Task UpdateAsync(UpdateWorkspaceDto updateWorkspaceDto)
     {
-        var role =GetUserRole(updateWorkspaceDto.AppUserId, updateWorkspaceDto.WorkspaceId);
+        var role = GetUserRole(updateWorkspaceDto.AppUserId, updateWorkspaceDto.WorkspaceId);
 
         if (await role != Role.GlobalAdmin.ToString())
             throw new PermisionException("No Access");
