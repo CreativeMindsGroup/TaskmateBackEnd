@@ -16,16 +16,16 @@ namespace TaskMate.Service.Implementations
 {
     public class CardService : ICardService
     {
-        private const string Path1 = @"C:\Users\Nurlan\Desktop\TaskmateUploads";
         private readonly AppDbContext _appDbContext;
         private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
-
-        public CardService(AppDbContext appDbContext, UserManager<AppUser> userManager, IMapper mapper)
+        private readonly IConfiguration _configuration;
+        public CardService(AppDbContext appDbContext, UserManager<AppUser> userManager, IMapper mapper, IConfiguration configuration)
         {
             _appDbContext = appDbContext;
             _userManager = userManager;
             _mapper = mapper;
+            _configuration = configuration;
         }
         public async Task<bool> CheckUserAdminRoleInWorkspace(string userId, Guid workspaceId)
         {
@@ -284,8 +284,8 @@ namespace TaskMate.Service.Implementations
                 string fileNameToUse = string.IsNullOrEmpty(uploadDto.FileName)
                                        ? file.FileName
                                        : uploadDto.FileName + (string.IsNullOrEmpty(Path.GetExtension(uploadDto.FileName)) ? originalExtension : "");
-
-                var filePath = Path.Combine(Path1, fileNameToUse); 
+                var path =  _configuration.GetValue<string>("FileSettings:FileUpload");
+                var filePath = Path.Combine(path, fileNameToUse); 
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
