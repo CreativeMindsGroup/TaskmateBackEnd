@@ -256,8 +256,8 @@
   },
   {
     "ContainingType": "TaskMate.Controllers.BoardsController",
-    "Method": "GetArchivedTasks",
-    "RelativePath": "api/Boards/GetArchivedTasks",
+    "Method": "GetArchivedCards",
+    "RelativePath": "api/Boards/GetArchivedCards",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -270,7 +270,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "GetBoardsDto",
+        "Type": "System.Collections.Generic.List\u00601[[TaskMate.DTOs.Card.GetArchivedCardDto, TaskMate, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -499,6 +499,38 @@
   },
   {
     "ContainingType": "TaskMate.Controllers.CardsController",
+    "Method": "AddUserToCard",
+    "RelativePath": "api/Cards/addUserToCard",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "TaskMate.DTOs.CardMembers.AddMemberToCardDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CardsController",
+    "Method": "MakeArchive",
+    "RelativePath": "api/Cards/ChangeArchiceStatus",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "TaskMate.DTOs.Card.MakeArchiveDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CardsController",
     "Method": "DownloadFile",
     "RelativePath": "api/Cards/download/{cardId}/{fileName}",
     "HttpMethod": "GET",
@@ -636,22 +668,6 @@
   },
   {
     "ContainingType": "TaskMate.Controllers.CardsController",
-    "Method": "MakeArchive",
-    "RelativePath": "api/Cards/IsArchived",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "dto",
-        "Type": "TaskMate.DTOs.Card.MakeArchiveDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "TaskMate.Controllers.CardsController",
     "Method": "RemoveCard",
     "RelativePath": "api/Cards/remove",
     "HttpMethod": "DELETE",
@@ -698,6 +714,22 @@
         "Name": "workspaceId",
         "Type": "System.Guid",
         "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CardsController",
+    "Method": "RemoveUserFromCard",
+    "RelativePath": "api/Cards/removeUserFromCard",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "TaskMate.DTOs.CardMembers.AddMemberToCardDto",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -1246,14 +1278,14 @@
   {
     "ContainingType": "TaskMate.Controllers.CustomFieldsController",
     "Method": "RemoveDropDown",
-    "RelativePath": "api/CustomFields/RemoveDropDown/{dropdownId}",
-    "HttpMethod": "DELETE",
+    "RelativePath": "api/CustomFields/RemoveDropDown",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "dropdownId",
-        "Type": "System.Guid",
+        "Name": "Dto",
+        "Type": "TaskMate.DTOs.CustomFileds.RemoveDropDownDto",
         "IsRequired": true
       }
     ],

@@ -13,7 +13,27 @@ public class AppDbContext : IdentityDbContext<AppUser>
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(SliderConfiguration).Assembly);
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<AppUsersCards>()
+    .HasKey(uc => new { uc.AppUserId, uc.CardId });
+
+        modelBuilder.Entity<AppUsersCards>()
+            .HasOne(uc => uc.AppUser)
+            .WithMany(u => u.AppUsersCards)
+            .HasForeignKey(uc => uc.AppUserId);
+
+        modelBuilder.Entity<AppUsersCards>()
+            .HasOne(uc => uc.Card)
+            .WithMany(c => c.AppUsersCards)
+            .HasForeignKey(uc => uc.CardId);
+        // Add the cascade delete configuration here
+        modelBuilder.Entity<DropDown>()
+            .HasMany(d => d.DropDownOptions)
+            .WithOne(o => o.DropDown)
+            .HasForeignKey(o => o.DropDownId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
+    public DbSet<AppUsersCards> AppUsersCards { get; set; }
     public DbSet<AppUser> AppUsers { get; set; }
     public DbSet<Workspace> Workspaces { get; set; }
     public DbSet<Boards> Boards { get; set; }

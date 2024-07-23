@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using TaskMate.Context;
 using TaskMate.DTOs.Card;
+using TaskMate.DTOs.CardMembers;
 using TaskMate.Entities;
 using TaskMate.Exceptions;
 using TaskMate.Helper.Enum.User;
@@ -154,9 +155,9 @@ namespace TaskMate.Service.Implementations
         {
             var cards = await _appDbContext.Cards
                 .Include(c => c.CardList)
-                .Include(c => c.CustomFields)  
+                .Include(c => c.CustomFields)
                 .Where(c => c.CardList.BoardsId == boardId)
-                .OrderBy(c => c.Order)  
+                .OrderBy(c => c.Order)
                 .ToListAsync();
 
             return _mapper.Map<List<GetCardDto>>(cards);
@@ -284,8 +285,8 @@ namespace TaskMate.Service.Implementations
                 string fileNameToUse = string.IsNullOrEmpty(uploadDto.FileName)
                                        ? file.FileName
                                        : uploadDto.FileName + (string.IsNullOrEmpty(Path.GetExtension(uploadDto.FileName)) ? originalExtension : "");
-                var path =  _configuration.GetValue<string>("FileSettings:FileUpload");
-                var filePath = Path.Combine(path, fileNameToUse); 
+                var path = _configuration.GetValue<string>("FileSettings:FileUpload");
+                var filePath = Path.Combine(path, fileNameToUse);
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
@@ -294,7 +295,7 @@ namespace TaskMate.Service.Implementations
 
                 card.Attachments.Add(new CardAttachment
                 {
-                    FileName = fileNameToUse, 
+                    FileName = fileNameToUse,
                     FilePath = filePath,
                     CardId = card.Id
                 });
@@ -412,9 +413,74 @@ namespace TaskMate.Service.Implementations
                 .Include(c => c.CardList)
                 .Where(c => c.CardList.BoardsId == boardId)
                 .OrderBy(c => c.Order)
-                .Where (c => c.isArchived == true)
+                .Where(c => c.isArchived == true)
                 .ToListAsync();
             return _mapper.Map<List<GetCardDto>>(cards);
         }
+
+        public async Task<bool> AddUserToCard(AddMemberToCardDto dto)
+        {
+            var hasAccess = await CheckUserAdminRoleInWorkspace(dto.AdminId.ToString(), dto.WorkspaceId);
+            if (!hasAccess)
+                throw new NotFoundException("No Access");
+
+            var card = await _appDbContext.Cards
+                .Include(c => c.AppUsersCards) // Ensure AppUsersCards collection is included in the query
+                .FirstOrDefaultAsync(x => x.Id == dto.CardId);
+            if (card == null)
+                throw new NotFoundException("Card not found");
+
+            var appUser = await _appDbContext.AppUsers
+                .Include(u => u.AppUsersCards) // Ensure AppUsersCards collection is included in the query
+                .FirstOrDefaultAsync(x => x.Id == dto.MemberId.ToString());
+            if (appUser == null)
+                throw new NotFoundException("User not found");
+
+            // Check if the user is already in the card's AppUsers
+            if (!card.AppUsersCards.Any(uc => uc.AppUserId == appUser.Id))
+            {
+                var appUsersCards = new AppUsersCards
+                {
+                    AppUserId = appUser.Id,
+                    CardId = card.Id
+                };
+                card.AppUsersCards.Add(appUsersCards);
+                await _appDbContext.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
+
+
+        public async Task<bool> RemoveUserFromCard(AddMemberToCardDto dto)
+        {
+            var hasAccess = await CheckUserAdminRoleInWorkspace(dto.AdminId.ToString(), dto.WorkspaceId);
+            if (!hasAccess)
+                throw new NotFoundException("No Access");
+
+            var card = await _appDbContext.Cards
+                .Include(c => c.AppUsersCards)
+                .FirstOrDefaultAsync(x => x.Id == dto.CardId);
+            var appUser = await _appDbContext.AppUsers
+                .Include(u => u.AppUsersCards)
+                .FirstOrDefaultAsync(x => x.Id == dto.MemberId.ToString());
+
+            if (card == null || appUser == null)
+                return false;
+
+            var appUserCard = card.AppUsersCards.FirstOrDefault(uc => uc.AppUserId == appUser.Id && uc.CardId == card.Id);
+            if (appUserCard != null)
+            {
+                card.AppUsersCards.Remove(appUserCard);
+                appUser.AppUsersCards.Remove(appUserCard); 
+                await _appDbContext.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
+
     }
+
 }

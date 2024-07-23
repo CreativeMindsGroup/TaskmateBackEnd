@@ -230,6 +230,21 @@ namespace TaskMate.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("TaskMate.Entities.AppUsersCards", b =>
+                {
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("CardId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("AppUserId", "CardId");
+
+                    b.HasIndex("CardId");
+
+                    b.ToTable("AppUsersCards");
+                });
+
             modelBuilder.Entity("TaskMate.Entities.Boards", b =>
                 {
                     b.Property<Guid>("Id")
@@ -967,6 +982,25 @@ namespace TaskMate.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TaskMate.Entities.AppUsersCards", b =>
+                {
+                    b.HasOne("TaskMate.Entities.AppUser", "AppUser")
+                        .WithMany("AppUsersCards")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TaskMate.Entities.Card", "Card")
+                        .WithMany("AppUsersCards")
+                        .HasForeignKey("CardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Card");
+                });
+
             modelBuilder.Entity("TaskMate.Entities.Boards", b =>
                 {
                     b.HasOne("TaskMate.Entities.Workspace", "Workspace")
@@ -1133,7 +1167,8 @@ namespace TaskMate.Migrations
                 {
                     b.HasOne("TaskMate.Entities.DropDown", "DropDown")
                         .WithMany("DropDownOptions")
-                        .HasForeignKey("DropDownId");
+                        .HasForeignKey("DropDownId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("DropDown");
                 });
@@ -1208,6 +1243,8 @@ namespace TaskMate.Migrations
 
             modelBuilder.Entity("TaskMate.Entities.AppUser", b =>
                 {
+                    b.Navigation("AppUsersCards");
+
                     b.Navigation("Comments");
 
                     b.Navigation("UserBoards");
@@ -1226,6 +1263,8 @@ namespace TaskMate.Migrations
 
             modelBuilder.Entity("TaskMate.Entities.Card", b =>
                 {
+                    b.Navigation("AppUsersCards");
+
                     b.Navigation("Attachments");
 
                     b.Navigation("Checklists");

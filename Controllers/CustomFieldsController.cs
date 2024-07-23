@@ -57,10 +57,10 @@ public class CustomFieldsController : ControllerBase
         return StatusCode((int)HttpStatusCode.Accepted);
     }
 
-    [HttpDelete("RemoveDropDown/{dropdownId}")]
-    public async Task<IActionResult> RemoveDropDown(Guid dropdownId)
+    [HttpPost("RemoveDropDown")]
+    public async Task<IActionResult> RemoveDropDown([FromBody] RemoveDropDownDto Dto)
     {
-        await _customFieldsService.RemoveDropDown(dropdownId);
+        await _customFieldsService.RemoveDropDown(Dto);
         return StatusCode((int)HttpStatusCode.OK);
     }
 

@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using TaskMate.Context;
 using TaskMate.DTOs.Boards;
+using TaskMate.DTOs.Card;
 using TaskMate.DTOs.Workspace;
 using TaskMate.Entities;
 using TaskMate.Exceptions;
@@ -100,26 +101,46 @@ public class BoardsService : IBoardsService
     {
         var board = await _appDbContext.Boards
             .Where(b => b.Id == boardId)
-            .Include(b => b.CardLists.OrderBy(cl => cl.Order))
-            .ThenInclude(cl => cl.Cards.OrderBy(c => c.Order).Where(x => x.isArchived == false))
-             .ThenInclude(cl => cl.CustomFields)
-
+            .Include(b => b.CardLists)
+                .ThenInclude(cl => cl.Cards)
+                    .ThenInclude(c => c.AppUsersCards)
+                        .ThenInclude(ac => ac.AppUser)  // Include AppUsers for Cards
+            .Include(b => b.CardLists)
+                .ThenInclude(cl => cl.Cards)
+                    .ThenInclude(c => c.CustomFields)  // Include CustomFields for Cards
             .FirstOrDefaultAsync();
 
         if (board == null)
             throw new NotFoundException("Board not found.");
 
+        // Perform in-memory ordering
+        foreach (var cardList in board.CardLists)
+        {
+            cardList.Cards = cardList.Cards.Where(c => !c.isArchived).OrderBy(c => c.Order).ToList();
+        }
+
+        board.CardLists = board.CardLists.OrderBy(cl => cl.Order).ToList();
+
         return _mapper.Map<GetBoardsDto>(board);
     }
-    public async Task<GetBoardsDto> GetArchivedTasks(Guid boardId)
+
+    public async Task<List<GetArchivedCardDto>> GetArchivedCardsInBoard(Guid boardId)
     {
-        var board = await _appDbContext.Cards
-            .Where(b => b.Id == boardId).Where(x => x.isArchived == true)
-            .FirstOrDefaultAsync();
-        if (board == null)
-            throw new NotFoundException("Board not found.");
-        return _mapper.Map<GetBoardsDto>(board);
+        // Filter by CardList.BoardId and IsArchived
+        var archivedCards = await _appDbContext.Cards
+            .Include(c => c.CardList)
+            .Where(c => c.CardList.BoardsId == boardId && c.isArchived)
+            .ToListAsync();
+
+        // If no archived cards are found, return an empty list instead of throwing an exception
+        if (archivedCards == null || !archivedCards.Any())
+        {
+            return new List<GetArchivedCardDto>();
+        }
+
+        return _mapper.Map<List<GetArchivedCardDto>>(archivedCards);
     }
+
 
 
     public async Task Remove(string AdminId, Guid BoardId, Guid WorkspaceId)

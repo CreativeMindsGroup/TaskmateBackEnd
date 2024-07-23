@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TaskMate.Context;
 using TaskMate.DTOs.Card;
+using TaskMate.DTOs.CardMembers;
 using TaskMate.Exceptions;
 using TaskMate.Service.Abstraction;
 
@@ -92,8 +93,8 @@ namespace TaskMate.Controllers
             await _cardService.UpdateTitle(dto);
             return Ok("titleUpdated");
         }
-        [HttpPost]
-        [Route("IsArchived")]
+        [HttpPut]
+        [Route("ChangeArchiceStatus")]
         public async Task<IActionResult> MakeArchive(MakeArchiveDto dto)
         {
             await _cardService.MakeArchive(dto);
@@ -180,6 +181,26 @@ namespace TaskMate.Controllers
             await _cardService.ChangeCoverColorAsync(Dto);
             return Ok("Description updated successfully.");
         }
-
+        // New endpoints for adding and removing users from a card
+        [HttpPost("addUserToCard")]
+        public async Task<IActionResult> AddUserToCard(AddMemberToCardDto dto)
+        {
+            var result = await _cardService.AddUserToCard(dto);
+            if (result)
+            {
+                return Ok("User added successfully.");
+            }
+            return BadRequest("Failed to add user.");
+        }
+        [HttpPost("removeUserFromCard")]
+        public async Task<IActionResult> RemoveUserFromCard(AddMemberToCardDto dto)
+        {
+            var result = await _cardService.RemoveUserFromCard(dto);
+            if (result)
+            {
+                return Ok("User removed successfully.");
+            }
+            return BadRequest("Failed to remove user.");
+        }
     }
 }
