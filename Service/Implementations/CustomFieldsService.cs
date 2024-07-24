@@ -118,7 +118,7 @@ namespace TaskMate.Service.Implementations
                 .Include(cf => cf.Checkbox)
                 .Include(cf => cf.Number)
                 .Include(cf => cf.DropDown) // Include DropDown
-                    .ThenInclude(dd => dd.DropDownOptions) // ThenInclude DropDownOptions
+                    .ThenInclude(dd => dd.DropDownOptions.OrderBy(x=>x.Order)) // ThenInclude DropDownOptions
                     .Where(x=>x.CardId == cardId)   
                 .FirstOrDefaultAsync();
 
@@ -196,20 +196,27 @@ namespace TaskMate.Service.Implementations
             return cards;
         }
 
-      
 
 
-        public async Task RemoveDropDown(Guid DropdownId)
+
+        public async Task RemoveDropDown( RemoveDropDownDto Dto)
         {
-            var Result = await _appDbContext.DropDownOptions.FirstOrDefaultAsync(x => x.Id == DropdownId);
-            if (Result is null)
+            // Retrieve the dropdown entity, including its related options
+            if (!await CheckUserAdminRoleInWorkspace(Dto.UserId, Dto.WorkspaceId))
             {
-                throw new Exception();
+                throw new NotFoundException("No Access");
             }
-            _appDbContext.DropDownOptions.Remove(Result);
+            var dropdown = await _appDbContext.DropDowns
+                .Include(d => d.DropDownOptions)
+                .FirstOrDefaultAsync(d => d.Id == Dto.DropDownId);
+
+            if (dropdown == null)
+            {
+                throw new Exception("Dropdown not found.");
+            }
+            _appDbContext.DropDownOptions.RemoveRange(dropdown.DropDownOptions);
+            _appDbContext.DropDowns.Remove(dropdown);
             await _appDbContext.SaveChangesAsync();
-
-
         }
         public async Task CreateDropdown(CreateDropdownDTO dto)
         {
@@ -240,7 +247,8 @@ namespace TaskMate.Service.Implementations
                     DropDownOptions = dto.DropDownOptions?.Select(opt => new DropDownOptions
                     {
                         OptionName = opt.OptionName,
-                        Color = opt.Color
+                        Color = opt.Color,
+                        Order = opt.Order,
                     }).ToList()
                 };
 

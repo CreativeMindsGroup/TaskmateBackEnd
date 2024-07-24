@@ -1,4 +1,5 @@
 ﻿using TaskMate.DTOs.CustomField;
+using TaskMate.DTOs.Users;
 
 namespace TaskMate.DTOs.Card
 {
@@ -44,10 +45,18 @@ namespace TaskMate.DTOs.Card
         public DateTime? DueDate { get; set; }
         public bool isDueDateDone { get; set; }
         public bool isArchived { get; set; }
-        public List<CardAttachmentDto> Attachments { get; set; }
-        public GetCustomFieldDto GetCustomFieldDto { get; set; }
+        public List<CardAttachmentDto>? Attachments { get; set; }
+        public List<GetUserDto>? AppUsers { get; set; }
+        public GetCustomFieldDto? GetCustomFieldDto { get; set; }
     }
+    public class GetArchivedCardDto
+    {
 
+        public Guid Id { get; set; }
+        public string Title { get; set; }
+        public string? Description { get; set; }
+        public bool isArchived { get; set; }
+    }
     public class CardAttachmentDto
     {
         public Guid Id { get; set; }

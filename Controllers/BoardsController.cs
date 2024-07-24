@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using TaskMate.DTOs.Boards;
+using TaskMate.DTOs.Card;
 using TaskMate.DTOs.Workspace;
 using TaskMate.Exceptions;
 using TaskMate.Helper.Enum.User;
@@ -31,11 +32,11 @@ public class BoardsController : ControllerBase
         var byWorkspace = await _boardsService.GetByIdAsync(BoardId);
         return Ok(byWorkspace);
     } 
-    [HttpGet("GetArchivedTasks")]
-    public async Task<GetBoardsDto>  GetArchivedTasks(Guid boardId)
+    [HttpGet("GetArchivedCards")]
+    public async Task<List<GetArchivedCardDto>>  GetArchivedCards(Guid boardId)
     {
-        var byWorkspace = await _boardsService.GetArchivedTasks(boardId);
-        return byWorkspace;
+        var Cards = await _boardsService.GetArchivedCardsInBoard(boardId);
+        return Cards;
     }
 
     [HttpPost("[action]")]

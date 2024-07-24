@@ -1,4 +1,5 @@
 ﻿using TaskMate.DTOs.Boards;
+using TaskMate.DTOs.Card;
 
 namespace TaskMate.Service.Abstraction;
 
@@ -11,5 +12,5 @@ public interface IBoardsService
     Task<GetBoardsDto> GetByIdAsync(Guid BoardId);
     Task UpdateCardPositionAsync(Guid cardId, Guid sourceColumnId, Guid destinationColumnId, int newPosition);
     Task UpdateCardListPositionAsync(Guid boardId, List<Guid> newOrder);
-    Task<GetBoardsDto> GetArchivedTasks(Guid boardId);
+    Task<List<GetArchivedCardDto>> GetArchivedCardsInBoard(Guid boardId);
 }

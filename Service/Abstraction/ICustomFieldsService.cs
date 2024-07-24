@@ -18,7 +18,7 @@ public interface ICustomFieldsService
     Task UpdateChecklist(bool value, Guid id);
     Task UpdateCustomField(string value, Guid Id);
     Task CreateDropdown(CreateDropdownDTO dto);
-    Task RemoveDropDown(Guid DropdownId);
+    Task RemoveDropDown(RemoveDropDownDto Dto);
     Task SetOptionToDropdown(Guid DropDownId, Guid DropdownOptionId);
 
 }

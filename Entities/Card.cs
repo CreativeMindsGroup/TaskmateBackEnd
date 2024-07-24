@@ -20,6 +20,7 @@ namespace TaskMate.Entities
         public List<Comment>? Comments { get; set; }
         public List<LabelCard>? LabelsCards { get; set; }
         public List<Checklist>? Checklists { get; set; }
+        public ICollection<AppUsersCards>? AppUsersCards { get; set; }
         public virtual CustomFields CustomFields { get; set; }
     }
 }

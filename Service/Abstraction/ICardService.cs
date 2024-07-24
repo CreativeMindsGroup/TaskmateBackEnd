@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaskMate.DTOs.Card;
 using TaskMate.DTOs.CardList;
+using TaskMate.DTOs.CardMembers;
 using TaskMate.Service.Implementations;
 
 namespace TaskMate.Service.Abstraction;
@@ -28,4 +29,6 @@ public interface ICardService
     Task DeleteAttachment(Guid attachmentId, string userId, Guid workspaceId);
     Task UpdateTitle(UpdateTitleDto dto);
     Task<List<GetCardDto>> getAllArchivedCards(Guid boardId);
+    Task<bool> AddUserToCard(AddMemberToCardDto dto);
+    Task<bool> RemoveUserFromCard(AddMemberToCardDto dto);
 }

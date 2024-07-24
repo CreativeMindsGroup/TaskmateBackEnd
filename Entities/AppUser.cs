@@ -11,5 +11,6 @@ public class AppUser : IdentityUser
     public List<WorkspaceUser>? WorkspaceUserss { get; set; }
     public List<UserBoards>? UserBoards { get; set; }
     public List<Comment>? Comments { get; set; }
+    public ICollection<AppUsersCards>? AppUsersCards { get; set; }
 
 }
