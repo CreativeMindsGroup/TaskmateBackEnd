@@ -24,7 +24,7 @@ namespace TaskMate.Service.Implementations
             _mapper = mapper;
         }
 
-        public async Task<bool> CheckUserAdminRoleInWorkspace(string userId, Guid workspaceId)
+        public async Task<bool> CheckUserAdminRoleInWorkspace(string userId, Guid workspaceId, bool isMemberAllowed)
         {
             var user = await _appDbContext.WorkspaceUsers
                         .FirstOrDefaultAsync(wu => wu.WorkspaceId == workspaceId && wu.AppUserId == userId);
@@ -36,7 +36,18 @@ namespace TaskMate.Service.Implementations
 
             if (Enum.TryParse<Role>(user.Role, true, out var roleEnum))
             {
-                return roleEnum == Role.GlobalAdmin || roleEnum == Role.Admin;
+                if (roleEnum == Role.GlobalAdmin || roleEnum == Role.Admin)
+                {
+                    return true;
+                }
+                else if (roleEnum == Role.Member && isMemberAllowed)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
@@ -46,7 +57,7 @@ namespace TaskMate.Service.Implementations
 
         public async Task CreateChecklistAsync(CreateCheckboxCustomFieldDto dto)
         {
-            var result = CheckUserAdminRoleInWorkspace(dto.UserId, dto.WorkspaceId);
+            var result = CheckUserAdminRoleInWorkspace(dto.UserId, dto.WorkspaceId,false);
             if (await result == false)
                 throw new NotFoundException("No Access");
 
@@ -80,7 +91,7 @@ namespace TaskMate.Service.Implementations
 
         public async Task CreateNumberAsync(CustomFieldNumberDto dto)
         {
-            var result = CheckUserAdminRoleInWorkspace(dto.UserId, dto.WorkspaceId);
+            var result = CheckUserAdminRoleInWorkspace(dto.UserId, dto.WorkspaceId, false);
             if (await result == false)
                 throw new NotFoundException("No Access");
 
@@ -126,8 +137,12 @@ namespace TaskMate.Service.Implementations
 
             return customFieldDto;
         }
-        public async Task UpdateCustomField(string value, Guid Id)
+        public async Task UpdateCustomField(string value, Guid Id,string UserId,Guid WorkspaceId)
         {
+            if (!await CheckUserAdminRoleInWorkspace(UserId, WorkspaceId, true))
+            {
+                throw new NotFoundException("No Access");
+            }
             var CustomField = await _appDbContext.CustomFieldsNumbers.FirstOrDefaultAsync(cf => cf.Id == Id);
             if (CustomField is null)
             {
@@ -140,7 +155,7 @@ namespace TaskMate.Service.Implementations
 
         public async Task RemoveCustomField(RemoveCustomFieldDTO dto)
         {
-            if (!await CheckUserAdminRoleInWorkspace(dto.UserId, dto.WorkspaceId))
+            if (!await CheckUserAdminRoleInWorkspace(dto.UserId, dto.WorkspaceId, false))
             {
                 throw new NotFoundException("No Access");
             }
@@ -168,8 +183,11 @@ namespace TaskMate.Service.Implementations
             await _appDbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateChecklist(bool value, Guid id)
+        public async Task UpdateChecklist(bool value, Guid id,string UserId,Guid WorkspaceId)
         {
+            var result = CheckUserAdminRoleInWorkspace(UserId, WorkspaceId, false);
+            if (await result == false)
+                throw new NotFoundException("No Access");
             var checkbox = await _appDbContext.CustomFieldsCheckboxes.FirstOrDefaultAsync(cf => cf.Id == id);
             if (checkbox == null)
             {
@@ -202,7 +220,7 @@ namespace TaskMate.Service.Implementations
         public async Task RemoveDropDown( RemoveDropDownDto Dto)
         {
             // Retrieve the dropdown entity, including its related options
-            if (!await CheckUserAdminRoleInWorkspace(Dto.UserId, Dto.WorkspaceId))
+            if (!await CheckUserAdminRoleInWorkspace(Dto.UserId, Dto.WorkspaceId, false))
             {
                 throw new NotFoundException("No Access");
             }
@@ -220,7 +238,7 @@ namespace TaskMate.Service.Implementations
         }
         public async Task CreateDropdown(CreateDropdownDTO dto)
         {
-            var result = await CheckUserAdminRoleInWorkspace(dto.UserId.ToString(), dto.WorkspaceId);
+            var result = await CheckUserAdminRoleInWorkspace(dto.UserId.ToString(), dto.WorkspaceId,false);
             if (!result)
                 throw new NotFoundException("No Access");
 
@@ -259,8 +277,11 @@ namespace TaskMate.Service.Implementations
         }
 
 
-        public async Task SetOptionToDropdown(Guid dropdownId, Guid dropdownOptionId)
+        public async Task SetOptionToDropdown(Guid dropdownId, Guid dropdownOptionId, string UserId, Guid WorkspaceId)
         {
+            var result = await CheckUserAdminRoleInWorkspace(UserId, WorkspaceId, true);
+            if (!result)
+                throw new NotFoundException("No Access");
             var dropdownOption = await _appDbContext.DropDownOptions.FirstOrDefaultAsync(x => x.Id == dropdownOptionId);
             if (dropdownOption == null)
             {
@@ -277,7 +298,6 @@ namespace TaskMate.Service.Implementations
             dropdown.Color = dropdownOption.Color;
             dropdown.OptionName = dropdownOption.OptionName;
             await _appDbContext.SaveChangesAsync();
-
 
         }
 

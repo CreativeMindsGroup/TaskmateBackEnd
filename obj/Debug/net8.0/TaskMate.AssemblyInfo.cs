@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TaskMate")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+94b773bdb5c438f354fbe918cff059a5a30107af")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9fd5e30a91507a06b466f60b4232d508ae558eda")]
 [assembly: System.Reflection.AssemblyProductAttribute("TaskMate")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TaskMate")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

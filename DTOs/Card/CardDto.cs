@@ -91,5 +91,7 @@ namespace TaskMate.DTOs.Card
     {
         public Guid CardId { get; set; }
         public string? FileName { get; set; }
+        public string? UserId { get; set;}
+        public Guid WorkspaceId { get; set; }
     }
 }

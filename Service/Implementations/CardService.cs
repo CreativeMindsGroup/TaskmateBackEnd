@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using TaskMate.Context;
 using TaskMate.DTOs.Card;
 using TaskMate.DTOs.CardMembers;
+using TaskMate.DTOs.Checkitem;
 using TaskMate.Entities;
 using TaskMate.Exceptions;
 using TaskMate.Helper.Enum.User;
@@ -28,7 +29,7 @@ namespace TaskMate.Service.Implementations
             _mapper = mapper;
             _configuration = configuration;
         }
-        public async Task<bool> CheckUserAdminRoleInWorkspace(string userId, Guid workspaceId)
+        public async Task<bool> CheckUserAdminRoleInWorkspace(string userId, Guid workspaceId, bool isMemberAllowed)
         {
             var user = await _appDbContext.WorkspaceUsers
                         .FirstOrDefaultAsync(wu => wu.WorkspaceId == workspaceId && wu.AppUserId == userId);
@@ -44,6 +45,10 @@ namespace TaskMate.Service.Implementations
                 {
                     return true;
                 }
+                else if (roleEnum == Role.Member && isMemberAllowed)
+                {
+                    return true;
+                }
                 else
                 {
                     return false;
@@ -54,7 +59,6 @@ namespace TaskMate.Service.Implementations
                 throw new ArgumentException("The role value in the database is undefined in the Role enum.");
             }
         }
-
         public async Task AddCardDateAsync(CardAddDatesDto cardAddDatesDto)
         {
             if (cardAddDatesDto.StartDate == null || cardAddDatesDto.EndDate == null)
@@ -125,7 +129,7 @@ namespace TaskMate.Service.Implementations
 
         public async Task Remove(string appUserId, Guid cardId, Guid WorkspaceId)
         {
-            var Result = CheckUserAdminRoleInWorkspace(appUserId, WorkspaceId);
+            var Result = CheckUserAdminRoleInWorkspace(appUserId, WorkspaceId,false);
             if (await Result == false)
                 throw new NotFoundException("No Access");
             var card = await _appDbContext.Cards.FindAsync(cardId);
@@ -210,6 +214,9 @@ namespace TaskMate.Service.Implementations
         }
         public async Task UpdateCardDescriptionAsync(UpdateCardDescriptionDto updateCardDescriptionDto)
         {
+            var Result = CheckUserAdminRoleInWorkspace(updateCardDescriptionDto.UserId.ToString(), updateCardDescriptionDto.WorkspcaeId, true);
+            if (await Result == false)
+                throw new NotFoundException("No Access");
             var card = await _appDbContext.Cards.FindAsync(updateCardDescriptionDto.CardId);
             if (card == null)
                 throw new NotFoundException("Card not found");
@@ -221,7 +228,7 @@ namespace TaskMate.Service.Implementations
         }
         public async Task ChangeCoverColorAsync(CardCoverCreateDto Dto)
         {
-            var Result = CheckUserAdminRoleInWorkspace(Dto.AdminId.ToString(), Dto.WorkspaceId);
+            var Result = CheckUserAdminRoleInWorkspace(Dto.AdminId.ToString(), Dto.WorkspaceId,false);
             if (await Result == false)
                 throw new NotFoundException("No Access");
             var card = await _appDbContext.Cards.FindAsync(Dto.CardId);
@@ -243,7 +250,7 @@ namespace TaskMate.Service.Implementations
 
         public async Task UpdateDueDate(CreateCardDueDateDto updateCheckitemDto)
         {
-            var Result = CheckUserAdminRoleInWorkspace(updateCheckitemDto.UserId.ToString(), updateCheckitemDto.WorkspaceId);
+            var Result = CheckUserAdminRoleInWorkspace(updateCheckitemDto.UserId.ToString(), updateCheckitemDto.WorkspaceId,true);
             if (await Result == false)
                 throw new NotFoundException("No Access");
 
@@ -271,6 +278,9 @@ namespace TaskMate.Service.Implementations
         }
         public async Task UploadAttachmentAsync(FileUploadDto uploadDto, IFormFile UploadFile)
         {
+            var Result = CheckUserAdminRoleInWorkspace(uploadDto.UserId, uploadDto.WorkspaceId, true);
+            if (await Result == false)
+                throw new NotFoundException("No Access");
             var card = await _appDbContext.Cards
                               .Include(c => c.Attachments)
                               .FirstOrDefaultAsync(c => c.Id == uploadDto.CardId);
@@ -314,7 +324,7 @@ namespace TaskMate.Service.Implementations
         }
         public async Task DeleteAttachment(Guid attachmentId, string userId, Guid workspaceId)
         {
-            var result = await CheckUserAdminRoleInWorkspace(userId, workspaceId);
+            var result = await CheckUserAdminRoleInWorkspace(userId, workspaceId,false);
             if (!result)
                 throw new NotFoundException("No Access");
 
@@ -387,7 +397,7 @@ namespace TaskMate.Service.Implementations
 
         public async Task MakeArchive(MakeArchiveDto dto)
         {
-            var Result = CheckUserAdminRoleInWorkspace(dto.AdminId.ToString(), dto.WorkspaceId);
+            var Result = CheckUserAdminRoleInWorkspace(dto.AdminId.ToString(), dto.WorkspaceId, false);
             if (await Result == false)
                 throw new NotFoundException("No Access");
             var card = await _appDbContext.Cards.FindAsync(dto.CardId);
@@ -398,7 +408,7 @@ namespace TaskMate.Service.Implementations
         }
         public async Task UpdateTitle(UpdateTitleDto dto)
         {
-            var Result = CheckUserAdminRoleInWorkspace(dto.AdminId.ToString(), dto.WorkspaceId);
+            var Result = CheckUserAdminRoleInWorkspace(dto.AdminId.ToString(), dto.WorkspaceId,false);
             if (await Result == false)
                 throw new NotFoundException("No Access");
             var card = await _appDbContext.Cards.FindAsync(dto.Id);
@@ -420,7 +430,7 @@ namespace TaskMate.Service.Implementations
 
         public async Task<bool> AddUserToCard(AddMemberToCardDto dto)
         {
-            var hasAccess = await CheckUserAdminRoleInWorkspace(dto.AdminId.ToString(), dto.WorkspaceId);
+            var hasAccess = await CheckUserAdminRoleInWorkspace(dto.AdminId.ToString(), dto.WorkspaceId, false);
             if (!hasAccess)
                 throw new NotFoundException("No Access");
 
@@ -455,7 +465,7 @@ namespace TaskMate.Service.Implementations
 
         public async Task<bool> RemoveUserFromCard(AddMemberToCardDto dto)
         {
-            var hasAccess = await CheckUserAdminRoleInWorkspace(dto.AdminId.ToString(), dto.WorkspaceId);
+            var hasAccess = await CheckUserAdminRoleInWorkspace(dto.AdminId.ToString(), dto.WorkspaceId, false);
             if (!hasAccess)
                 throw new NotFoundException("No Access");
 

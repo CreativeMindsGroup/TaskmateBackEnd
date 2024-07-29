@@ -36,7 +36,7 @@ public class BoardsService : IBoardsService
         _authService = authService;
         _configuration = configuration;
     }
-    public async Task<bool> CheckUserAdminRoleInWorkspace(string userId, Guid workspaceId)
+    public async Task<bool> CheckUserAdminRoleInWorkspace(string userId, Guid workspaceId,bool isMemberAllowed)
     {
         var user = await _appDbContext.WorkspaceUsers
                     .FirstOrDefaultAsync(wu => wu.WorkspaceId == workspaceId && wu.AppUserId == userId);
@@ -52,6 +52,10 @@ public class BoardsService : IBoardsService
             {
                 return true;
             }
+            else if (roleEnum == Role.Member && isMemberAllowed)
+            {
+                return true;
+            }
             else
             {
                 return false;
@@ -64,7 +68,7 @@ public class BoardsService : IBoardsService
     }
     public async Task CreateAsync(CreateBoardsDto createBoardsDto)
     {
-        var Result = CheckUserAdminRoleInWorkspace(createBoardsDto.AppUserId, createBoardsDto.WorkspaceId);
+        var Result = CheckUserAdminRoleInWorkspace(createBoardsDto.AppUserId, createBoardsDto.WorkspaceId,false);
         if (await Result == false)
             throw new NotFoundException("No Access");
         var workspace = await _appDbContext.Workspaces
@@ -145,7 +149,7 @@ public class BoardsService : IBoardsService
 
     public async Task Remove(string AdminId, Guid BoardId, Guid WorkspaceId)
     {
-        var Result = CheckUserAdminRoleInWorkspace(AdminId, WorkspaceId);
+        var Result = CheckUserAdminRoleInWorkspace(AdminId, WorkspaceId, false);
         if (await Result == false)
             throw new NotFoundException("No Access");
         var board = await _appDbContext.Boards
@@ -157,7 +161,7 @@ public class BoardsService : IBoardsService
     }
     public async Task UpdateAsync(UpdateBoardsDto updateBoardsDto)
     {
-        var Result = CheckUserAdminRoleInWorkspace(updateBoardsDto.AppUserId, updateBoardsDto.WorkspaceId);
+        var Result = CheckUserAdminRoleInWorkspace(updateBoardsDto.AppUserId, updateBoardsDto.WorkspaceId, false);
         if (await Result == false)
             throw new NotFoundException("No Access");
         // Check if workspace exists
@@ -172,8 +176,11 @@ public class BoardsService : IBoardsService
         _appDbContext.Boards.Update(board);
         await _appDbContext.SaveChangesAsync();
     }
-    public async Task UpdateCardPositionAsync(Guid cardId, Guid sourceColumnId, Guid destinationColumnId, int newPosition)
+    public async Task UpdateCardPositionAsync(Guid cardId, Guid sourceColumnId, Guid destinationColumnId, int newPosition,Guid workspaceId ,string userId)
     {
+        var Result = CheckUserAdminRoleInWorkspace(userId, workspaceId, true);
+        if (await Result == false)
+            throw new NotFoundException("No Access");
         var card = await _appDbContext.Cards
                                       .Include(c => c.CardList)
                                       .SingleOrDefaultAsync(c => c.Id == cardId);

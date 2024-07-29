@@ -3,6 +3,7 @@ using System.Net;
 using TaskMate.DTOs.Boards;
 using TaskMate.DTOs.Card;
 using TaskMate.DTOs.Workspace;
+using TaskMate.Entities;
 using TaskMate.Exceptions;
 using TaskMate.Helper.Enum.User;
 using TaskMate.Service.Abstraction;
@@ -63,7 +64,7 @@ public class BoardsController : ControllerBase
     {
         try
         {
-            await _boardsService.UpdateCardPositionAsync(moveDto.CardId, moveDto.SourceColumnId, moveDto.DestinationColumnId, moveDto.NewIndex);
+            await _boardsService.UpdateCardPositionAsync(moveDto.CardId, moveDto.SourceColumnId, moveDto.DestinationColumnId, moveDto.NewIndex, moveDto.WorkspaceId, moveDto.UserId);
             return Ok();
         }
         catch (NotFoundException ex)

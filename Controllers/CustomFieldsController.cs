@@ -45,15 +45,15 @@ public class CustomFieldsController : ControllerBase
         return StatusCode((int)HttpStatusCode.OK);
     }
     [HttpPut("UpdateChecklist")]
-    public async Task<IActionResult> UpdateChecklist(bool value, Guid id)
+    public async Task<IActionResult> UpdateChecklist(bool value, Guid id, string UserId, Guid WorkspaceId)
     {
-        await _customFieldsService.UpdateChecklist(value, id);
+        await _customFieldsService.UpdateChecklist(value, id, UserId,WorkspaceId);
         return StatusCode((int)HttpStatusCode.OK);
     }
     [HttpPut("UpdateNumberField")]
-    public async Task<IActionResult> UpdateCustomField(string value, Guid Id)
+    public async Task<IActionResult> UpdateCustomField(string value, Guid Id, string UserId, Guid WorkspaceId)
     {
-        await _customFieldsService.UpdateCustomField(value, Id);
+        await _customFieldsService.UpdateCustomField(value, Id, UserId, WorkspaceId);
         return StatusCode((int)HttpStatusCode.Accepted);
     }
 
@@ -71,9 +71,9 @@ public class CustomFieldsController : ControllerBase
         return StatusCode((int)HttpStatusCode.Created);
     }
     [HttpPost("SetOptionToDropdown")]
-    public async Task<IActionResult> SetOptionToDropdown(Guid dropDownId, Guid dropdownOptionId)
+    public async Task<IActionResult> SetOptionToDropdown(Guid dropDownId, Guid dropdownOptionId, string UserId, Guid WorkspaceId)
     {
-        await _customFieldsService.SetOptionToDropdown(dropDownId, dropdownOptionId);
+        await _customFieldsService.SetOptionToDropdown(dropDownId, dropdownOptionId, UserId, WorkspaceId);
         return StatusCode((int)HttpStatusCode.OK);
     }
 }
