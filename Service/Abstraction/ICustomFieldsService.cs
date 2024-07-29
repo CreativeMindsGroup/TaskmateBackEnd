@@ -15,10 +15,10 @@ public interface ICustomFieldsService
     Task RemoveAsync(Guid CustomFieldId);
     Task<GetCustomFieldDto> GetCustomFieldsAsync(Guid cardId);
     Task RemoveCustomField(RemoveCustomFieldDTO dto);
-    Task UpdateChecklist(bool value, Guid id);
-    Task UpdateCustomField(string value, Guid Id);
+    Task UpdateChecklist(bool value, Guid id,string UserId, Guid WorkspaceId);
+    Task UpdateCustomField(string value, Guid Id, string UserId, Guid WorkspaceId);
     Task CreateDropdown(CreateDropdownDTO dto);
     Task RemoveDropDown(RemoveDropDownDto Dto);
-    Task SetOptionToDropdown(Guid DropDownId, Guid DropdownOptionId);
+    Task SetOptionToDropdown(Guid DropDownId, Guid DropdownOptionId, string UserId, Guid WorkspaceId);
 
 }

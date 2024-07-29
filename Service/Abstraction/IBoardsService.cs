@@ -10,7 +10,7 @@ public interface IBoardsService
     Task UpdateAsync(UpdateBoardsDto updateBoardsDto);
     Task<List<GetBoardsDto>> GetAllAsync(string AppUserId, Guid WorkspaceId);
     Task<GetBoardsDto> GetByIdAsync(Guid BoardId);
-    Task UpdateCardPositionAsync(Guid cardId, Guid sourceColumnId, Guid destinationColumnId, int newPosition);
+    Task UpdateCardPositionAsync(Guid cardId, Guid sourceColumnId, Guid destinationColumnId, int newPosition, Guid workspaceId, string userId);
     Task UpdateCardListPositionAsync(Guid boardId, List<Guid> newOrder);
     Task<List<GetArchivedCardDto>> GetArchivedCardsInBoard(Guid boardId);
 }

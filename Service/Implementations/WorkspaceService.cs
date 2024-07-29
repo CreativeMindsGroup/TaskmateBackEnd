@@ -192,7 +192,7 @@ public class WorkspaceService : IWorkspaceService
     public async Task<string> GenerateTokenForWorkspaceInvite(LinkShareToWorkspaceDto linkShareToWorkspaceDto)
     {
         // Check if admin exists
-        var adminUser = await _appDbContext.AppUsers
+         var adminUser = await _appDbContext.AppUsers
                         .Where(wu => wu.Id == linkShareToWorkspaceDto.AdminId).FirstOrDefaultAsync();
         var tokenHandler = new JwtSecurityTokenHandler();
         var secretKey = _configuration["JwtSettings:Key"];

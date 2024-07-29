@@ -56,11 +56,13 @@ namespace TaskMate.Controllers
             return Ok();
         }
         [HttpPost("UploadAttacment")]
-        public async Task<IActionResult> UploadFile(Guid CardId, string FileName, IFormFile file)
+        public async Task<IActionResult> UploadFile(Guid CardId, string FileName,string UserId,Guid WorkspaceId, IFormFile file)
         {
             FileUploadDto dto = new();
             dto.FileName = FileName;
             dto.CardId = CardId;
+            dto.UserId = UserId;
+            dto.WorkspaceId = WorkspaceId;
             await _cardService.UploadAttachmentAsync(dto, file);
             return Ok(new { message = "File uploaded successfully" });
         }
