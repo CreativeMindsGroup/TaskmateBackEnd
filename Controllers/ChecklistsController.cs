@@ -30,10 +30,10 @@ public class ChecklistsController : ControllerBase
         await _checklistService.CreateAsync(createChecklistDto);
         return StatusCode((int)HttpStatusCode.Created);
     }
-    [HttpPut]
-    public async Task<IActionResult> UpdateCheckItem([FromForm] UpdateChecklistDto updateChecklistDto)
+    [HttpPut("ChangeChecklistTitle")]
+    public async Task<IActionResult> UpdateCheckItemTitle(UpdateChecklistDto updateChecklistDto)
     {
-        await _checklistService.UpdateAsync(updateChecklistDto);
+        await _checklistService.EditChecklistTitle(updateChecklistDto);
         return Ok("Updated!");
     }
 

@@ -878,37 +878,6 @@
   },
   {
     "ContainingType": "TaskMate.Controllers.CheckitemsController",
-    "Method": "UpdateCheckItem",
-    "RelativePath": "api/Checkitems",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "Id",
-        "Type": "System.Guid",
-        "IsRequired": false
-      },
-      {
-        "Name": "Text",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "DueDate",
-        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "Check",
-        "Type": "System.Boolean",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "TaskMate.Controllers.CheckitemsController",
     "Method": "Remove",
     "RelativePath": "api/Checkitems",
     "HttpMethod": "DELETE",
@@ -939,6 +908,22 @@
       {
         "Name": "state",
         "Type": "System.Boolean",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.CheckitemsController",
+    "Method": "UpdateCheckItem",
+    "RelativePath": "api/Checkitems/ChangeChecklistItemTitle",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "updateCheckitemDto",
+        "Type": "TaskMate.DTOs.Checklist.UpdateChecklistDto",
         "IsRequired": true
       }
     ],
@@ -1019,27 +1004,6 @@
   },
   {
     "ContainingType": "TaskMate.Controllers.ChecklistsController",
-    "Method": "UpdateCheckItem",
-    "RelativePath": "api/Checklists",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "Id",
-        "Type": "System.Guid",
-        "IsRequired": false
-      },
-      {
-        "Name": "Name",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "TaskMate.Controllers.ChecklistsController",
     "Method": "Remove",
     "RelativePath": "api/Checklists",
     "HttpMethod": "DELETE",
@@ -1060,6 +1024,22 @@
         "Name": "UserId",
         "Type": "System.String",
         "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TaskMate.Controllers.ChecklistsController",
+    "Method": "UpdateCheckItemTitle",
+    "RelativePath": "api/Checklists/ChangeChecklistTitle",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "updateChecklistDto",
+        "Type": "TaskMate.DTOs.Checklist.UpdateChecklistDto",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []

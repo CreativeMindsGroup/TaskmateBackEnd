@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using TaskMate.Context;
 using TaskMate.DTOs.Boards;
 using TaskMate.DTOs.Card;
+using TaskMate.DTOs.Checkitem;
 using TaskMate.DTOs.Workspace;
 using TaskMate.Entities;
 using TaskMate.Exceptions;
@@ -125,7 +126,64 @@ public class BoardsService : IBoardsService
 
         board.CardLists = board.CardLists.OrderBy(cl => cl.Order).ToList();
 
-        return _mapper.Map<GetBoardsDto>(board);
+        // Retrieve checklist counts for each card
+        var cardIds = board.CardLists.SelectMany(cl => cl.Cards.Select(c => c.Id)).ToList();
+        var checklistCounts = await GetChecklistInItemCounts(cardIds);
+
+        // Map to DTO and set checklist counts
+        var boardDto = _mapper.Map<GetBoardsDto>(board);
+
+        foreach (var cardListDto in boardDto.cardLists)
+        {
+            foreach (var cardDto in cardListDto.tasks)
+            {
+                if (checklistCounts.TryGetValue(cardDto.Id, out var countDto))
+                {
+                    cardDto.ChecklistDoneCount = countDto.Done;
+                    cardDto.ChecklistTotalCount = countDto.Total;
+                }
+            }
+        }
+
+        return boardDto;
+    }
+
+    public async Task<Dictionary<Guid, GetCheckItemCountDto>> GetChecklistInItemCounts(IEnumerable<Guid> cardIds)
+    {
+        var checklists = await _appDbContext.Checklists
+            .Include(x => x.Checkitems)
+            .Where(x => cardIds.Contains(x.CardId))
+            .ToListAsync();
+
+        if (!checklists.Any())
+            return new Dictionary<Guid, GetCheckItemCountDto>();
+
+        var cardCounts = new Dictionary<Guid, (int doneCount, int totalCount)>();
+
+        foreach (var checklist in checklists)
+        {
+            if (!cardCounts.ContainsKey(checklist.CardId))
+            {
+                cardCounts[checklist.CardId] = (0, 0);
+            }
+
+            var (currentDoneCount, currentTotalCount) = cardCounts[checklist.CardId];
+            cardCounts[checklist.CardId] = (
+                currentDoneCount + checklist.Checkitems.Count(c => c.Check),
+                currentTotalCount + checklist.Checkitems.Count
+            );
+        }
+
+        var result = cardCounts.ToDictionary(
+            kvp => kvp.Key,
+            kvp => new GetCheckItemCountDto
+            {
+                Done = kvp.Value.doneCount,
+                Total = kvp.Value.totalCount
+            }
+        );
+
+        return result;
     }
 
     public async Task<List<GetArchivedCardDto>> GetArchivedCardsInBoard(Guid boardId)

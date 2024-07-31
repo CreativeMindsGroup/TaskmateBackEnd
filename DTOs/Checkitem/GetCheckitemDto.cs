@@ -6,4 +6,7 @@ public class GetCheckitemDto
     public string Text { get; set; }
     public DateTime DueDate { get; set; }
     public bool Check { get; set; }
+    public DateTime CreatedDate { get; set; }
+    public DateTime ModiffiedDate { get; set; }
+    public virtual bool isDeleted { get; set; }
 }
