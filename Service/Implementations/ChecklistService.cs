@@ -64,7 +64,7 @@ public class ChecklistService : IChecklistService
     public async Task<List<GetChecklistDto>> GetAllAsync(Guid CardId)
     {
         var checklists = await _appDbContext.Checklists
-            .Include(x => x.Checkitems.OrderBy(c => c.Order)) 
+            .Include(x => x.Checkitems.OrderBy(c => c.CreatedDate)) 
             .Where(x => x.CardId == CardId)
             .ToListAsync();
 
@@ -96,15 +96,16 @@ public class ChecklistService : IChecklistService
         _appDbContext.Checklists.Remove(checklist);
         await _appDbContext.SaveChangesAsync();
     }
-
-    public async Task UpdateAsync(UpdateChecklistDto updateChecklistDto)
+    public async Task EditChecklistTitle(UpdateChecklistDto Dto)
     {
-        var checklist = await _appDbContext.Checklists.FirstOrDefaultAsync(x => x.Id == updateChecklistDto.Id);
-        if (checklist is null) throw new NotFoundException("Not Found");
-
-        checklist.Name = updateChecklistDto.Name;
-
-        _appDbContext.Checklists.Update(checklist);
+        var Result = CheckUserAdminRoleInWorkspace(Dto.UserId.ToString(), Dto.WorkspaceId);
+        if (await Result == false)
+            throw new NotFoundException("No Access");
+        var checkitem = await _appDbContext.Checklists.FirstOrDefaultAsync(x => x.Id == Dto.Id);
+        if (checkitem is null)
+            throw new NotFoundException("Not Found");
+        checkitem.Name = Dto.Title;
+        _appDbContext.Update(checkitem);
         await _appDbContext.SaveChangesAsync();
     }
 }

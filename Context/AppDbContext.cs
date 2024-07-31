@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using TaskMate.Configurations;
 using TaskMate.Entities;
+using TaskMate.Service;
 
 namespace TaskMate.Context;
 
@@ -32,6 +33,11 @@ public class AppDbContext : IdentityDbContext<AppUser>
             .WithOne(o => o.DropDown)
             .HasForeignKey(o => o.DropDownId)
             .OnDelete(DeleteBehavior.Cascade);
+    }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.AddInterceptors(new Interseptor());
+        base.OnConfiguring(optionsBuilder);
     }
     public DbSet<AppUsersCards> AppUsersCards { get; set; }
     public DbSet<AppUser> AppUsers { get; set; }

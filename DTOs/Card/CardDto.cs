@@ -37,6 +37,8 @@ namespace TaskMate.DTOs.Card
     {
 
         public int Order { get; set; }
+        public int ChecklistDoneCount { get; set; }
+        public int ChecklistTotalCount { get; set; }
         public Guid Id { get; set; }
         public string? CoverColor { get; set; }
         public string Title { get; set; }

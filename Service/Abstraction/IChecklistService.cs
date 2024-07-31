@@ -6,6 +6,6 @@ public interface IChecklistService
 {
     Task CreateAsync(CreateChecklistDto createChecklistDto);
     Task<List<GetChecklistDto>> GetAllAsync(Guid CardId);
-    Task UpdateAsync(UpdateChecklistDto updateChecklistDto);
     Task RemoveAsync(Guid CheckListId, Guid WorkspaceId, string UserId);
+    Task EditChecklistTitle(UpdateChecklistDto Dto);
 }

@@ -12,5 +12,6 @@ public class BoardsProfile:Profile
         CreateMap<Boards, UpdateBoardsDto>().ReverseMap();
         CreateMap<Boards, GetBoardsDto>()
             .ForMember(dest => dest.cardLists, opt => opt.MapFrom(src => src.CardLists));
+
     }
 }

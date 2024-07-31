@@ -2,8 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using TaskMate.Context;
 using TaskMate.DTOs.Checkitem;
+using TaskMate.DTOs.Checklist;
 using TaskMate.Entities;
 using TaskMate.Exceptions;
+using TaskMate.Helper.Enum.User;
 using TaskMate.Service.Abstraction;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -11,12 +13,39 @@ namespace TaskMate.Service.Implementations;
 
 public class CheckitemService : ICheckitemService
 {
+
     private readonly AppDbContext _appDbContext;
     private readonly IMapper _mapper;
     public CheckitemService(AppDbContext appDbContext, IMapper mapper)
     {
         _appDbContext = appDbContext;
         _mapper = mapper;
+    }
+    public async Task<bool> CheckUserAdminRoleInWorkspace(string userId, Guid workspaceId)
+    {
+        var user = await _appDbContext.WorkspaceUsers
+                    .FirstOrDefaultAsync(wu => wu.WorkspaceId == workspaceId && wu.AppUserId == userId);
+
+        if (user == null)
+        {
+            throw new NotFoundException("User not found in workspace!");
+        }
+
+        if (Enum.TryParse<Role>(user.Role, true, out var roleEnum))
+        {
+            if (roleEnum == Role.GlobalAdmin || roleEnum == Role.Admin)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            throw new ArgumentException("The role value in the database is undefined in the Role enum.");
+        }
     }
     public async Task CreateAsync(CreateCheckitemDto createCheckitemDto)
     {
@@ -91,5 +120,18 @@ public class CheckitemService : ICheckitemService
         _appDbContext.Update(checkitem);
         await _appDbContext.SaveChangesAsync();
     }
+    public async Task EditChecklistItemTitle(UpdateChecklistDto Dto)
+    {
+        var Result = CheckUserAdminRoleInWorkspace(Dto.UserId.ToString(), Dto.WorkspaceId);
+        if (await Result == false)
+            throw new NotFoundException("No Access");
+        var checkitem = await _appDbContext.Checkitems.FirstOrDefaultAsync(x => x.Id == Dto.Id);
+        if (checkitem is null)
+            throw new NotFoundException("Not Found");
+        checkitem.Text = Dto.Title;
+        _appDbContext.Update(checkitem);
+        await _appDbContext.SaveChangesAsync();
+    }
+
 }
  
