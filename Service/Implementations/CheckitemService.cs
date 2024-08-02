@@ -122,9 +122,9 @@ public class CheckitemService : ICheckitemService
     }
     public async Task EditChecklistItemTitle(UpdateChecklistDto Dto)
     {
-        var Result = CheckUserAdminRoleInWorkspace(Dto.UserId.ToString(), Dto.WorkspaceId);
-        if (await Result == false)
-            throw new NotFoundException("No Access");
+        //var Result = CheckUserAdminRoleInWorkspace(Dto.UserId.ToString(), Dto.WorkspaceId);
+        //if (await Result == false)
+        //    throw new NotFoundException("No Access");
         var checkitem = await _appDbContext.Checkitems.FirstOrDefaultAsync(x => x.Id == Dto.Id);
         if (checkitem is null)
             throw new NotFoundException("Not Found");

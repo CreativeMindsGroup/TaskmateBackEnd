@@ -98,9 +98,9 @@ public class ChecklistService : IChecklistService
     }
     public async Task EditChecklistTitle(UpdateChecklistDto Dto)
     {
-        var Result = CheckUserAdminRoleInWorkspace(Dto.UserId.ToString(), Dto.WorkspaceId);
-        if (await Result == false)
-            throw new NotFoundException("No Access");
+        //var Result = CheckUserAdminRoleInWorkspace(Dto.UserId.ToString(), Dto.WorkspaceId);
+        //if (await Result == false)
+        //    throw new NotFoundException("No Access");
         var checkitem = await _appDbContext.Checklists.FirstOrDefaultAsync(x => x.Id == Dto.Id);
         if (checkitem is null)
             throw new NotFoundException("Not Found");
